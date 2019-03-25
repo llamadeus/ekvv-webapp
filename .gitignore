@@ -11,6 +11,9 @@
 # production
 /build
 
+# sslcert
+/sslcert
+
 # misc
 .DS_Store
 .env
