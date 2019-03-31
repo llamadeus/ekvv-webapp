@@ -22,4 +22,5 @@ render(
 
 if (module.hot) {
   module.hot.accept();
+  module.hot.dispose(console.clear); // eslint-disable-line no-console
 }

@@ -45,6 +45,8 @@ export default function configureStore(history) {
     if (module.hot) {
       module.hot.accept('../reducers', () => {
         store.replaceReducer(createRootReducer(history));
+
+        console.clear(); // eslint-disable-line no-console
         console.log('[HMR] Reloaded reducer'); // eslint-disable-line no-console
       });
 
@@ -54,6 +56,8 @@ export default function configureStore(history) {
         }
 
         sagaTask = sagaMiddleware.run(rootSaga);
+
+        console.clear(); // eslint-disable-line no-console
         console.log('[HMR] Reloaded saga'); // eslint-disable-line no-console
       });
     }
