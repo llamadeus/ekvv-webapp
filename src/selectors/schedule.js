@@ -7,7 +7,7 @@ import { createSelector } from 'reselect';
  * @param state
  * @returns {*}
  */
-const scheduleSelector = state => state.schedule;
+const getSchedule = state => state.schedule;
 
 /**
  * Get the currently selected day.
@@ -15,6 +15,6 @@ const scheduleSelector = state => state.schedule;
  * @returns {*}
  */
 export const getSelectedDay = createSelector(
-  [scheduleSelector],
+  [getSchedule],
   schedule => schedule.get('selectedDay'),
 );
