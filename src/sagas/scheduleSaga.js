@@ -10,6 +10,7 @@ import { KEYS } from '../constants/keyval';
 import { EFFECTS } from '../constants/schedule';
 import database from '../database';
 import keyval from '../utils/keyval';
+import { loadEvents } from './database';
 
 
 /**
@@ -41,6 +42,8 @@ function* handleLoadSchedule({ payload }) {
       rrule: event.RRULE,
       raw: event,
     })));
+
+    yield call(loadEvents);
   }
   finally {
     yield put(setLoadingState(false));
