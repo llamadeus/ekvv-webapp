@@ -57,10 +57,12 @@
   "dependencies": {
     "antd": "^3.15.2",
     "connected-react-router": "^6.3.2",
+    "dexie": "^2.0.4",
     "express": "^4.16.4",
     "history": "^4.9.0",
     "history-prop-types": "^2.5.2",
     "http-proxy-middleware": "^0.19.1",
+    "ical2json": "^1.2.0",
     "immutable": "^4.0.0-rc.12",
     "immutable-prop-types": "^0.0.3",
     "lodash-es": "^4.17.11",
