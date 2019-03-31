@@ -1,10 +1,8 @@
 import { createBrowserHistory } from 'history';
 import React from 'react';
 import { render } from 'react-dom';
+import './bootstrap';
 import Root from './components/Root';
-import './styles/app.scss';
-import './build/antd.css';
-import './build/tailwind.css';
 import configureStore from './store/configureStore';
 
 
