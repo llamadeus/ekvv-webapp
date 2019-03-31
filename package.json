@@ -20,20 +20,23 @@
     "not op_mini all"
   ],
   "scripts": {
-    "build": "yarn build:css && react-scripts build",
+    "build": "yarn build:css && react-app-rewired build",
     "build:antd": "lessc ./src/styles/antd.less ./src/build/antd.css --js",
     "build:css": "concurrently \"yarn build:antd\" \"yarn build:tailwind\"",
     "build:tailwind": "tailwind build ./src/styles/tailwind.css -o ./src/build/tailwind.css",
-    "dev": "cross-env HTTPS=true react-scripts start",
+    "dev": "cross-env HTTPS=true react-app-rewired start",
     "start": "cross-env NODE_ENV=production node ./src/server.js",
-    "test": "react-scripts test"
+    "test": "react-app-rewired test"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.4.0",
     "concurrently": "^4.1.0",
     "cross-env": "^5.2.0",
+    "customize-cra": "^0.2.12",
     "lato-font": "^3.0.0",
     "less": "^3.9.0",
     "node-sass": "^4.11.0",
+    "react-app-rewired": "^2.1.1",
     "tailwindcss": "^0.7.4"
   },
   "dependencies": {
