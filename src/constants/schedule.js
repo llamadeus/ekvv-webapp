@@ -8,6 +8,15 @@ export const ACTIONS = {
 };
 
 /**
+ * Saga effects.
+ *
+ * @type {*}
+ */
+export const EFFECTS = {
+  LOAD_SCHEDULE: 'LOAD_SCHEDULE',
+};
+
+/**
  * Days of the weak.
  *
  * @type {{MONDAY: string, TUESDAY: string, WEDNESDAY: string, THURSDAY: string, FRIDAY: string}}

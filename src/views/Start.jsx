@@ -4,13 +4,27 @@ import {
   Form,
   Input,
 } from 'antd';
+import PropTypes from 'prop-types';
 import { formShape } from 'rc-form';
 import React from 'react';
+import { bindActionCreators } from 'redux';
+import { loadSchedule } from '../effects/schedule';
+import { getIsLoading } from '../selectors/ui';
+import {
+  mapDispatchToProps,
+  mapStateToProps,
+} from '../utils/redux';
 
 
 /**
  * Class Start
  */
+@mapStateToProps(state => ({
+  isLoading: getIsLoading(state),
+}))
+@mapDispatchToProps(dispatch => bindActionCreators({
+  onLoadSchedule: loadSchedule,
+}, dispatch))
 @Form.create()
 export default class Start extends React.PureComponent {
   /**
@@ -20,6 +34,8 @@ export default class Start extends React.PureComponent {
    */
   static propTypes = {
     form: formShape.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    onLoadSchedule: PropTypes.func.isRequired,
   };
 
   /**
@@ -32,7 +48,7 @@ export default class Start extends React.PureComponent {
 
     this.props.form.validateFields((error, values) => {
       if (!error) {
-        console.log(values);
+        this.props.onLoadSchedule(values.url);
       }
     });
   };
@@ -67,7 +83,7 @@ export default class Start extends React.PureComponent {
           </Form.Item>
 
           <Form.Item className="tw-text-right">
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={this.props.isLoading}>
               Los!
             </Button>
           </Form.Item>
