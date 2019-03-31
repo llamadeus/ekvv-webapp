@@ -30,7 +30,14 @@ export default class Schedule extends React.PureComponent {
             <Button className="flex-1">Fr</Button>
           </Button.Group>
 
-          <Card className="flex flex-1 mt-4" bodyStyle={{ display: 'flex', flex: 1, padding: 0 }}>
+          <Card
+            className="flex flex-1 mt-4"
+            bodyStyle={{
+              display: 'flex',
+              flex: 1,
+              padding: 0,
+            }}
+          >
             <ScheduleComponent events={[]}/>
           </Card>
         </Layout.Content>
