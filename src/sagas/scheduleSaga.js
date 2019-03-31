@@ -37,6 +37,7 @@ function* handleLoadSchedule({ payload }) {
     yield database.events.bulkPut(vEvents.map(event => ({
       uid: event.UID,
       start: event['DTSTART;TZID=Europe/Berlin'],
+      end: event['DTEND;TZID=Europe/Berlin'],
       rrule: event.RRULE,
       raw: event,
     })));

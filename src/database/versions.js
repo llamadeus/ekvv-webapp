@@ -12,6 +12,7 @@ export const VERSIONS = [
     events: [
       'uid',
       'start',
+      'end',
       'rrule',
       'raw',
     ],
