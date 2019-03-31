@@ -18,6 +18,16 @@ export default {
   },
 
   /**
+   * Check if the given key exists in the keyval store.
+   *
+   * @param key
+   * @returns {Promise<boolean>}
+   */
+  async has(key) {
+    return typeof await database.keyval.get(key) != 'undefined';
+  },
+
+  /**
    * Write a value to the keyval store.
    *
    * @param key
