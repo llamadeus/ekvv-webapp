@@ -10,6 +10,16 @@ import { createSelector } from 'reselect';
 const getUi = state => state.ui;
 
 /**
+ * Get initialized state.
+ *
+ * @returns {*}
+ */
+export const getInitialized = createSelector(
+  [getUi],
+  schedule => schedule.get('initialized'),
+);
+
+/**
  * Get is loading state.
  *
  * @returns {*}

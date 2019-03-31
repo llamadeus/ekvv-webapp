@@ -8,6 +8,7 @@ import { ACTIONS } from '../constants/ui';
  * @returns {Immutable.Map}
  */
 const initialState = () => fromJS({
+  initialized: false,
   isLoading: false,
 });
 
@@ -20,6 +21,9 @@ const initialState = () => fromJS({
  */
 export default function uiReducer(state = initialState(), { type, payload }) {
   switch (type) {
+  case ACTIONS.SET_INITIALIZED:
+    return state.set('initialized', true);
+
   case ACTIONS.SET_LOADING_STATE:
     return state.set('isLoading', payload.toggle);
 
