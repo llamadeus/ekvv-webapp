@@ -66,6 +66,7 @@
     "immutable": "^4.0.0-rc.12",
     "immutable-prop-types": "^0.0.3",
     "lodash-es": "^4.17.11",
+    "moment": "^2.24.0",
     "prop-types": "^15.7.2",
     "rc-form": "^2.4.4",
     "react": "^16.8.4",
