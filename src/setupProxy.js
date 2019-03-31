@@ -6,7 +6,7 @@ const EKVV_PROTOCOL = 'https';
 const EKVV_HOST = 'ekvv.uni-bielefeld.de';
 const EKVV_URL = `${EKVV_PROTOCOL}://${EKVV_HOST}`;
 
-module.exports = function (app) {
+module.exports = function setupProxy(app) {
   app.use('/api', proxy({
     target: EKVV_URL,
     changeOrigin: true,
@@ -15,9 +15,9 @@ module.exports = function (app) {
     },
     cookiePathRewrite: '/api',
     onProxyRes(proxyRes, req) {
-      if ([201, 301, 302, 307, 308].indexOf(proxyRes.statusCode) >= 0 && proxyRes.headers['location']) {
+      if ([201, 301, 302, 307, 308].indexOf(proxyRes.statusCode) >= 0 && proxyRes.headers.location) {
         const target = url.parse(EKVV_URL);
-        const location = url.parse(proxyRes.headers['location']);
+        const location = url.parse(proxyRes.headers.location);
 
         if (location.pathname[0] === '.') {
           return;
@@ -31,7 +31,8 @@ module.exports = function (app) {
           location.host = req.headers.host;
         }
 
-        proxyRes.headers['location'] = location.format();
+        // eslint-disable-next-line no-param-reassign
+        proxyRes.headers.location = location.format();
       }
     },
   }));

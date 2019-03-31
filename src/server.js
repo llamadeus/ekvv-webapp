@@ -15,10 +15,11 @@ const credentials = {
 
 setupProxy(app);
 app.use(express.static(path.join(__dirname, '..', 'build')));
-app.get('/', function(req, res) {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
 });
 
-https.createServer(credentials, app).listen(3000, function () {
+https.createServer(credentials, app).listen(3000, () => {
+  // eslint-disable-next-line no-console
   console.log('eKVV Proxy server listening on port 3000!');
 });
