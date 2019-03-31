@@ -1,0 +1,114 @@
+{
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "legacyDecorators": true
+    }
+  },
+  "rules": {
+    "arrow-parens": [
+      "error",
+      "as-needed",
+      {
+        "requireForBlockBody": true
+      }
+    ],
+    "brace-style": [
+      "error",
+      "stroustrup"
+    ],
+    "class-methods-use-this": "off",
+    "curly": [
+      "error",
+      "all"
+    ],
+    "eqeqeq": [
+      2,
+      "smart"
+    ],
+    "import/first": "off",
+    "import/order": "off",
+    "import/prefer-default-export": "off",
+    "indent": [
+      "error",
+      2
+    ],
+    "max-len": [
+      "error",
+      120,
+      2,
+      {
+        "ignoreUrls": true,
+        "ignoreComments": false,
+        "ignoreRegExpLiterals": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true
+      }
+    ],
+    "no-return-assign": [
+      "error",
+      "except-parens"
+    ],
+    "no-tabs": "off",
+    "quote-props": [
+      "error",
+      "consistent"
+    ],
+    "react/destructuring-assignment": "off",
+    "react/jsx-indent": [
+      "error",
+      2
+    ],
+    "react/jsx-indent-props": [
+      "error",
+      2
+    ],
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-tag-spacing": {
+      "beforeSelfClosing": false
+    },
+    "react/no-find-dom-node": "off",
+    "react/prefer-stateless-function": "off",
+    "react/sort-comp": [
+      "error",
+      {
+        "order": [
+          "static-methods",
+          "/state/",
+          "instance-variables",
+          "lifecycle",
+          "/^on.+$/",
+          "getters",
+          "setters",
+          "/^(get|set)(?!(InitialState$|DefaultProps$|ChildContext$)).+$/",
+          "everything-else",
+          "render",
+          "/^(render|maybeRender).+$/"
+        ]
+      }
+    ],
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "components": [
+          "Link"
+        ],
+        "specialLink": [
+          "to",
+          "hrefLeft",
+          "hrefRight"
+        ],
+        "aspects": [
+          "noHref",
+          "invalidHref",
+          "preferButton"
+        ]
+      }
+    ]
+  }
+}
