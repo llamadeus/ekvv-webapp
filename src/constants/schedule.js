@@ -5,6 +5,7 @@
  */
 export const ACTIONS = {
   SET_SELECTED_DAY: 'SET_SELECTED_DAY',
+  SET_EVENTS: 'SET_EVENTS',
 };
 
 /**

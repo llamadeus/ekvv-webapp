@@ -3,6 +3,7 @@ import {
   ACTIONS,
   DAYS,
 } from '../constants/schedule';
+import { mapByKey } from '../utils/redux';
 
 
 /**
@@ -11,8 +12,8 @@ import {
  * @returns {Immutable.Map}
  */
 const initialState = () => fromJS({
-  events: null,
   selectedDay: DAYS.MONDAY,
+  events: null,
 });
 
 /**
@@ -26,6 +27,9 @@ export default function scheduleReducer(state = initialState(), { type, payload 
   switch (type) {
   case ACTIONS.SET_SELECTED_DAY:
     return state.set('selectedDay', payload.day);
+
+  case ACTIONS.SET_EVENTS:
+    return state.set('events', mapByKey(payload.events, 'uid'));
 
   default:
     return state;

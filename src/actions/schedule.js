@@ -13,3 +13,16 @@ export const setSelectedDay = day => ({
     day,
   },
 });
+
+/**
+ * Set events.
+ *
+ * @param events
+ * @returns {{payload: {events: *}, type: string}}
+ */
+export const setEvents = events => ({
+  type: ACTIONS.SET_EVENTS,
+  payload: {
+    events,
+  },
+});
