@@ -41,26 +41,24 @@ export default function configureStore(history) {
 
   let sagaTask = sagaMiddleware.run(rootSaga);
 
-  if (process.env.NODE_ENV === 'development') {
-    if (module.hot) {
-      module.hot.accept('../reducers', () => {
-        store.replaceReducer(createRootReducer(history));
+  if (module.hot) {
+    module.hot.accept('../reducers', () => {
+      store.replaceReducer(createRootReducer(history));
 
-        console.clear(); // eslint-disable-line no-console
-        console.log('[HMR] Reloaded reducer'); // eslint-disable-line no-console
-      });
+      console.clear(); // eslint-disable-line no-console
+      console.log('[HMR] Reloaded reducer'); // eslint-disable-line no-console
+    });
 
-      module.hot.accept('../sagas', () => {
-        if (sagaTask !== null) {
-          sagaTask.cancel();
-        }
+    module.hot.accept('../sagas', () => {
+      if (sagaTask !== null) {
+        sagaTask.cancel();
+      }
 
-        sagaTask = sagaMiddleware.run(rootSaga);
+      sagaTask = sagaMiddleware.run(rootSaga);
 
-        console.clear(); // eslint-disable-line no-console
-        console.log('[HMR] Reloaded saga'); // eslint-disable-line no-console
-      });
-    }
+      console.clear(); // eslint-disable-line no-console
+      console.log('[HMR] Reloaded saga'); // eslint-disable-line no-console
+    });
   }
 
   return store;
