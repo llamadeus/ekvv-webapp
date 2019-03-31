@@ -1,14 +1,14 @@
 import {
   all,
+  call,
   fork,
   put,
 } from 'redux-saga/effects';
-import { setEvents } from '../actions/schedule';
 import { setInitialized } from '../actions/ui';
 import { KEYS } from '../constants/keyval';
 import keyval from '../utils/keyval';
+import { loadEvents } from './database';
 import scheduleSaga from './scheduleSaga';
-import database from '../database';
 
 
 /**
@@ -18,9 +18,7 @@ import database from '../database';
  */
 function* initializeApp() {
   if (yield keyval.has(KEYS.ICAL_URL)) {
-    const events = yield database.events.toArray();
-
-    yield put(setEvents(events));
+    yield call(loadEvents);
   }
 
   yield put(setInitialized());
