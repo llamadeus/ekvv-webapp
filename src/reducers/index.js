@@ -1,5 +1,6 @@
 import { connectRouter } from 'connected-react-router';
 import { combineReducers } from 'redux';
+import scheduleReducer from './scheduleReducer';
 
 
 /**
@@ -11,5 +12,6 @@ import { combineReducers } from 'redux';
 export default function createRootReducer(history) {
   return combineReducers({
     router: connectRouter(history),
+    schedule: scheduleReducer,
   });
 }

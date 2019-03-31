@@ -1,34 +1,56 @@
 import {
-  Button,
   Card,
   Layout,
 } from 'antd';
 import React from 'react';
+import { bindActionCreators } from 'redux';
+import { setSelectedDay } from '../actions/schedule';
+import DaySelect from '../components/DaySelect';
 import ScheduleComponent from '../components/Schedule';
+import { Day } from '../prop-types';
+import { getSelectedDay } from '../selectors/schedule';
+import {
+  mapDispatchToProps,
+  mapStateToProps,
+} from '../utils/redux';
+import PropTypes from 'prop-types';
 
 
 /**
  * Class Schedule
  */
+@mapStateToProps(state => ({
+  selectedDay: getSelectedDay(state),
+}))
+@mapDispatchToProps(dispatch => bindActionCreators({
+  onChangeDay: setSelectedDay,
+}, dispatch))
 export default class Schedule extends React.PureComponent {
   /**
-	 * Render the component.
-	 *
-	 * @return {*}
-	 */
+   * Prop types.
+   *
+   * @type {Object}
+   */
+  static propTypes = {
+    selectedDay: Day.isRequired,
+    onChangeDay: PropTypes.func.isRequired,
+  };
+
+  /**
+   * Render the component.
+   *
+   * @return {*}
+   */
   render() {
     return (
       <Layout className="flex flex-1 flex-col">
         <Layout.Header className="text-white">eKVV</Layout.Header>
 
         <Layout.Content className="flex flex-col pt-6 pb-4 px-4">
-          <Button.Group className="flex justify-center">
-            <Button className="flex-1">Mo</Button>
-            <Button className="flex-1" type="primary">Di</Button>
-            <Button className="flex-1">Mi</Button>
-            <Button className="flex-1">Do</Button>
-            <Button className="flex-1">Fr</Button>
-          </Button.Group>
+          <DaySelect
+            selected={this.props.selectedDay}
+            onChange={this.props.onChangeDay}
+          />
 
           <Card
             className="flex flex-1 mt-4"
