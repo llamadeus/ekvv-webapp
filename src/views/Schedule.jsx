@@ -47,7 +47,7 @@ export default class Schedule extends React.PureComponent {
         />
 
         <Card
-          className="flex flex-1 mt-4"
+          className="tw-flex tw-flex-1 tw-mt-4"
           bodyStyle={{
             display: 'flex',
             flex: 1,

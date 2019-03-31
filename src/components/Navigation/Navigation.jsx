@@ -13,7 +13,7 @@ export default class Navigation extends React.PureComponent {
    */
   render() {
     return (
-      <Layout.Header className="text-white">
+      <Layout.Header className="tw-text-white">
         eKVV
       </Layout.Header>
     );

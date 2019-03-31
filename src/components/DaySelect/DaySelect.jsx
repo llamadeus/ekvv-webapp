@@ -29,7 +29,7 @@ export default class DaySelect extends React.PureComponent {
    */
   render() {
     return (
-      <Button.Group className="flex justify-center">
+      <Button.Group className="tw-flex tw-justify-center">
         {this.renderButtons()}
       </Button.Group>
     );
@@ -44,7 +44,7 @@ export default class DaySelect extends React.PureComponent {
     return Object.keys(DAYS).map(day => (
       <Button
         key={day}
-        className="flex-1"
+        className="tw-flex-1"
         onClick={() => this.props.onChange(day)}
         type={this.props.selected === day ? 'primary' : undefined}
       >

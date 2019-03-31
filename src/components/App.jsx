@@ -19,10 +19,10 @@ export default class App extends React.PureComponent {
    */
   render() {
     return (
-      <Layout className="flex flex-1 flex-col">
+      <Layout className="tw-flex tw-flex-1 tw-flex-col">
         <Navigation/>
 
-        <Layout.Content className="flex flex-col pt-6 pb-4 px-4">
+        <Layout.Content className="tw-flex tw-flex-col tw-pt-6 tw-pb-4 tw-px-4">
           <Switch>
             <Route path="/" component={Schedule} exact/>
           </Switch>
