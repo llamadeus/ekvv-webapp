@@ -61,6 +61,7 @@
     "history": "^4.9.0",
     "history-prop-types": "^2.5.2",
     "http-proxy-middleware": "^0.19.1",
+    "lodash-es": "^4.17.11",
     "prop-types": "^15.7.2",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
