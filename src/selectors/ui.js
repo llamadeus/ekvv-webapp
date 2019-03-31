@@ -10,7 +10,7 @@ import { createSelector } from 'reselect';
 const getUi = state => state.ui;
 
 /**
- * Get all events.
+ * Get is loading state.
  *
  * @returns {*}
  */
