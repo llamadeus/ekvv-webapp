@@ -10,6 +10,16 @@ import { createSelector } from 'reselect';
 const getSchedule = state => state.schedule;
 
 /**
+ * Get all events.
+ *
+ * @returns {*}
+ */
+export const getEvents = createSelector(
+  [getSchedule],
+  schedule => schedule.get('events'),
+);
+
+/**
  * Get the currently selected day.
  *
  * @returns {*}

@@ -11,6 +11,7 @@ import {
  * @returns {Immutable.Map}
  */
 const initialState = () => fromJS({
+  events: null,
   selectedDay: DAYS.MONDAY,
 });
 

@@ -5354,6 +5354,13 @@ immer@1.10.0:
   resolved "https://registry.yarnpkg.com/immer/-/immer-1.10.0.tgz#bad67605ba9c810275d91e1c2a47d4582e98286d"
   integrity sha512-O3sR1/opvCDGLEVcvrGTMtLac8GJ5IwZC4puPrLuRj3l7ICKvkmA0vGuU9OW8mV9WIBRnaxp5GJh9IEAaNOoYg==
 
+immutable-prop-types@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/immutable-prop-types/-/immutable-prop-types-0.0.3.tgz#177d47915e0cda582dc5757f23435f0bfb51cfed"
+  integrity sha1-F31HkV4M2lgtxXV/I0NfC/tRz+0=
+  dependencies:
+    invariant "2.2.4"
+
 immutable@^3.7.4, immutable@^3.8.1:
   version "3.8.2"
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
@@ -5521,7 +5528,7 @@ interpret@^1.0.0:
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.2.0.tgz#d5061a6224be58e8083985f5014d844359576296"
   integrity sha512-mT34yGKMNceBQUoVn7iCDKDntA7SC6gycMAWzGx1z/CMCTV7b2AAtXlo3nRyHZ1FelRkQbQjprHSYGwzLtkVbw==
 
-invariant@^2.2.2, invariant@^2.2.4:
+invariant@2.2.4, invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
@@ -9298,7 +9305,7 @@ rc-editor-mention@^1.1.7:
     rc-animate "^2.3.0"
     rc-editor-core "~0.8.3"
 
-rc-form@^2.4.0:
+rc-form@^2.4.0, rc-form@^2.4.4:
   version "2.4.4"
   resolved "https://registry.yarnpkg.com/rc-form/-/rc-form-2.4.4.tgz#ac0f3cc643724991c742d5ae6742777fbc0bcfbb"
   integrity sha512-AHR2GGYJOlKG5jP6ZjqS+PVBrUUXt+kDJFgJeDw17k6RDVIrG1535MxDPgNmRXp2VM4GQij4sVvjaHvwFsUgCA==
