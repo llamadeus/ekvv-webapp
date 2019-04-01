@@ -42,3 +42,16 @@ export const DAYS_LABELS = {
   [DAYS.THURSDAY]: 'Do',
   [DAYS.FRIDAY]: 'Fr',
 };
+
+/**
+ * Offsets for the days.
+ *
+ * @type {*}
+ */
+export const DAYS_OFFSETS = {
+  [DAYS.MONDAY]: 0,
+  [DAYS.TUESDAY]: 1,
+  [DAYS.WEDNESDAY]: 2,
+  [DAYS.THURSDAY]: 3,
+  [DAYS.FRIDAY]: 4,
+};

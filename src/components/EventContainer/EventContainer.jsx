@@ -1,3 +1,5 @@
+import moment from 'moment';
+import ImmutablePropTypes from 'immutable-prop-types';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Event from '../Event';
@@ -12,13 +14,6 @@ import styles from './styles.module.scss';
 const EVENT_PADDING = 1;
 
 /**
- * Grid item border width.
- *
- * @type {number}
- */
-const BORDER_WIDTH = 1;
-
-/**
  * Class EventContainer
  */
 export default class EventContainer extends React.PureComponent {
@@ -28,7 +23,7 @@ export default class EventContainer extends React.PureComponent {
    * @type {Object}
    */
   static propTypes = {
-    events: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    events: ImmutablePropTypes.map.isRequired,
     start: PropTypes.number.isRequired,
     end: PropTypes.number.isRequired,
   };
@@ -56,9 +51,13 @@ export default class EventContainer extends React.PureComponent {
     const { start, end } = this.props;
     const numberOfFrameItems = end - start + 1;
     const heightPerFrameItem = this.state.height / numberOfFrameItems;
-    const duration = event.end - event.start;
-    const computedTranslateY = (event.start - start) * heightPerFrameItem + EVENT_PADDING;
-    const computedHeight = duration * heightPerFrameItem - (2 * EVENT_PADDING) - BORDER_WIDTH;
+    const eventStart = moment(event.get('start'));
+    const eventEnd = moment(event.get('end'));
+    const startHour = Number(eventStart.format('H'));
+    const endHour = Number(eventEnd.format('H'));
+    const duration = endHour - startHour;
+    const computedTranslateY = Math.round((startHour - start) * heightPerFrameItem + EVENT_PADDING);
+    const computedHeight = Math.round(duration * heightPerFrameItem - (2 * EVENT_PADDING));
 
     return {
       transform: `translateY(${computedTranslateY}px)`,
@@ -102,9 +101,9 @@ export default class EventContainer extends React.PureComponent {
       return false;
     }
 
-    return this.props.events.map(event => (
+    return this.props.events.valueSeq().map(event => (
       <Event
-        key={event.id}
+        key={event.get('uid')}
         event={event}
         style={this.computedEventStyle(event)}
       />

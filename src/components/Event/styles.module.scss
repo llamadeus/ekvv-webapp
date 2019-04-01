@@ -1,4 +1,32 @@
 .root {
-  background-color: rgba(0, 0, 0, 0.35);
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 2px;
+  border-left: 3px solid #008950;
+  background-color: rgba(245, 245, 245, 0.85);
   transition: 200ms all ease-in-out;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  cursor: pointer;
+}
+
+.header {
+  display: flex;
+  margin-bottom: 6px;
+}
+
+.summary {
+  flex: 1;
+  font-weight: bold;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.footer {
+  font-size: 12px;
 }

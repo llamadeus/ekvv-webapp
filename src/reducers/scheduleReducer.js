@@ -1,4 +1,5 @@
 import { fromJS } from 'immutable';
+import moment from 'moment';
 import {
   ACTIONS,
   DAYS,
@@ -12,6 +13,7 @@ import { mapByKey } from '../utils/redux';
  * @returns {Immutable.Map}
  */
 const initialState = () => fromJS({
+  selectedWeek: moment().startOf('week'),
   selectedDay: DAYS.MONDAY,
   events: null,
 });

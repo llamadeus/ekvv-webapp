@@ -1,8 +1,8 @@
+import ImmutablePropTypes from 'immutable-prop-types';
 import React from 'react';
 import EventContainer from '../EventContainer';
 import ScheduleGrid from '../ScheduleGrid';
 import styles from './styles.module.scss';
-import PropTypes from 'prop-types';
 
 
 /**
@@ -29,7 +29,7 @@ export default class Schedule extends React.PureComponent {
    * @type {Object}
    */
   static propTypes = {
-    events: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    events: ImmutablePropTypes.map.isRequired,
   };
 
   /**
