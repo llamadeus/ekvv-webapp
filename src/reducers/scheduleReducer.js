@@ -3,9 +3,24 @@ import moment from 'moment';
 import {
   ACTIONS,
   DAYS,
+  DAYS_OFFSETS,
 } from '../constants/schedule';
 import { mapByKey } from '../utils/redux';
 
+
+/**
+ * Determine the initially selected day.
+ *
+ * @returns {string}
+ */
+function determineSelectedDay() {
+  const dayIndex = moment().day();
+  const day = Object.keys(DAYS_OFFSETS).find(key => dayIndex - 1 === DAYS_OFFSETS[key]);
+
+  return typeof day == 'undefined'
+    ? DAYS.MONDAY
+    : day;
+}
 
 /**
  * Initial state.
@@ -14,7 +29,7 @@ import { mapByKey } from '../utils/redux';
  */
 const initialState = () => fromJS({
   selectedWeek: moment().startOf('week'),
-  selectedDay: DAYS.MONDAY,
+  selectedDay: determineSelectedDay(),
   events: null,
 });
 
