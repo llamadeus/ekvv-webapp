@@ -65,10 +65,10 @@ export default class Start extends React.PureComponent {
       <Card>
         <h1>Stundenplan laden</h1>
 
+        <p>Füge die URL zu deinem persönlichen Kalender ein, um deinen Stundenplan zu laden.</p>
+
         <Form onSubmit={this.handleSubmit} hideRequiredMark>
-          <Form.Item
-            label="Füge die URL zu deinem persönlichen Kalender ein, um deinen Stundenplan zu laden."
-          >
+          <Form.Item>
             {getFieldDecorator('url', {
               validateTrigger: false,
               rules: [{
