@@ -113,6 +113,46 @@ export default class EventContainer extends React.PureComponent {
   };
 
   /**
+   * Timeout until updating state after resize.
+   *
+   * @type {number}
+   */
+  updateStateTimeout = undefined;
+
+  /**
+   * Mount handler.
+   */
+  componentDidMount() {
+    window.addEventListener('resize', this.handleResize);
+  }
+
+  /**
+   * Unmount handler.
+   */
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  }
+
+  /**
+   * Update the cached width and height.
+   */
+  handleResize = () => {
+    if (!this.container) {
+      return;
+    }
+
+    clearTimeout(this.updateStateTimeout);
+
+    this.updateStateTimeout = setTimeout(() => {
+      this.setState({
+        ready: true,
+        width: this.container.clientWidth,
+        height: this.container.clientHeight,
+      });
+    }, 150);
+  };
+
+  /**
    * Compute the style for the given event.
    *
    * @param event
