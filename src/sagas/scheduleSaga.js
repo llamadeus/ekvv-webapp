@@ -1,4 +1,5 @@
 import ical2json from 'ical2json';
+import moment from 'moment';
 import {
   all,
   call,
@@ -37,9 +38,13 @@ function* handleLoadSchedule({ payload }) {
 
     yield database.events.bulkPut(vEvents.map(event => ({
       uid: event.UID,
-      start: event['DTSTART;TZID=Europe/Berlin'],
-      end: event['DTEND;TZID=Europe/Berlin'],
+      start: moment(event['DTSTART;TZID=Europe/Berlin']).toDate(),
+      end: moment(event['DTEND;TZID=Europe/Berlin']).toDate(),
+      description: event.DESCRIPTION,
+      location: event.LOCATION,
       rrule: event.RRULE,
+      summary: event.SUMMARY,
+      url: event.URL,
       raw: event,
     })));
 
