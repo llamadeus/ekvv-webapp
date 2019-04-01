@@ -2,7 +2,7 @@
   "short_name": "eKVV",
   "name": "eKVV Web-App",
   "display": "standalone",
-  "start_url": ".",
+  "start_url": "/",
   "theme_color": "#008950",
   "background_color": "#ffffff",
   "icons": [{
