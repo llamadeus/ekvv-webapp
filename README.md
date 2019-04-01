@@ -11,7 +11,7 @@ yarn dev
 
 ## Production server
 
-To start the development server run the following command:
+Running the following commands will start the production server:
 ```
 yarn build
 yarn start
