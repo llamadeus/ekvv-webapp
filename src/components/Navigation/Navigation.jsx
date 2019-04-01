@@ -14,7 +14,9 @@ export default class Navigation extends React.PureComponent {
   render() {
     return (
       <Layout.Header className="tw-text-white">
-        eKVV
+        <div className="tw-max-w-sm tw-mx-auto xs:tw-px-4">
+          eKVV
+        </div>
       </Layout.Header>
     );
   }
