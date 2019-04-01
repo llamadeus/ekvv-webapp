@@ -70,6 +70,7 @@ export default class Start extends React.PureComponent {
             label="Füge die URL zu deinem persönlichen Kalender ein, um deinen Stundenplan zu laden."
           >
             {getFieldDecorator('url', {
+              validateTrigger: false,
               rules: [{
                 required: true,
                 message: 'Ohne geht nicht...',
