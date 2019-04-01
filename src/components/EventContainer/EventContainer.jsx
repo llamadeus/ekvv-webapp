@@ -14,6 +14,20 @@ import styles from './styles.module.scss';
 const EVENT_PADDING = 1;
 
 /**
+ * Quarters per minute.
+ *
+ * @type {number}
+ */
+const QUARTERS_PER_HOUR = 4;
+
+/**
+ * Minutes per quarter.
+ *
+ * @type {number}
+ */
+const MINUTES_PER_QUARTER = 15;
+
+/**
  * Class EventContainer
  */
 export default class EventContainer extends React.PureComponent {
@@ -29,12 +43,73 @@ export default class EventContainer extends React.PureComponent {
   };
 
   /**
+   * Compute event positions.
+   *
+   * @param props
+   * @param state
+   * @returns {{positions: *}}
+   */
+  static getDerivedStateFromProps(props, state) {
+    const { positions } = state;
+    const lanes = [];
+
+    props.events.forEach((event) => {
+      const uid = event.get('uid');
+      const eventStart = moment(event.get('start'));
+      const eventEnd = moment(event.get('end'));
+      const startHour = Number(eventStart.format('H'));
+      const startQuarter = Math.ceil(Number(eventStart.format('m')) / MINUTES_PER_QUARTER);
+      const endHour = Number(eventEnd.format('H'));
+      const endQuarter = Math.ceil(Number(eventStart.format('m')) / MINUTES_PER_QUARTER);
+      const quarterIndexStart = startHour * QUARTERS_PER_HOUR + startQuarter;
+      const quarterIndexEnd = endHour * QUARTERS_PER_HOUR + endQuarter;
+      let lanesTotal = 1;
+      let laneIndex = 0;
+
+      lanes.forEach((lane, index) => {
+        if (uid === lane.uid) {
+          return;
+        }
+
+        const startIsBetween = lane.quarterIndexStart <= quarterIndexStart && quarterIndexStart < lane.quarterIndexEnd;
+        const endIsBetween = lane.quarterIndexStart < quarterIndexEnd && quarterIndexEnd <= lane.quarterIndexEnd;
+
+        if (startIsBetween || endIsBetween) {
+          lanesTotal += 1;
+          laneIndex += 1;
+
+          lanes[index].lanesTotal += 1;
+        }
+      });
+
+      lanes.push({
+        uid,
+        quarterIndexStart,
+        quarterIndexEnd,
+        lanesTotal,
+        laneIndex,
+      });
+    });
+
+    lanes.forEach((lane) => {
+      positions[lane.uid] = lane;
+    });
+
+    return {
+      positions,
+    };
+  }
+
+  /**
    * Component state.
    *
    * @type {Object}
    */
   state = {
+    ready: false,
+    width: null,
     height: null,
+    positions: {},
   };
 
   /**
@@ -49,18 +124,32 @@ export default class EventContainer extends React.PureComponent {
     }
 
     const { start, end } = this.props;
-    const numberOfFrameItems = end - start + 1;
+    const quarterIndexScheduleStart = start * QUARTERS_PER_HOUR;
+    const quarterIndexScheduleEnd = end * QUARTERS_PER_HOUR;
+    const numberOfFrameItems = quarterIndexScheduleEnd - quarterIndexScheduleStart + QUARTERS_PER_HOUR;
+    const {
+      quarterIndexStart,
+      quarterIndexEnd,
+      lanesTotal,
+      laneIndex,
+    } = this.state.positions[event.get('uid')];
+    const widthPerLaneItem = this.state.width / lanesTotal;
     const heightPerFrameItem = this.state.height / numberOfFrameItems;
-    const eventStart = moment(event.get('start'));
-    const eventEnd = moment(event.get('end'));
-    const startHour = Number(eventStart.format('H'));
-    const endHour = Number(eventEnd.format('H'));
-    const duration = endHour - startHour;
-    const computedTranslateY = Math.round((startHour - start) * heightPerFrameItem + EVENT_PADDING);
-    const computedHeight = Math.round(duration * heightPerFrameItem - (2 * EVENT_PADDING));
+    const duration = quarterIndexEnd - quarterIndexStart;
+    const computedTranslateY = (
+      (quarterIndexStart - quarterIndexScheduleStart)
+      * heightPerFrameItem
+      + EVENT_PADDING
+    );
+    const computedTranslateX = widthPerLaneItem * laneIndex;
+    const computedWidth = lanesTotal === 1
+      ? undefined
+      : widthPerLaneItem - (laneIndex === lanesTotal - 1 ? 0 : 2 * EVENT_PADDING);
+    const computedHeight = duration * heightPerFrameItem - (2 * EVENT_PADDING);
 
     return {
-      transform: `translateY(${computedTranslateY}px)`,
+      transform: `translateX(${computedTranslateX}px) translateY(${computedTranslateY}px)`,
+      width: computedWidth,
       height: computedHeight,
     };
   }
@@ -69,10 +158,15 @@ export default class EventContainer extends React.PureComponent {
    * Cache the container height.
    *
    * @param ref
+
    */
   decorateContainer = (ref) => {
     if (ref) {
-      this.setState({ height: ref.clientHeight });
+      this.setState({
+        ready: true,
+        width: ref.clientWidth,
+        height: ref.clientHeight,
+      });
     }
 
     this.container = ref;
@@ -97,7 +191,7 @@ export default class EventContainer extends React.PureComponent {
    * @returns {*}
    */
   maybeRenderEvents() {
-    if (this.state.height === null) {
+    if (!this.state.ready) {
       return false;
     }
 
@@ -107,6 +201,6 @@ export default class EventContainer extends React.PureComponent {
         event={event}
         style={this.computedEventStyle(event)}
       />
-    ));
+    )).toArray();
   }
 }
