@@ -2,6 +2,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import { historyPropTypes } from 'history-prop-types';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { hot } from 'react-hot-loader/root';
 import { Provider } from 'react-redux';
 import App from './App';
 
@@ -9,7 +10,8 @@ import App from './App';
 /**
  * Class Root
  */
-export default class Root extends React.PureComponent {
+@hot
+export default class Root extends React.Component {
   /**
    * Prop types.
    *
