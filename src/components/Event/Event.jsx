@@ -43,12 +43,6 @@ export default class Event extends React.PureComponent {
             {event.get('location', '')}
           </div>
         </div>
-
-        <div className={styles.spacer}/>
-
-        <div className={styles.footer}>
-          {this.renderFooterContent()}
-        </div>
       </div>
     );
   }
