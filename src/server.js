@@ -8,6 +8,15 @@ const setupProxy = require('./setupProxy');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use((req, res, next) => {
+  if (process.env.NODE_ENV === 'production' && req.headers['x-forwarded-proto'] !== 'https') {
+    const sslUrl = ['https://', req.hostname, req.url].join('');
+
+    return res.redirect(sslUrl);
+  }
+
+  return next();
+});
 setupProxy(app);
 app.use(express.static(path.join(__dirname, '..', 'build')));
 app.get('/', (req, res) => {
