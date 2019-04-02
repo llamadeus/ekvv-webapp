@@ -1,4 +1,5 @@
 const express = require('express');
+const rateLimit = require('express-rate-limit');
 const https = require('https');
 const path = require('path');
 const fs = require('fs');
@@ -17,6 +18,10 @@ app.use((req, res, next) => {
 
   return next();
 });
+app.use('/api', rateLimit({
+  windowMs: 60 * 1000,
+  max: 10,
+}));
 setupProxy(app);
 app.use(express.static(path.join(__dirname, '..', 'build')));
 app.get('/', (req, res) => {
@@ -39,5 +44,6 @@ if (process.env.NODE_ENV === 'development') {
   https.createServer(credentials, app).listen(PORT, onListen);
 }
 else {
+  app.enable('trust proxy');
   app.listen(PORT, onListen);
 }

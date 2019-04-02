@@ -60,6 +60,7 @@
     "connected-react-router": "^6.3.2",
     "dexie": "^2.0.4",
     "express": "^4.16.4",
+    "express-rate-limit": "^3.4.0",
     "history": "^4.9.0",
     "history-prop-types": "^2.5.2",
     "http-proxy-middleware": "^0.19.1",
