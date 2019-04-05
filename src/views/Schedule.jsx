@@ -1,18 +1,9 @@
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { bindActionCreators } from 'redux';
-import { setSelectedDayAndScroll } from '../effects/schedule';
-import DaySelect from '../components/DaySelect';
 import WeekScroller from '../components/WeekScroller';
-import { Day } from '../prop-types';
-import {
-  getSelectedDay,
-  getSelectedWeek,
-} from '../selectors/schedule';
-import {
-  mapDispatchToProps,
-  mapStateToProps,
-} from '../utils/redux';
+import { getSelectedWeek } from '../selectors/schedule';
+import { mapStateToProps } from '../utils/redux';
 
 
 /**
@@ -20,11 +11,7 @@ import {
  */
 @mapStateToProps(state => ({
   selectedWeek: getSelectedWeek(state),
-  selectedDay: getSelectedDay(state),
 }))
-@mapDispatchToProps(dispatch => bindActionCreators({
-  onSetSelectedDayAndScroll: setSelectedDayAndScroll,
-}, dispatch))
 export default class Schedule extends React.PureComponent {
   /**
    * Prop types.
@@ -32,8 +19,7 @@ export default class Schedule extends React.PureComponent {
    * @type {Object}
    */
   static propTypes = {
-    selectedDay: Day.isRequired,
-    onSetSelectedDayAndScroll: PropTypes.func.isRequired,
+    selectedWeek: PropTypes.instanceOf(moment).isRequired,
   };
 
   /**
@@ -43,14 +29,9 @@ export default class Schedule extends React.PureComponent {
    */
   render() {
     return (
-      <React.Fragment>
-        <DaySelect
-          selected={this.props.selectedDay}
-          onChange={this.props.onSetSelectedDayAndScroll}
-        />
-
-        <WeekScroller/>
-      </React.Fragment>
+      <WeekScroller
+        selectedWeek={this.props.selectedWeek}
+      />
     );
   }
 }

@@ -24,16 +24,6 @@ export const getSelectedWeek = createSelector(
 );
 
 /**
- * Get the currently selected day.
- *
- * @returns {*}
- */
-export const getSelectedDay = createSelector(
-  [getSchedule],
-  schedule => schedule.get('selectedDay'),
-);
-
-/**
  * Get all events.
  *
  * @returns {*}

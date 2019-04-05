@@ -13,16 +13,3 @@ export const loadSchedule = url => ({
     url,
   },
 });
-
-/**
- * Set the selected day and scroll into view.
- *
- * @param day
- * @returns {{payload: {day: *}, type: string}}
- */
-export const setSelectedDayAndScroll = day => ({
-  type: EFFECTS.SET_SELECTED_DAY_AND_SCROLL,
-  payload: {
-    day,
-  },
-});

@@ -10,7 +10,6 @@ import { ACTIONS } from '../constants/ui';
 const initialState = () => fromJS({
   initialized: false,
   isLoading: false,
-  scrollToDay: false,
 });
 
 /**
@@ -27,9 +26,6 @@ export default function uiReducer(state = initialState(), { type, payload }) {
 
   case ACTIONS.SET_LOADING_STATE:
     return state.set('isLoading', payload.toggle);
-
-  case ACTIONS.SET_SCROLL_TO_DAY:
-    return state.set('scrollToDay', payload.toggle);
 
   default:
     return state;
