@@ -1,6 +1,7 @@
 const {
   override,
   addDecoratorsLegacy,
+  adjustWorkbox,
   disableEsLint,
 } = require('customize-cra');
 
@@ -8,4 +9,7 @@ const {
 module.exports = override(
   addDecoratorsLegacy(),
   disableEsLint(),
+  adjustWorkbox(wb => Object.assign(wb, {
+    skipWaiting: true,
+  })),
 );
