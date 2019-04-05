@@ -1,18 +1,11 @@
 import { Card } from 'antd';
-import { throttle } from 'lodash-es';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { bindActionCreators } from 'redux';
-import { setSelectedDay } from '../../actions/schedule';
-import { setScrollToDay } from '../../actions/ui';
-import { DAYS } from '../../constants/schedule';
-import { Day } from '../../prop-types';
-import { getSelectedDay } from '../../selectors/schedule';
-import { getScrollToDay } from '../../selectors/ui';
 import {
-  mapDispatchToProps,
-  mapStateToProps,
-} from '../../utils/redux';
+  DAYS,
+  DAYS_OFFSETS,
+} from '../../constants/schedule';
 import ScheduleComponent from '../Schedule';
 import styles from './styles.module.scss';
 
@@ -20,14 +13,6 @@ import styles from './styles.module.scss';
 /**
  * Class WeekScroller
  */
-@mapStateToProps(state => ({
-  selectedDay: getSelectedDay(state),
-  scrollToDay: getScrollToDay(state),
-}))
-@mapDispatchToProps(dispatch => bindActionCreators({
-  onSetSelectedDay: setSelectedDay,
-  onSetScrollToDay: setScrollToDay,
-}, dispatch))
 export default class WeekScroller extends React.PureComponent {
   /**
    * Prop types.
@@ -35,92 +20,38 @@ export default class WeekScroller extends React.PureComponent {
    * @type {Object}
    */
   static propTypes = {
-    selectedDay: Day.isRequired,
-    scrollToDay: PropTypes.bool.isRequired,
-    onSetSelectedDay: PropTypes.func.isRequired,
-    onSetScrollToDay: PropTypes.func.isRequired,
+    selectedWeek: PropTypes.instanceOf(moment).isRequired,
   };
-
-  /**
-   * Debounce the scroll handler.
-   *
-   * @param props
-   */
-  constructor(props) {
-    super(props);
-
-    this.handleScrollDebounced = throttle(this.handleScrollDebounced, 25);
-  }
 
   /**
    * Scroll to the selected day.
    */
   componentDidMount() {
-    this.scrollToDay(this.props.selectedDay);
-  }
+    const dayIndex = moment().day();
+    const day = Object.keys(DAYS_OFFSETS).find(key => dayIndex - 1 === DAYS_OFFSETS[key]);
 
-  /**
-   * Scroll to the selected day.
-   */
-  componentDidUpdate() {
-    if (this.props.scrollToDay) {
-      this.props.onSetScrollToDay(false);
-      this.scrollToDay(this.props.selectedDay, true);
-    }
+    this.scrollToDay(
+      typeof day == 'undefined'
+        ? DAYS.MONDAY
+        : day,
+    );
   }
 
   /**
    * Scroll to the given day.
    *
    * @param day
-   * @param smooth
    */
-  scrollToDay(day, smooth = false) {
+  scrollToDay(day) {
     const dayIndex = Object.keys(DAYS).findIndex(dayKey => dayKey === day);
 
     if (dayIndex >= 0) {
       const { scrollWidth, clientWidth } = this.root;
       const scrollPerDay = (scrollWidth - clientWidth) / (Object.keys(DAYS).length - 1);
-      const { scrollBehavior } = window.getComputedStyle(this.root);
-
-      if (smooth) {
-        this.root.style.scrollBehavior = 'smooth';
-      }
 
       this.root.scrollLeft = scrollPerDay * dayIndex;
-
-      if (smooth) {
-        this.root.style.scrollBehavior = scrollBehavior;
-      }
     }
   }
-
-  /**
-   * Handle container scrolling.
-   *
-   * @param event
-   */
-  handleScroll = (event) => {
-    event.persist();
-
-    this.handleScrollDebounced(event);
-  };
-
-  /**
-   * Update the selected date when scrolling is done.
-   *
-   * @param event
-   */
-  handleScrollDebounced = ({ target }) => {
-    const dayKeys = Object.keys(DAYS);
-    const scrollPerDay = (target.scrollWidth - target.clientWidth) / (dayKeys.length - 1);
-    const dayIndex = Math.round(target.scrollLeft / scrollPerDay);
-    const day = dayKeys[dayIndex];
-
-    if (typeof day != 'undefined') {
-      this.props.onSetSelectedDay(day);
-    }
-  };
 
   /**
    * Render the component.
@@ -129,7 +60,7 @@ export default class WeekScroller extends React.PureComponent {
    */
   render() {
     return (
-      <div ref={ref => (this.root = ref)} className={styles.root} onScroll={this.handleScroll}>
+      <div ref={ref => (this.root = ref)} className={styles.root}>
         {this.renderDays()}
         <div className={styles.placeholder}/>
       </div>
@@ -149,13 +80,17 @@ export default class WeekScroller extends React.PureComponent {
     };
 
     return Object.keys(DAYS).map(day => (
-      <Card
-        key={day}
-        className={styles.item}
-        bodyStyle={cardBodyStyle}
-      >
-        <ScheduleComponent day={day}/>
-      </Card>
+      <div key={day} className={styles.item}>
+        <h1>
+          {moment(this.props.selectedWeek).add(DAYS_OFFSETS[day], 'days').format('dddd, DD. MMMM')}
+        </h1>
+        <Card
+          className="tw-flex tw-flex-1"
+          bodyStyle={cardBodyStyle}
+        >
+          <ScheduleComponent day={day}/>
+        </Card>
+      </div>
     ));
   }
 }

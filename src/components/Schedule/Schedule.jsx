@@ -1,10 +1,6 @@
 import ImmutablePropTypes from 'immutable-prop-types';
 import React from 'react';
-import {
-  getEventsForDay,
-  getSelectedDay,
-  getSelectedWeek,
-} from '../../selectors/schedule';
+import { getEventsForDay } from '../../selectors/schedule';
 import { mapStateToProps } from '../../utils/redux';
 import EventContainer from '../EventContainer';
 import ScheduleGrid from '../ScheduleGrid';
