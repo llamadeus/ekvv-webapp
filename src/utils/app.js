@@ -8,3 +8,12 @@ export function isWebapp() {
 
   return params.get('webapp') === '1';
 }
+
+/**
+ * Get the webapp type.
+ *
+ * @returns {string}
+ */
+export function webappType() {
+  return isWebapp() ? 'Web-App' : 'Seite';
+}
