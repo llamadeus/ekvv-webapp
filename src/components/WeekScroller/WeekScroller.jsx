@@ -1,11 +1,11 @@
 import { Card } from 'antd';
 import moment from 'moment';
-import PropTypes from 'prop-types';
 import React from 'react';
 import {
   DAYS,
   DAYS_OFFSETS,
 } from '../../constants/schedule';
+import { Moment } from '../../prop-types';
 import ScheduleComponent from '../Schedule';
 import styles from './styles.module.scss';
 
@@ -20,7 +20,7 @@ export default class WeekScroller extends React.PureComponent {
    * @type {Object}
    */
   static propTypes = {
-    selectedWeek: PropTypes.instanceOf(moment).isRequired,
+    selectedWeek: Moment.isRequired,
   };
 
   /**

@@ -1,7 +1,6 @@
-import moment from 'moment';
-import PropTypes from 'prop-types';
 import React from 'react';
 import WeekScroller from '../components/WeekScroller';
+import { Moment } from '../prop-types';
 import { getSelectedWeek } from '../selectors/schedule';
 import { mapStateToProps } from '../utils/redux';
 
@@ -19,7 +18,7 @@ export default class Schedule extends React.PureComponent {
    * @type {Object}
    */
   static propTypes = {
-    selectedWeek: PropTypes.instanceOf(moment).isRequired,
+    selectedWeek: Moment.isRequired,
   };
 
   /**
