@@ -7,7 +7,11 @@ import {
   put,
   takeEvery,
 } from 'redux-saga/effects';
-import { setLoadingState } from '../actions/ui';
+import { setSelectedDay } from '../actions/schedule';
+import {
+  setLoadingState,
+  setScrollToDay,
+} from '../actions/ui';
 import { KEYS } from '../constants/keyval';
 import { EFFECTS } from '../constants/schedule';
 import database from '../database';
@@ -82,6 +86,17 @@ function* handleLoadSchedule({ payload }) {
 }
 
 /**
+ * Set the selected day and scroll it into view.
+ *
+ * @param payload
+ * @returns {IterableIterator<*>}
+ */
+function* handleSetSelectedDayAndScroll({ payload }) {
+  yield put(setScrollToDay(true));
+  yield put(setSelectedDay(payload.day));
+}
+
+/**
  * Schedule saga.
  *
  * @returns {IterableIterator<*>}
@@ -89,5 +104,6 @@ function* handleLoadSchedule({ payload }) {
 export default function* scheduleSaga() {
   yield all([
     takeEvery(EFFECTS.LOAD_SCHEDULE, handleLoadSchedule),
+    takeEvery(EFFECTS.SET_SELECTED_DAY_AND_SCROLL, handleSetSelectedDayAndScroll),
   ]);
 }

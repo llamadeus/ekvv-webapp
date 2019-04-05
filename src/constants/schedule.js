@@ -15,6 +15,7 @@ export const ACTIONS = {
  */
 export const EFFECTS = {
   LOAD_SCHEDULE: 'LOAD_SCHEDULE',
+  SET_SELECTED_DAY_AND_SCROLL: 'SET_SELECTED_DAY_AND_SCROLL',
 };
 
 /**

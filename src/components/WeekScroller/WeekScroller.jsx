@@ -1,12 +1,14 @@
 import { Card } from 'antd';
-import { debounce } from 'lodash-es';
+import { throttle } from 'lodash-es';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { setSelectedDay } from '../../actions/schedule';
+import { setScrollToDay } from '../../actions/ui';
 import { DAYS } from '../../constants/schedule';
 import { Day } from '../../prop-types';
 import { getSelectedDay } from '../../selectors/schedule';
+import { getScrollToDay } from '../../selectors/ui';
 import {
   mapDispatchToProps,
   mapStateToProps,
@@ -20,9 +22,11 @@ import styles from './styles.module.scss';
  */
 @mapStateToProps(state => ({
   selectedDay: getSelectedDay(state),
+  scrollToDay: getScrollToDay(state),
 }))
 @mapDispatchToProps(dispatch => bindActionCreators({
   onSetSelectedDay: setSelectedDay,
+  onSetScrollToDay: setScrollToDay,
 }, dispatch))
 export default class WeekScroller extends React.PureComponent {
   /**
@@ -32,7 +36,9 @@ export default class WeekScroller extends React.PureComponent {
    */
   static propTypes = {
     selectedDay: Day.isRequired,
+    scrollToDay: PropTypes.bool.isRequired,
     onSetSelectedDay: PropTypes.func.isRequired,
+    onSetScrollToDay: PropTypes.func.isRequired,
   };
 
   /**
@@ -43,7 +49,7 @@ export default class WeekScroller extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.handleScrollDebounced = debounce(this.handleScrollDebounced, 100);
+    this.handleScrollDebounced = throttle(this.handleScrollDebounced, 25);
   }
 
   /**
@@ -57,7 +63,10 @@ export default class WeekScroller extends React.PureComponent {
    * Scroll to the selected day.
    */
   componentDidUpdate() {
-    this.scrollToDay(this.props.selectedDay, true);
+    if (this.props.scrollToDay) {
+      this.props.onSetScrollToDay(false);
+      this.scrollToDay(this.props.selectedDay, true);
+    }
   }
 
   /**

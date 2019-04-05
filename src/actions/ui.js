@@ -22,3 +22,16 @@ export const setLoadingState = toggle => ({
     toggle,
   },
 });
+
+/**
+ * Set the "scroll to day" flag.
+ *
+ * @param toggle
+ * @returns {{payload: {toggle: *}, type: string}}
+ */
+export const setScrollToDay = toggle => ({
+  type: ACTIONS.SET_SCROLL_TO_DAY,
+  payload: {
+    toggle,
+  },
+});

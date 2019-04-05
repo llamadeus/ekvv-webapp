@@ -28,3 +28,13 @@ export const getIsLoading = createSelector(
   [getUi],
   schedule => schedule.get('isLoading'),
 );
+
+/**
+ * Get the "scroll to day" flag.
+ *
+ * @returns {*}
+ */
+export const getScrollToDay = createSelector(
+  [getUi],
+  schedule => schedule.get('scrollToDay'),
+);
