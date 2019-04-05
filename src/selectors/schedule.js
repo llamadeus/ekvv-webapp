@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 import { RRule } from 'rrule';
 import moment from 'moment';
 import { DAYS_OFFSETS } from '../constants/schedule';
+import { getArg } from '../utils/reselect';
 
 
 /**
@@ -63,7 +64,7 @@ export const getEventsSorted = createSelector(
  * @returns {*}
  */
 export const getEventsForDay = createSelector(
-  [getEventsSorted, getSelectedWeek, getSelectedDay],
+  [getEventsSorted, getSelectedWeek, getArg],
   (events, week, day) => events.filter((event) => {
     const dayOfWeek = week.clone().add(DAYS_OFFSETS[day], 'day');
     const start = moment(event.get('start')).format('YYYYMMDD\\THHmmss\\Z');

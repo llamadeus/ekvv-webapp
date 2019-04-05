@@ -1,5 +1,11 @@
 import ImmutablePropTypes from 'immutable-prop-types';
 import React from 'react';
+import {
+  getEventsForDay,
+  getSelectedDay,
+  getSelectedWeek,
+} from '../../selectors/schedule';
+import { mapStateToProps } from '../../utils/redux';
 import EventContainer from '../EventContainer';
 import ScheduleGrid from '../ScheduleGrid';
 import styles from './styles.module.scss';
@@ -22,6 +28,9 @@ const SCHEDULE_END = 20;
 /**
  * Class Schedule
  */
+@mapStateToProps((state, props) => ({
+  events: getEventsForDay(state, props.day),
+}))
 export default class Schedule extends React.PureComponent {
   /**
    * Prop types.
