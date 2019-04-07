@@ -1,2 +1,5 @@
 $lato-font-path: '~lato-font/fonts';
 @import "~lato-font/scss/lato-font";
+
+$mdi-font-path: '~@mdi/font/fonts';
+@import '~@mdi/font/scss/materialdesignicons';
