@@ -7,7 +7,6 @@ import ImmutablePropTypes from 'immutable-prop-types';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { getEvents } from '../../selectors/schedule';
-import { isWebapp } from '../../utils/app';
 import { mapStateToProps } from '../../utils/redux';
 import HamburgerButton from '../HamburgerButton/HamburgerButton';
 import Icon from '../Icon';
@@ -69,10 +68,6 @@ export default class Navigation extends React.PureComponent {
    * @return {*}
    */
   render() {
-    if (isWebapp()) {
-      return false;
-    }
-
     return (
       <React.Fragment>
         <Layout.Header className="tw-text-white tw-z-50">
