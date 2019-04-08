@@ -58,7 +58,7 @@ export default class App extends React.PureComponent {
         <Navigation/>
 
         <div className="tw-container tw-flex tw-flex-1 tw-mx-auto">
-          <Layout.Content className="tw-flex tw-flex-col tw-max-w-sm tw-mx-auto tw-pt-6 tw-pb-4">
+          <Layout.Content className="tw-flex tw-flex-col tw-max-w-sm tw-mx-auto tw-pt-6 tw-pb-4 xs:tw-px-4">
             {this.renderContent()}
           </Layout.Content>
         </div>
