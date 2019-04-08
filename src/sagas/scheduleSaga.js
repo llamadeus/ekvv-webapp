@@ -16,13 +16,12 @@ import { loadEvents } from './database';
 
 
 /**
- * Load the calendar
+ * Parse the given iCalendar.
  *
- * @param url
  * @param text
  * @returns {IterableIterator<*>}
  */
-function* loadCalendar(url, text) {
+function* parseCalendar(text) {
   const calendar = ical2json.convert(text);
   const vCalendar = calendar.VCALENDAR;
   const vEvents = Array.isArray(vCalendar) && vCalendar.length === 1
@@ -67,7 +66,7 @@ function* handleLoadSchedule({ payload }) {
     const url = payload.url.replace('https://ekvv.uni-bielefeld.de', '/api');
     const request = yield call(fetch, url);
     const text = yield request.text();
-    const success = yield call(loadCalendar, payload.url, text);
+    const success = yield call(parseCalendar, text);
 
     if (success) {
       yield keyval.set(KEYS.ICAL_URL, url);
