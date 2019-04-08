@@ -127,6 +127,12 @@ export default class Navigation extends React.PureComponent {
     return (
       <div className={classes}>
         <Menu onClick={this.handleCloseMenu} style={{ border: 0 }} selectable={false}>
+          <MenuItem to="/" exact>
+            <Icon name="clock-outline" fixedWidth/>
+            {' '}
+            Stundenplan
+          </MenuItem>
+          <Menu.Divider/>
           <MenuItem to="/settings">
             <Icon name="settings" fixedWidth/>
             {' '}
