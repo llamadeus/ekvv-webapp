@@ -59,6 +59,29 @@ function parseCalendar(ical) {
 }
 
 /**
+ * Does pretty much what the function name suggests.
+ *
+ * @param url
+ * @returns {IterableIterator<*>}
+ */
+function* fetchAndPersistCalendar(url) {
+  const ical = yield call(loadCalendarFromUrl, url);
+  const events = yield call(parseCalendar, ical);
+
+  if (events === null) {
+    Modal.warning({
+      title: 'Dein Stundenplan ist leer.',
+      content: 'Du hast dich entweder für keine Kurse angemeldet oder die URL zu deinem persönlichen Kalendar ist falsch.',
+      okText: 'Ok und abbrechen',
+    });
+  }
+  else {
+    yield call(storeCalendarData, url, ical, events);
+    yield call(loadEvents);
+  }
+}
+
+/**
  * Load the schedule from the given calendar url.
  *
  * @param payload
@@ -69,20 +92,8 @@ function* handleLoadCalendar({ payload }) {
 
   try {
     const { url } = payload;
-    const ical = yield call(loadCalendarFromUrl, url);
-    const events = yield call(parseCalendar, ical);
 
-    if (events === null) {
-      Modal.warning({
-        title: 'Dein Stundenplan ist leer.',
-        content: 'Du hast dich entweder für keine Kurse angemeldet oder die URL zu deinem persönlichen Kalendar ist falsch.',
-        okText: 'Ok und abbrechen',
-      });
-    }
-    else {
-      yield call(storeCalendarData, url, ical, events);
-      yield call(loadEvents);
-    }
+    yield call(fetchAndPersistCalendar, url);
   }
   finally {
     yield put(setLoadingState(false));
