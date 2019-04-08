@@ -9,6 +9,7 @@ import {
 import { getEvents } from '../selectors/schedule';
 import { getInitialized } from '../selectors/ui';
 import { mapStateToProps } from '../utils/redux';
+import NotFound from '../views/NotFound';
 import Schedule from '../views/Schedule';
 import Start from '../views/Start';
 import LoadingSpinner from './LoadingSpinner';
@@ -68,13 +69,19 @@ export default class App extends React.PureComponent {
       );
     }
 
-    const indexComponent = this.props.events === null
-      ? Start
-      : Schedule;
+    if (this.props.events === null) {
+      return (
+        <Switch>
+          <Route path="/" component={Start} exact/>
+          <Route component={NotFound}/>
+        </Switch>
+      );
+    }
 
     return (
       <Switch>
-        <Route path="/" component={indexComponent} exact/>
+        <Route path="/" component={Schedule} exact/>
+        <Route component={NotFound}/>
       </Switch>
     );
   }
