@@ -51,6 +51,16 @@ export default class Settings extends React.PureComponent {
             </Button>
           </Form.Item>
         </Card>
+
+        <Card title="Allgemein">
+          <p>Aktualisiere auf die neuste Version.</p>
+
+          <Form.Item className="tw-text-right">
+            <Button type="primary" onClick={() => window.location.reload(true)}>
+              App aktualisiern
+            </Button>
+          </Form.Item>
+        </Card>
       </React.Fragment>
     );
   }
