@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { formShape } from 'rc-form';
 import React from 'react';
 import { bindActionCreators } from 'redux';
-import { loadSchedule } from '../effects/schedule';
+import { loadCalendar } from '../effects/schedule';
 import { getIsLoading } from '../selectors/ui';
 import {
   mapDispatchToProps,
@@ -23,7 +23,7 @@ import {
   isLoading: getIsLoading(state),
 }))
 @mapDispatchToProps(dispatch => bindActionCreators({
-  onLoadSchedule: loadSchedule,
+  onLoadCalendar: loadCalendar,
 }, dispatch))
 @Form.create()
 export default class Start extends React.PureComponent {
@@ -35,7 +35,7 @@ export default class Start extends React.PureComponent {
   static propTypes = {
     form: formShape.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    onLoadSchedule: PropTypes.func.isRequired,
+    onLoadCalendar: PropTypes.func.isRequired,
   };
 
   /**
@@ -48,7 +48,7 @@ export default class Start extends React.PureComponent {
 
     this.props.form.validateFields((error, values) => {
       if (!error) {
-        this.props.onLoadSchedule(values.url);
+        this.props.onLoadCalendar(values.url);
       }
     });
   };
@@ -62,9 +62,7 @@ export default class Start extends React.PureComponent {
     const { getFieldDecorator } = this.props.form;
 
     return (
-      <Card>
-        <h1>Stundenplan laden</h1>
-
+      <Card title="Stundenplan laden">
         <p>Füge die URL zu deinem persönlichen Kalender ein, um deinen Stundenplan zu laden.</p>
 
         <Form onSubmit={this.handleSubmit} hideRequiredMark>

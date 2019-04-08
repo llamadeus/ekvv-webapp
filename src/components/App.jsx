@@ -1,9 +1,4 @@
-import {
-  Card,
-  Icon,
-  Layout,
-  Spin,
-} from 'antd';
+import { Layout } from 'antd';
 import ImmutablePropTypes from 'immutable-prop-types';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -14,6 +9,7 @@ import {
 import { getEvents } from '../selectors/schedule';
 import { getInitialized } from '../selectors/ui';
 import { mapStateToProps } from '../utils/redux';
+import NotFound from '../views/NotFound';
 import Schedule from '../views/Schedule';
 import Start from '../views/Start';
 import LoadingSpinner from './LoadingSpinner';
@@ -58,7 +54,7 @@ export default class App extends React.PureComponent {
         <Navigation/>
 
         <div className="tw-container tw-flex tw-flex-1 tw-mx-auto">
-          <Layout.Content className="tw-flex tw-flex-col tw-max-w-sm tw-mx-auto tw-pt-6 tw-pb-4">
+          <Layout.Content className="tw-flex tw-flex-col tw-max-w-sm tw-mx-auto tw-pt-6 tw-pb-4 xs:tw-px-4">
             {this.renderContent()}
           </Layout.Content>
         </div>
@@ -73,13 +69,19 @@ export default class App extends React.PureComponent {
       );
     }
 
-    const indexComponent = this.props.events === null
-      ? Start
-      : Schedule;
+    if (this.props.events === null) {
+      return (
+        <Switch>
+          <Route path="/" component={Start} exact/>
+          <Route component={NotFound}/>
+        </Switch>
+      );
+    }
 
     return (
       <Switch>
-        <Route path="/" component={indexComponent} exact/>
+        <Route path="/" component={Schedule} exact/>
+        <Route component={NotFound}/>
       </Switch>
     );
   }
