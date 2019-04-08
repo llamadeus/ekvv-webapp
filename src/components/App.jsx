@@ -63,6 +63,11 @@ export default class App extends React.PureComponent {
     );
   }
 
+  /**
+   * Render the content.
+   *
+   * @returns {*}
+   */
   renderContent() {
     if (!this.props.initialized) {
       return (
