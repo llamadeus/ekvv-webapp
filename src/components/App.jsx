@@ -1,9 +1,4 @@
-import {
-  Card,
-  Icon,
-  Layout,
-  Spin,
-} from 'antd';
+import { Layout } from 'antd';
 import ImmutablePropTypes from 'immutable-prop-types';
 import PropTypes from 'prop-types';
 import React from 'react';
