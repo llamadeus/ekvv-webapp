@@ -10,6 +10,7 @@ import {
 import { setLoadingState } from '../actions/ui';
 import { EFFECTS } from '../constants/schedule';
 import {
+  clearCalendarData,
   loadEvents,
   storeCalendarData,
 } from './database';
@@ -76,6 +77,7 @@ function* fetchAndPersistCalendar(url) {
     });
   }
   else {
+    yield call(clearCalendarData);
     yield call(storeCalendarData, url, ical, events);
     yield call(loadEvents);
   }

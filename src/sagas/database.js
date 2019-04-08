@@ -23,6 +23,17 @@ export function* storeCalendarData(url, ical, events) {
 }
 
 /**
+ * Clear calendar data and saved events.
+ *
+ * @returns {IterableIterator<*>}
+ */
+export function* clearCalendarData() {
+  yield keyval.delete(KEYS.ICAL_URL);
+  yield keyval.delete(KEYS.ICAL_RAW);
+  yield database.events.clear();
+}
+
+/**
  * Load all events from the database.
  *
  * @returns {IterableIterator<*>}
