@@ -1,5 +1,6 @@
 import { Layout } from 'antd';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { isWebapp } from '../../utils/app';
 import styles from './styles.module.scss';
 
@@ -21,7 +22,14 @@ export default class Navigation extends React.PureComponent {
     return (
       <Layout.Header className="tw-text-white">
         <div className="tw-max-w-sm tw-mx-auto xs:tw-px-4">
-          <span className={styles.brand}>eKVV</span>
+          <div className="tw-flex tw-flex-1 tw-justify-between">
+            <Link
+              to="/"
+              className="tw-text-white hover:tw-text-white tw-text-xl"
+            >
+              eKVV
+            </Link>
+          </div>
         </div>
       </Layout.Header>
     );
