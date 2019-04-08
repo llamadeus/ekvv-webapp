@@ -1,0 +1,46 @@
+$bar-width: 2px;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 1.75rem;
+  height: 1.3rem;
+  align-self: center;
+  transition: 200ms all ease-in-out;
+
+  &:focus {
+    outline: 0;
+  }
+
+  &.active {
+    height: 1.75rem;
+
+    .bar:nth-child(1) {
+      top: calc(50% - #{$bar-width / 2});
+      transform: rotate(45deg);
+    }
+
+    .bar:nth-child(2) {
+      opacity: 0;
+    }
+
+    .bar:nth-child(3) {
+      top: calc(-50% + #{$bar-width / 2});
+      transform: rotate(-45deg);
+    }
+  }
+}
+
+.bar {
+  position: relative;
+  top: 0;
+  height: $bar-width;
+  background-color: #fff;
+  transition: 200ms all ease-in-out;
+  border-radius: $bar-width;
+
+  &:nth-child(2) {
+    opacity: 1;
+  }
+}
