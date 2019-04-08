@@ -62,9 +62,7 @@ export default class Start extends React.PureComponent {
     const { getFieldDecorator } = this.props.form;
 
     return (
-      <Card>
-        <h1>Stundenplan laden</h1>
-
+      <Card title="Stundenplan laden">
         <p>Füge die URL zu deinem persönlichen Kalender ein, um deinen Stundenplan zu laden.</p>
 
         <Form onSubmit={this.handleSubmit} hideRequiredMark>
