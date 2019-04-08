@@ -40,4 +40,14 @@ export default {
       value,
     });
   },
+
+  /**
+   * Delete the value stored in `key`.
+   *
+   * @param key
+   * @returns {*}
+   */
+  delete(key) {
+    return database.keyval.delete(key);
+  },
 };
