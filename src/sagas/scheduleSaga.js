@@ -1,4 +1,7 @@
-import { Modal } from 'antd';
+import {
+  message,
+  Modal,
+} from 'antd';
 import ical2json from 'ical2json';
 import moment from 'moment';
 import {
@@ -8,7 +11,9 @@ import {
   takeEvery,
 } from 'redux-saga/effects';
 import { setLoadingState } from '../actions/ui';
+import { KEYS } from '../constants/keyval';
 import { EFFECTS } from '../constants/schedule';
+import keyval from '../utils/keyval';
 import {
   clearCalendarData,
   loadEvents,
@@ -103,6 +108,30 @@ function* handleLoadCalendar({ payload }) {
 }
 
 /**
+ * Reload the calendar data if a url was given.
+ *
+ * @returns {IterableIterator<*>}
+ */
+function* handleReloadCalendar() {
+  const calendarUrl = yield keyval.get(KEYS.ICAL_URL);
+
+  if (typeof calendarUrl == 'undefined') {
+    return;
+  }
+
+  yield put(setLoadingState(true));
+
+  try {
+    yield call(fetchAndPersistCalendar, calendarUrl);
+
+    message.success('Dein Stundenplan wurde aktualisiert!');
+  }
+  finally {
+    yield put(setLoadingState(false));
+  }
+}
+
+/**
  * Schedule saga.
  *
  * @returns {IterableIterator<*>}
@@ -110,5 +139,6 @@ function* handleLoadCalendar({ payload }) {
 export default function* scheduleSaga() {
   yield all([
     takeEvery(EFFECTS.LOAD_CALENDAR, handleLoadCalendar),
+    takeEvery(EFFECTS.RELOAD_CALENDAR, handleReloadCalendar),
   ]);
 }
