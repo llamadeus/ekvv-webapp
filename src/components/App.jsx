@@ -11,6 +11,7 @@ import { getInitialized } from '../selectors/ui';
 import { mapStateToProps } from '../utils/redux';
 import NotFound from '../views/NotFound';
 import Schedule from '../views/Schedule';
+import Settings from '../views/Settings';
 import Start from '../views/Start';
 import LoadingSpinner from './LoadingSpinner';
 import Navigation from './Navigation';
@@ -81,6 +82,7 @@ export default class App extends React.PureComponent {
     return (
       <Switch>
         <Route path="/" component={Schedule} exact/>
+        <Route path="/settings" component={Settings} exact/>
         <Route component={NotFound}/>
       </Switch>
     );
