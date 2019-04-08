@@ -15,6 +15,7 @@ export const ACTIONS = {
  */
 export const EFFECTS = {
   LOAD_CALENDAR: 'LOAD_CALENDAR',
+  RELOAD_CALENDAR: 'RELOAD_CALENDAR',
 };
 
 /**
