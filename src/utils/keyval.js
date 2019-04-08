@@ -10,11 +10,11 @@ export default {
    * @returns {Promise<*|undefined>}
    */
   async get(key, defaultValue = undefined) {
-    const value = await database.keyval.get(key);
+    const record = await database.keyval.get(key);
 
-    return typeof value == 'undefined'
+    return typeof record == 'undefined'
       ? defaultValue
-      : value;
+      : record.value;
   },
 
   /**
