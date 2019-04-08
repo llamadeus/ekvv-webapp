@@ -18,6 +18,13 @@ import Navigation from './Navigation';
 
 
 /**
+ * Number of taps until the page is force reloaded.
+ *
+ * @type {number}
+ */
+const TAPS_UNTIL_RELOAD = 10;
+
+/**
  * Class App
  */
 @mapStateToProps(state => ({
@@ -42,6 +49,51 @@ export default class App extends React.PureComponent {
    */
   static defaultProps = {
     events: null,
+  };
+
+  /**
+   * Counts the number of taps in a row.
+   *
+   * @type {number}
+   */
+  tapCounter = 0;
+
+  /**
+   * Timeout until the tap counter is reset.
+   *
+   * @type {number|null}
+   */
+  resetTapCounterTimeout = null;
+
+  /**
+   * Called when the app is mounted.
+   */
+  componentDidMount() {
+    document.addEventListener('touchend', this.handleGlobalTouchEnd);
+  }
+
+  /**
+   * Called when the app will be unmounted.
+   */
+  componentWillUnmount() {
+    document.removeEventListener('touchend', this.handleGlobalTouchEnd);
+  }
+
+  /**
+   * Force reload the page after `TAPS_UNTIL_RELOAD` taps.
+   */
+  handleGlobalTouchEnd = () => {
+    clearTimeout(this.resetTapCounterTimeout);
+
+    this.resetTapCounterTimeout = setTimeout(() => {
+      this.tapCounter = 0;
+    }, 250);
+
+    this.tapCounter += 1;
+
+    if (this.tapCounter >= TAPS_UNTIL_RELOAD) {
+      window.location.reload(true);
+    }
   };
 
   /**
