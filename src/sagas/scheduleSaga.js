@@ -54,12 +54,12 @@ function* parseCalendar(text) {
 }
 
 /**
- * Load the schedule.
+ * Load the schedule from the given calendar url.
  *
  * @param payload
  * @returns {IterableIterator<*>}
  */
-function* handleLoadSchedule({ payload }) {
+function* handleLoadCalendar({ payload }) {
   yield put(setLoadingState(true));
 
   try {
@@ -87,6 +87,6 @@ function* handleLoadSchedule({ payload }) {
  */
 export default function* scheduleSaga() {
   yield all([
-    takeEvery(EFFECTS.LOAD_SCHEDULE, handleLoadSchedule),
+    takeEvery(EFFECTS.LOAD_CALENDAR, handleLoadCalendar),
   ]);
 }

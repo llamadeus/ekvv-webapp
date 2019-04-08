@@ -7,8 +7,8 @@ import { EFFECTS } from '../constants/schedule';
  * @param url
  * @returns {{payload: {url: *}, type: string}}
  */
-export const loadSchedule = url => ({
-  type: EFFECTS.LOAD_SCHEDULE,
+export const loadCalendar = url => ({
+  type: EFFECTS.LOAD_CALENDAR,
   payload: {
     url,
   },

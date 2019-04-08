@@ -14,7 +14,7 @@ export const ACTIONS = {
  * @type {*}
  */
 export const EFFECTS = {
-  LOAD_SCHEDULE: 'LOAD_SCHEDULE',
+  LOAD_CALENDAR: 'LOAD_CALENDAR',
 };
 
 /**
