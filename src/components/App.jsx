@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import { getEvents } from '../selectors/schedule';
 import { getInitialized } from '../selectors/ui';
+import { isWebapp } from '../utils/app';
 import { mapStateToProps } from '../utils/redux';
 import NotFound from '../views/NotFound';
 import Schedule from '../views/Schedule';
@@ -15,6 +16,7 @@ import Settings from '../views/Settings';
 import Start from '../views/Start';
 import LoadingSpinner from './LoadingSpinner';
 import Navigation from './Navigation';
+import { Helmet } from 'react-helmet';
 
 
 /**
@@ -104,6 +106,8 @@ export default class App extends React.PureComponent {
   render() {
     return (
       <Layout className="tw-flex tw-flex-1 tw-flex-col">
+        {this.maybeRenderWebappHelmet()}
+
         <Navigation/>
 
         <div className="tw-container tw-flex tw-flex-1 tw-mx-auto">
@@ -112,6 +116,31 @@ export default class App extends React.PureComponent {
           </Layout.Content>
         </div>
       </Layout>
+    );
+  }
+
+  /**
+   * Update document head when in webapp.
+   *
+   * @returns {*}
+   */
+  maybeRenderWebappHelmet() {
+    if (!isWebapp()) {
+      return false;
+    }
+
+    return (
+      <Helmet>
+        <style type="text/css">{`
+body {
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  overscroll-behavior-y: contain;
+}
+`}
+        </style>
+      </Helmet>
     );
   }
 
