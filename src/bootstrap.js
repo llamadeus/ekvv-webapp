@@ -3,6 +3,7 @@ import 'moment/locale/de';
 import './styles/app.scss';
 import './build/antd.css';
 import './build/tailwind.css';
+import { isWebapp } from './utils/app';
 
 
 moment.locale('de', {
@@ -10,3 +11,23 @@ moment.locale('de', {
     dow: 1,
   },
 });
+
+if (isWebapp()) {
+  let lastTouchEnd = 0;
+
+  document.addEventListener('touchmove', (event) => {
+    if (event.scale !== 1) {
+      event.preventDefault();
+    }
+  }, false);
+
+  document.addEventListener('touchend', (event) => {
+    const now = (new Date()).getTime();
+
+    if (now - lastTouchEnd <= 300) {
+      event.preventDefault();
+    }
+
+    lastTouchEnd = now;
+  }, false);
+}
