@@ -53,11 +53,11 @@ export default class Settings extends React.PureComponent {
         </Card>
 
         <Card title="Allgemein">
-          <p>Aktualisiere auf die neuste Version.</p>
+          <p>Aktualisiere auf die neueste Version.</p>
 
           <Form.Item className="tw-text-right">
             <Button type="primary" onClick={() => window.location.reload(true)}>
-              App aktualisiern
+              App aktualisieren
             </Button>
           </Form.Item>
         </Card>
