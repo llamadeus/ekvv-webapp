@@ -23,6 +23,11 @@ app.use('/api', rateLimit({
   max: 10,
 }));
 setupProxy(app);
+app.get('/service-worker.js', (req, res) => {
+  res.set('Cache-Control', 'max-age=0, no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.set('Content-Type', 'application/javascript');
+  res.sendFile(path.join(__dirname, '..', 'build', 'service-worker.js'));
+});
 app.use(express.static(path.join(__dirname, '..', 'build')));
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
