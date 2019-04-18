@@ -1,6 +1,6 @@
 # ekvv-webapp
 
-The electronic course catalogue of the University of Bielefeld is not optimized for mobile devices. This web app improves the usability because it is optimized for mobile devices and uses the latest web technologies.
+The electronic course catalogue of the University of Bielefeld is not optimized for mobile devices. This web app improves the usability as it is optimized for mobile devices and uses latest web technologies to allow offline functionality.
 
 ## Development server
 
