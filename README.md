@@ -6,6 +6,7 @@ The electronic course catalogue of the University of Bielefeld is not optimized 
 
 To start the development server run the following command:
 ```
+yarn build:css
 yarn dev
 ```
 
