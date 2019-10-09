@@ -1,5 +1,7 @@
 import { Card } from 'antd';
+import { debounce } from 'lodash-es';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import React from 'react';
 import {
   DAY_OFFSETS,
@@ -27,6 +29,7 @@ export default class WeekScroller extends React.PureComponent {
   static propTypes = {
     selectedWeek: Moment.isRequired,
     selectedDay: DayShape.isRequired,
+    onSetSelectedDay: PropTypes.func.isRequired,
   };
 
   /**
@@ -35,6 +38,24 @@ export default class WeekScroller extends React.PureComponent {
    * @type {number}
    */
   scrollPerDay = 0;
+
+  /**
+   * Prevent updating the selected day on next (debounced) scroll.
+   *
+   * @type {boolean}
+   */
+  preventDispatchOnNextScroll = false;
+
+  /**
+   * Debounce scroll handler.
+   *
+   * @param props
+   */
+  constructor(props) {
+    super(props);
+
+    this.handleScrollDebounced = debounce(this.handleScrollDebounced, 250);
+  }
 
   /**
    * Scroll to the selected day.
@@ -48,6 +69,31 @@ export default class WeekScroller extends React.PureComponent {
   }
 
   /**
+   * Handle root container scroll.
+   *
+   * @param event
+   */
+  handleScroll = (event) => {
+    this.handleScrollDebounced(event.target.scrollLeft);
+  };
+
+  /**
+   * Propagate the updated selected day to the parent component.
+   *
+   * @param scrollLeft
+   */
+  handleScrollDebounced = (scrollLeft) => {
+    const dayIndex = Math.round(scrollLeft / this.scrollPerDay);
+    const day = getDayByIndex(dayIndex);
+
+    if (typeof day != 'undefined' && !this.preventDispatchOnNextScroll) {
+      this.props.onSetSelectedDay(day);
+    }
+
+    this.preventDispatchOnNextScroll = false;
+  };
+
+  /**
    * Scroll to the given day.
    *
    * @param day
@@ -58,7 +104,7 @@ export default class WeekScroller extends React.PureComponent {
     if (dayIndex >= 0) {
       const targetScroll = this.scrollPerDay * dayIndex;
 
-      this.root.scrollTo(targetScroll, 0);
+      this.setRootScrollLeft(targetScroll);
     }
   }
 
@@ -69,7 +115,11 @@ export default class WeekScroller extends React.PureComponent {
    */
   render() {
     return (
-      <div ref={ref => (this.root = ref)} className={styles.root}>
+      <div
+        ref={ref => (this.root = ref)}
+        onScroll={this.handleScroll}
+        className={styles.root}
+      >
         {this.renderDays()}
         <div className={styles.placeholder}/>
       </div>
