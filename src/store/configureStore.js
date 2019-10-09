@@ -5,6 +5,7 @@ import {
 } from 'redux';
 import { createLogger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
+import { routerMiddleware } from 'connected-react-router';
 import createRootReducer from '../reducers';
 import rootSaga from '../sagas';
 
@@ -17,7 +18,10 @@ import rootSaga from '../sagas';
  */
 export default function configureStore(history) {
   const sagaMiddleware = createSagaMiddleware();
-  const middleware = [sagaMiddleware];
+  const middleware = [
+    sagaMiddleware,
+    routerMiddleware(history),
+  ];
   let composeEnhancers = compose;
 
   if (process.env.NODE_ENV === 'development') {
