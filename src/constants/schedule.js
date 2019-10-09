@@ -36,7 +36,7 @@ export const DAYS = {
  *
  * @type {*}
  */
-export const DAYS_LABELS = {
+export const DAY_LABELS = {
   [DAYS.MONDAY]: 'Mo',
   [DAYS.TUESDAY]: 'Di',
   [DAYS.WEDNESDAY]: 'Mi',
@@ -49,7 +49,7 @@ export const DAYS_LABELS = {
  *
  * @type {*}
  */
-export const DAYS_OFFSETS = {
+export const DAY_OFFSETS = {
   [DAYS.MONDAY]: 0,
   [DAYS.TUESDAY]: 1,
   [DAYS.WEDNESDAY]: 2,

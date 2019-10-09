@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { RRule } from 'rrule';
 import moment from 'moment';
-import { DAYS_OFFSETS } from '../constants/schedule';
+import { DAY_OFFSETS } from '../constants/schedule';
 import { getArg } from '../utils/reselect';
 
 
@@ -56,7 +56,7 @@ export const getEventsSorted = createSelector(
 export const getEventsForDay = createSelector(
   [getEventsSorted, getSelectedWeek, getArg],
   (events, week, day) => events.filter((event) => {
-    const dayOfWeek = week.clone().add(DAYS_OFFSETS[day], 'day');
+    const dayOfWeek = week.clone().add(DAY_OFFSETS[day], 'day');
     const start = moment(event.get('start')).format('YYYYMMDD\\THHmmss\\Z');
     const rrule = event.get('rrule');
     let ruleString = `DTSTART:${start}`;

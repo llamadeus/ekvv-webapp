@@ -2,8 +2,8 @@ import { Card } from 'antd';
 import moment from 'moment';
 import React from 'react';
 import {
+  DAY_OFFSETS,
   DAYS,
-  DAYS_OFFSETS,
 } from '../../constants/schedule';
 import { Moment } from '../../prop-types';
 import ScheduleComponent from '../Schedule';
@@ -28,7 +28,7 @@ export default class WeekScroller extends React.PureComponent {
    */
   componentDidMount() {
     const dayIndex = moment().day();
-    const day = Object.getOwnPropertySymbols(DAYS_OFFSETS).find(key => DAYS_OFFSETS[key] === dayIndex - 1);
+    const day = Object.getOwnPropertySymbols(DAY_OFFSETS).find(key => DAY_OFFSETS[key] === dayIndex - 1);
 
     this.scrollToDay(
       typeof day == 'undefined'
@@ -82,7 +82,7 @@ export default class WeekScroller extends React.PureComponent {
     return Object.keys(DAYS).map(key => (
       <div key={key} className={styles.item}>
         <h1>
-          {moment(this.props.selectedWeek).add(DAYS_OFFSETS[DAYS[key]], 'days').format('dddd, DD. MMMM')}
+          {moment(this.props.selectedWeek).add(DAY_OFFSETS[DAYS[key]], 'days').format('dddd, DD. MMMM')}
         </h1>
         <Card
           className="tw-flex tw-flex-1"
