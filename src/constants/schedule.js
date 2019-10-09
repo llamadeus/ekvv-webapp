@@ -21,14 +21,14 @@ export const EFFECTS = {
 /**
  * Days of the weak.
  *
- * @type {{MONDAY: string, TUESDAY: string, WEDNESDAY: string, THURSDAY: string, FRIDAY: string}}
+ * @type {{WEDNESDAY: symbol, MONDAY: symbol, THURSDAY: symbol, TUESDAY: symbol, FRIDAY: symbol}}
  */
 export const DAYS = {
-  MONDAY: 'MONDAY',
-  TUESDAY: 'TUESDAY',
-  WEDNESDAY: 'WEDNESDAY',
-  THURSDAY: 'THURSDAY',
-  FRIDAY: 'FRIDAY',
+  MONDAY: Symbol('MONDAY'),
+  TUESDAY: Symbol('TUESDAY'),
+  WEDNESDAY: Symbol('WEDNESDAY'),
+  THURSDAY: Symbol('THURSDAY'),
+  FRIDAY: Symbol('FRIDAY'),
 };
 
 /**

@@ -28,7 +28,7 @@ export default class WeekScroller extends React.PureComponent {
    */
   componentDidMount() {
     const dayIndex = moment().day();
-    const day = Object.keys(DAYS_OFFSETS).find(key => dayIndex - 1 === DAYS_OFFSETS[key]);
+    const day = Object.getOwnPropertySymbols(DAYS_OFFSETS).find(key => DAYS_OFFSETS[key] === dayIndex - 1);
 
     this.scrollToDay(
       typeof day == 'undefined'
@@ -43,7 +43,7 @@ export default class WeekScroller extends React.PureComponent {
    * @param day
    */
   scrollToDay(day) {
-    const dayIndex = Object.keys(DAYS).findIndex(dayKey => dayKey === day);
+    const dayIndex = Object.keys(DAYS).findIndex(key => DAYS[key] === day);
 
     if (dayIndex >= 0) {
       const { scrollWidth, clientWidth } = this.root;
@@ -79,16 +79,16 @@ export default class WeekScroller extends React.PureComponent {
       padding: 0,
     };
 
-    return Object.keys(DAYS).map(day => (
-      <div key={day} className={styles.item}>
+    return Object.keys(DAYS).map(key => (
+      <div key={key} className={styles.item}>
         <h1>
-          {moment(this.props.selectedWeek).add(DAYS_OFFSETS[day], 'days').format('dddd, DD. MMMM')}
+          {moment(this.props.selectedWeek).add(DAYS_OFFSETS[DAYS[key]], 'days').format('dddd, DD. MMMM')}
         </h1>
         <Card
           className="tw-flex tw-flex-1"
           bodyStyle={cardBodyStyle}
         >
-          <ScheduleComponent day={day}/>
+          <ScheduleComponent day={DAYS[key]}/>
         </Card>
       </div>
     ));
