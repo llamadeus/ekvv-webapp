@@ -25,7 +25,9 @@ export default function configureStore(history) {
     // eslint-disable-next-line no-underscore-dangle
     if (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
       // eslint-disable-next-line no-underscore-dangle
-      composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({});
+      composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+        serialize: true,
+      });
     }
 
     middleware.push(createLogger({
