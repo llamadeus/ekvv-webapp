@@ -2,6 +2,15 @@ import { EFFECTS } from '../constants/schedule';
 
 
 /**
+ * Scroll to today.
+ *
+ * @returns {{type: string}}
+ */
+export const showToday = () => ({
+  type: EFFECTS.SHOW_TODAY,
+});
+
+/**
  * Load the schedule from the given calendar url.
  *
  * @param url

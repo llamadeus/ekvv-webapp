@@ -14,6 +14,7 @@ export const ACTIONS = {
  * @type {*}
  */
 export const EFFECTS = {
+  SHOW_TODAY: 'SHOW_TODAY',
   LOAD_CALENDAR: 'LOAD_CALENDAR',
   RELOAD_CALENDAR: 'RELOAD_CALENDAR',
 };

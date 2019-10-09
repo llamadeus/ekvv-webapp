@@ -2,18 +2,24 @@ import {
   message,
   Modal,
 } from 'antd';
+import { push } from 'connected-react-router';
 import ical2json from 'ical2json';
 import moment from 'moment';
 import {
   all,
   call,
   put,
+  select,
   takeEvery,
 } from 'redux-saga/effects';
+import { setSelectedDay } from '../actions/schedule';
 import { setLoadingState } from '../actions/ui';
 import { KEYS } from '../constants/keyval';
 import { EFFECTS } from '../constants/schedule';
+import { getPathname } from '../selectors/router';
+import { getSelectedWeek } from '../selectors/schedule';
 import keyval from '../utils/keyval';
+import { getDayByMomentInstance } from '../utils/schedule';
 import {
   clearCalendarData,
   loadEvents,
@@ -132,6 +138,29 @@ function* handleReloadCalendar() {
 }
 
 /**
+ * Scroll to today, if we are in today's week.
+ *
+ * @returns {IterableIterator<*>}
+ */
+function* handleShowToday() {
+  const pathname = yield select(getPathname);
+
+  if (pathname !== '/') {
+    yield put(push('/'));
+  }
+  else {
+    const selectedWeek = yield select(getSelectedWeek);
+    const today = moment();
+
+    if (today.isSame(selectedWeek, 'week')) {
+      const day = getDayByMomentInstance(today);
+
+      yield put(setSelectedDay(day));
+    }
+  }
+}
+
+/**
  * Schedule saga.
  *
  * @returns {IterableIterator<*>}
@@ -140,5 +169,6 @@ export default function* scheduleSaga() {
   yield all([
     takeEvery(EFFECTS.LOAD_CALENDAR, handleLoadCalendar),
     takeEvery(EFFECTS.RELOAD_CALENDAR, handleReloadCalendar),
+    takeEvery(EFFECTS.SHOW_TODAY, handleShowToday),
   ]);
 }

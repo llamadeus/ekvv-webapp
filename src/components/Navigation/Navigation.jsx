@@ -4,10 +4,16 @@ import {
 } from 'antd';
 import classNames from 'classnames';
 import ImmutablePropTypes from 'immutable-prop-types';
+import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import { showToday } from '../../effects/schedule';
 import { getEvents } from '../../selectors/schedule';
-import { mapStateToProps } from '../../utils/redux';
+import {
+  mapDispatchToProps,
+  mapStateToProps,
+} from '../../utils/redux';
+import ControlledLink from '../ControlledLink';
 import HamburgerButton from '../HamburgerButton/HamburgerButton';
 import Icon from '../Icon';
 import MenuItem from '../MenuItem';
@@ -20,6 +26,9 @@ import styles from './styles.module.scss';
 @mapStateToProps(state => ({
   events: getEvents(state),
 }))
+@mapDispatchToProps(dispatch => bindActionCreators({
+  onShowToday: showToday,
+}, dispatch))
 export default class Navigation extends React.PureComponent {
   /**
    * Prop types.
@@ -28,6 +37,7 @@ export default class Navigation extends React.PureComponent {
    */
   static propTypes = {
     events: ImmutablePropTypes.map,
+    onShowToday: PropTypes.func.isRequired,
   };
 
   /**
@@ -46,6 +56,15 @@ export default class Navigation extends React.PureComponent {
    */
   state = {
     showMenu: false,
+  };
+
+  /**
+   * Close the menu and trigger effect.
+   */
+  handleAppButtonClick = () => {
+    this.setState({ showMenu: false });
+
+    this.props.onShowToday();
   };
 
   /**
@@ -73,13 +92,13 @@ export default class Navigation extends React.PureComponent {
         <Layout.Header className="tw-text-white tw-z-50">
           <div className="tw-max-w-sm tw-mx-auto xs:tw-px-4">
             <div className="tw-flex tw-flex-1 tw-justify-between">
-              <Link
-                to="/"
-                onClick={this.handleCloseMenu}
+              <ControlledLink
+                href="/"
+                onClick={this.handleAppButtonClick}
                 className="tw-text-white hover:tw-text-white tw-text-xl"
               >
                 eKVV
-              </Link>
+              </ControlledLink>
 
               {this.maybeRenderHamburgerButton()}
             </div>
