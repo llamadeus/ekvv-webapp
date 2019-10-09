@@ -10,6 +10,10 @@ import {
 import { Moment } from '../../prop-types';
 import { DayShape } from '../../shapes/schedule';
 import {
+  animate,
+  Easing,
+} from '../../utils/animation';
+import {
   getDayByIndex,
   getIndexByDay,
 } from '../../utils/schedule';
@@ -40,11 +44,25 @@ export default class WeekScroller extends React.PureComponent {
   scrollPerDay = 0;
 
   /**
+   * Disable scroll events.
+   *
+   * @type {boolean}
+   */
+  ignoreScrollEvents = false;
+
+  /**
    * Prevent updating the selected day on next (debounced) scroll.
    *
    * @type {boolean}
    */
   preventDispatchOnNextScroll = false;
+
+  /**
+   * Prevent animation on next update.
+   *
+   * @type {boolean}
+   */
+  preventAnimationOnNextUpdate = false;
 
   /**
    * Debounce scroll handler.
@@ -66,6 +84,28 @@ export default class WeekScroller extends React.PureComponent {
     this.scrollPerDay = (scrollWidth - clientWidth) / (Object.keys(DAYS).length - 1);
 
     this.scrollToDay(this.props.selectedDay);
+  }
+
+  /**
+   * Scroll to the selected day.
+   */
+  componentDidUpdate() {
+    if (!this.preventAnimationOnNextUpdate) {
+      this.scrollToDay(this.props.selectedDay, true);
+    }
+
+    this.preventAnimationOnNextUpdate = false;
+  }
+
+  /**
+   * Update scroll position with temporarily disabled scroll events.
+   *
+   * @param scrollLeft
+   */
+  setRootScrollLeft(scrollLeft) {
+    this.ignoreScrollEvents = true;
+    this.root.scroll(scrollLeft, 0);
+    this.ignoreScrollEvents = false;
   }
 
   /**
@@ -97,14 +137,37 @@ export default class WeekScroller extends React.PureComponent {
    * Scroll to the given day.
    *
    * @param day
+   * @param animated
    */
-  scrollToDay(day) {
+  scrollToDay(day, animated = false) {
     const dayIndex = getIndexByDay(day);
 
     if (dayIndex >= 0) {
       const targetScroll = this.scrollPerDay * dayIndex;
 
-      this.setRootScrollLeft(targetScroll);
+      this.preventDispatchOnNextScroll = true;
+
+      if (animated) {
+        const currentScroll = this.root.scrollLeft;
+        const scrollRange = targetScroll - currentScroll;
+
+        animate({
+          start: () => {
+            this.root.style.scrollSnapType = 'none';
+          },
+          progress: (percentage) => {
+            this.setRootScrollLeft(currentScroll + scrollRange * Easing.easeInOutCubic(percentage));
+          },
+          done: () => {
+            this.root.style.removeProperty('scroll-snap-type');
+
+            this.setRootScrollLeft(targetScroll);
+          },
+        }, 350);
+      }
+      else {
+        this.setRootScrollLeft(targetScroll);
+      }
     }
   }
 
