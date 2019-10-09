@@ -1,6 +1,6 @@
+import moment from 'moment';
 import { createSelector } from 'reselect';
 import { RRule } from 'rrule';
-import moment from 'moment';
 import { DAY_OFFSETS } from '../constants/schedule';
 import { getArg } from '../utils/reselect';
 
@@ -21,6 +21,16 @@ const getSchedule = state => state.schedule;
 export const getSelectedWeek = createSelector(
   [getSchedule],
   schedule => schedule.get('selectedWeek'),
+);
+
+/**
+ * Get the currently selected day.
+ *
+ * @returns {*}
+ */
+export const getSelectedDay = createSelector(
+  [getSchedule],
+  schedule => schedule.get('selectedDay'),
 );
 
 /**

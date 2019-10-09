@@ -6,6 +6,11 @@ import {
   DAYS,
 } from '../../constants/schedule';
 import { Moment } from '../../prop-types';
+import { DayShape } from '../../shapes/schedule';
+import {
+  getDayByIndex,
+  getIndexByDay,
+} from '../../utils/schedule';
 import ScheduleComponent from '../Schedule';
 import styles from './styles.module.scss';
 
@@ -21,20 +26,25 @@ export default class WeekScroller extends React.PureComponent {
    */
   static propTypes = {
     selectedWeek: Moment.isRequired,
+    selectedDay: DayShape.isRequired,
   };
+
+  /**
+   * Scroll per day.
+   *
+   * @type {number}
+   */
+  scrollPerDay = 0;
 
   /**
    * Scroll to the selected day.
    */
   componentDidMount() {
-    const dayIndex = moment().day();
-    const day = Object.getOwnPropertySymbols(DAY_OFFSETS).find(key => DAY_OFFSETS[key] === dayIndex - 1);
+    const { scrollWidth, clientWidth } = this.root;
 
-    this.scrollToDay(
-      typeof day == 'undefined'
-        ? DAYS.MONDAY
-        : day,
-    );
+    this.scrollPerDay = (scrollWidth - clientWidth) / (Object.keys(DAYS).length - 1);
+
+    this.scrollToDay(this.props.selectedDay);
   }
 
   /**
@@ -43,13 +53,12 @@ export default class WeekScroller extends React.PureComponent {
    * @param day
    */
   scrollToDay(day) {
-    const dayIndex = Object.keys(DAYS).findIndex(key => DAYS[key] === day);
+    const dayIndex = getIndexByDay(day);
 
     if (dayIndex >= 0) {
-      const { scrollWidth, clientWidth } = this.root;
-      const scrollPerDay = (scrollWidth - clientWidth) / (Object.keys(DAYS).length - 1);
+      const targetScroll = this.scrollPerDay * dayIndex;
 
-      this.root.scrollLeft = scrollPerDay * dayIndex;
+      this.root.scrollTo(targetScroll, 0);
     }
   }
 
