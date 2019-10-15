@@ -55,6 +55,22 @@
       "except-parens"
     ],
     "no-tabs": "off",
+    "prefer-destructuring": [
+      "error",
+      {
+        "VariableDeclarator": {
+          "array": false,
+          "object": true
+        },
+        "AssignmentExpression": {
+          "array": true,
+          "object": false
+        }
+      },
+      {
+        "enforceForRenamedProperties": false
+      }
+    ],
     "quote-props": [
       "error",
       "consistent"
@@ -81,6 +97,7 @@
       "error",
       {
         "order": [
+          "static-variables",
           "static-methods",
           "/state/",
           "instance-variables",
@@ -94,6 +111,14 @@
           "/^(render|maybeRender).+$/"
         ]
       }
+    ],
+    "react/state-in-constructor": [
+      "error",
+      "never"
+    ],
+    "react/static-property-placement": [
+      "error",
+      "static public field"
     ],
     "jsx-a11y/anchor-is-valid": [
       "error",
@@ -112,6 +137,7 @@
           "preferButton"
         ]
       }
-    ]
+    ],
+    "react/jsx-props-no-spreading": "off"
   }
 }
