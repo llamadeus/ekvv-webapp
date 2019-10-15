@@ -41,7 +41,7 @@ export default class Settings extends React.PureComponent {
    */
   render() {
     return (
-      <React.Fragment>
+      <>
         <Card title="Stundenplan">
           <p>Lade deinen Stundenplan neu.</p>
 
@@ -61,7 +61,7 @@ export default class Settings extends React.PureComponent {
             </Button>
           </Form.Item>
         </Card>
-      </React.Fragment>
+      </>
     );
   }
 }

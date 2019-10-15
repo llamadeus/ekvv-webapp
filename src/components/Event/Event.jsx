@@ -64,11 +64,11 @@ export default class Event extends React.PureComponent {
     const until = moment(rrule.match(/UNTIL=(\d{8}T\d{6}Z);/)[1]);
 
     return (
-      <React.Fragment>
+      <>
         {start.format('DD.MM.YYYY')}
         &nbsp;&ndash;&nbsp;
         {until.format('DD.MM.YYYY')}
-      </React.Fragment>
+      </>
     );
   }
 }
