@@ -69,9 +69,12 @@
       2
     ],
     "react/jsx-one-expression-per-line": "off",
-    "react/jsx-tag-spacing": {
-      "beforeSelfClosing": false
-    },
+    "react/jsx-tag-spacing": [
+      "error",
+      {
+        "beforeSelfClosing": "never"
+      }
+    ],
     "react/no-find-dom-node": "off",
     "react/prefer-stateless-function": "off",
     "react/sort-comp": [
