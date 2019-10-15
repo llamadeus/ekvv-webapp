@@ -52,7 +52,7 @@ export default class Settings extends React.PureComponent {
           </Form.Item>
         </Card>
 
-        <Card title="Allgemein">
+        <Card title="Allgemein" className="tw-mt-6">
           <p>Aktualisiere auf die neueste Version.</p>
 
           <Form.Item className="tw-text-right">
