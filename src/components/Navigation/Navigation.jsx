@@ -90,7 +90,7 @@ export default class Navigation extends React.PureComponent {
     return (
       <React.Fragment>
         <Layout.Header className="tw-text-white tw-z-50">
-          <div className="tw-max-w-sm tw-mx-auto xs:tw-px-4">
+          <div className="tw-max-w-sm tw-mx-auto tw-px-4 sm:tw-px-0">
             <div className="tw-flex tw-flex-1 tw-justify-between">
               <ControlledLink
                 href="/"
