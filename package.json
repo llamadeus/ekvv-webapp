@@ -39,6 +39,7 @@
     "build:css": "concurrently \"yarn build:antd\" \"yarn build:tailwind\"",
     "build:tailwind": "tailwind build ./src/styles/tailwind.css -o ./src/build/tailwind.css -c ./tailwind.config.js",
     "dev": "cross-env HTTPS=true react-app-rewired start",
+    "eslint": "eslint --ext .js,.jsx src/",
     "heroku-postbuild": "yarn build",
     "start": "cross-env NODE_ENV=development node ./src/server.js",
     "test": "react-app-rewired test"
