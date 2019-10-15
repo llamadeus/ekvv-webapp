@@ -114,6 +114,10 @@ export default class WeekScroller extends React.PureComponent {
    * @param event
    */
   handleScroll = (event) => {
+    if (event.target !== this.root) {
+      return;
+    }
+
     this.handleScrollDebounced(event.target.scrollLeft);
   };
 
