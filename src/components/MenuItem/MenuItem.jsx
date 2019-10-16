@@ -5,6 +5,7 @@ import {
   Link,
   Route,
 } from 'react-router-dom';
+import { useReplace } from '../../utils/history';
 import styles from './styles.module.scss';
 
 
@@ -85,7 +86,7 @@ export default class MenuItem extends React.PureComponent {
               style={isActive ? { ...style, ...activeStyle } : style}
               {...rest}
             >
-              <Link to={to}>
+              <Link to={to} replace={useReplace()}>
                 {children}
               </Link>
             </Menu.Item>

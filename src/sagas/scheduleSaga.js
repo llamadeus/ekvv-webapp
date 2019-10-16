@@ -2,7 +2,6 @@ import {
   message,
   Modal,
 } from 'antd';
-import { push } from 'connected-react-router';
 import ical2json from 'ical2json';
 import moment from 'moment';
 import {
@@ -16,6 +15,7 @@ import { setSelectedDay } from '../actions/schedule';
 import { setLoadingState } from '../actions/ui';
 import { KEYS } from '../constants/keyval';
 import { EFFECTS } from '../constants/schedule';
+import { transitionTo } from '../effects/saga';
 import { getPathname } from '../selectors/router';
 import { getSelectedWeek } from '../selectors/schedule';
 import keyval from '../utils/keyval';
@@ -146,7 +146,7 @@ function* handleShowToday() {
   const pathname = yield select(getPathname);
 
   if (pathname !== '/') {
-    yield put(push('/'));
+    yield put(transitionTo('/'));
   }
   else {
     const selectedWeek = yield select(getSelectedWeek);
