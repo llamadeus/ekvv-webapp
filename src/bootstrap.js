@@ -1,9 +1,9 @@
+import { isWebapp } from 'app/utils/app';
 import moment from 'moment';
 import 'moment/locale/de';
 import './styles/app.scss';
 import './build/antd.css';
 import './build/tailwind.css';
-import { isWebapp } from './utils/app';
 
 
 moment.locale('de', {

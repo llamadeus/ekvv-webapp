@@ -1,4 +1,4 @@
-import { ACTIONS } from '../constants/ui';
+import { ACTIONS } from 'app/constants/ui';
 
 
 /**

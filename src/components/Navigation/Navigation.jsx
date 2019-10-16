@@ -2,21 +2,21 @@ import {
   Layout,
   Menu,
 } from 'antd';
+import ControlledLink from 'app/components/ControlledLink';
+import HamburgerButton from 'app/components/HamburgerButton/HamburgerButton';
+import Icon from 'app/components/Icon';
+import MenuItem from 'app/components/MenuItem';
+import { showToday } from 'app/effects/schedule';
+import { getEvents } from 'app/selectors/schedule';
+import {
+  mapDispatchToProps,
+  mapStateToProps,
+} from 'app/utils/redux';
 import classNames from 'classnames';
 import ImmutablePropTypes from 'immutable-prop-types';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { bindActionCreators } from 'redux';
-import { showToday } from '../../effects/schedule';
-import { getEvents } from '../../selectors/schedule';
-import {
-  mapDispatchToProps,
-  mapStateToProps,
-} from '../../utils/redux';
-import ControlledLink from '../ControlledLink';
-import HamburgerButton from '../HamburgerButton/HamburgerButton';
-import Icon from '../Icon';
-import MenuItem from '../MenuItem';
 import styles from './styles.module.scss';
 
 

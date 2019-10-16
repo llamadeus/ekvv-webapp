@@ -4,16 +4,16 @@ import {
   Form,
   Input,
 } from 'antd';
+import { loadCalendar } from 'app/effects/schedule';
+import { getIsLoading } from 'app/selectors/ui';
+import {
+  mapDispatchToProps,
+  mapStateToProps,
+} from 'app/utils/redux';
 import PropTypes from 'prop-types';
 import { formShape } from 'rc-form';
 import React from 'react';
 import { bindActionCreators } from 'redux';
-import { loadCalendar } from '../effects/schedule';
-import { getIsLoading } from '../selectors/ui';
-import {
-  mapDispatchToProps,
-  mapStateToProps,
-} from '../utils/redux';
 
 
 /**

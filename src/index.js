@@ -3,14 +3,14 @@ import {
   message,
   notification,
 } from 'antd';
+import 'app/bootstrap';
+import Root from 'app/components/Root';
+import * as serviceWorker from 'app/serviceWorker';
+import configureStore from 'app/store/configureStore';
+import { webappType } from 'app/utils/app';
 import { createBrowserHistory } from 'history';
 import React from 'react';
 import { render } from 'react-dom';
-import './bootstrap';
-import Root from './components/Root';
-import * as serviceWorker from './serviceWorker';
-import configureStore from './store/configureStore';
-import { webappType } from './utils/app';
 
 
 const history = createBrowserHistory();

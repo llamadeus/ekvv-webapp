@@ -1,10 +1,10 @@
+import App from 'app/components/App';
 import { ConnectedRouter } from 'connected-react-router';
 import { historyPropTypes } from 'history-prop-types';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { hot } from 'react-hot-loader/root';
 import { Provider } from 'react-redux';
-import App from './App';
 
 
 /**

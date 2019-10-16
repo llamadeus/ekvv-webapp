@@ -1,11 +1,11 @@
 import { Menu } from 'antd';
+import { useReplace } from 'app/utils/history';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
   Link,
   Route,
 } from 'react-router-dom';
-import { useReplace } from '../../utils/history';
 import styles from './styles.module.scss';
 
 

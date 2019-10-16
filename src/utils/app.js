@@ -1,4 +1,4 @@
-import { APPLE_DEVICE_PLATFORMS } from '../constants/app';
+import { APPLE_DEVICE_PLATFORMS } from 'app/constants/app';
 
 
 /**

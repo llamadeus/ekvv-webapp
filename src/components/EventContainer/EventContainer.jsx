@@ -1,8 +1,8 @@
-import moment from 'moment';
+import Event from 'app/components/Event';
 import ImmutablePropTypes from 'immutable-prop-types';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Event from '../Event';
 import styles from './styles.module.scss';
 
 

@@ -2,6 +2,20 @@ import {
   message,
   Modal,
 } from 'antd';
+import { setSelectedDay } from 'app/actions/schedule';
+import { setLoadingState } from 'app/actions/ui';
+import { KEYS } from 'app/constants/keyval';
+import { EFFECTS } from 'app/constants/schedule';
+import { transitionTo } from 'app/effects/saga';
+import {
+  clearCalendarData,
+  loadEvents,
+  storeCalendarData,
+} from 'app/sagas/database';
+import { getPathname } from 'app/selectors/router';
+import { getSelectedWeek } from 'app/selectors/schedule';
+import keyval from 'app/utils/keyval';
+import { getDayByMomentInstance } from 'app/utils/schedule';
 import ical2json from 'ical2json';
 import moment from 'moment';
 import {
@@ -11,20 +25,6 @@ import {
   select,
   takeEvery,
 } from 'redux-saga/effects';
-import { setSelectedDay } from '../actions/schedule';
-import { setLoadingState } from '../actions/ui';
-import { KEYS } from '../constants/keyval';
-import { EFFECTS } from '../constants/schedule';
-import { transitionTo } from '../effects/saga';
-import { getPathname } from '../selectors/router';
-import { getSelectedWeek } from '../selectors/schedule';
-import keyval from '../utils/keyval';
-import { getDayByMomentInstance } from '../utils/schedule';
-import {
-  clearCalendarData,
-  loadEvents,
-  storeCalendarData,
-} from './database';
 
 
 /**

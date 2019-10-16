@@ -1,22 +1,22 @@
 import { Layout } from 'antd';
+import LoadingSpinner from 'app/components/LoadingSpinner';
+import Navigation from 'app/components/Navigation';
+import { getEvents } from 'app/selectors/schedule';
+import { getInitialized } from 'app/selectors/ui';
+import { isWebapp } from 'app/utils/app';
+import { mapStateToProps } from 'app/utils/redux';
+import NotFound from 'app/views/NotFound';
+import Schedule from 'app/views/Schedule';
+import Settings from 'app/views/Settings';
+import Start from 'app/views/Start';
 import ImmutablePropTypes from 'immutable-prop-types';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import {
   Route,
   Switch,
 } from 'react-router-dom';
-import { getEvents } from '../selectors/schedule';
-import { getInitialized } from '../selectors/ui';
-import { isWebapp } from '../utils/app';
-import { mapStateToProps } from '../utils/redux';
-import NotFound from '../views/NotFound';
-import Schedule from '../views/Schedule';
-import Settings from '../views/Settings';
-import Start from '../views/Start';
-import LoadingSpinner from './LoadingSpinner';
-import Navigation from './Navigation';
-import { Helmet } from 'react-helmet';
 
 
 /**

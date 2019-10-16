@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import { ACTIONS } from '../constants/ui';
+import { ACTIONS } from 'app/constants/ui';
 
 
 /**

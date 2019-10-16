@@ -10,6 +10,13 @@
       "legacyDecorators": true
     }
   },
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "webpack/webpack.config.js"
+      }
+    }
+  },
   "rules": {
     "arrow-parens": [
       "error",

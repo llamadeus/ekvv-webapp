@@ -1,7 +1,7 @@
 import {
   DAY_OFFSETS,
   DAYS,
-} from '../constants/schedule';
+} from 'app/constants/schedule';
 
 
 /**

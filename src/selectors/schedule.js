@@ -1,8 +1,8 @@
+import { DAY_OFFSETS } from 'app/constants/schedule';
+import { getArg } from 'app/utils/reselect';
 import moment from 'moment';
 import { createSelector } from 'reselect';
 import { RRule } from 'rrule';
-import { DAY_OFFSETS } from '../constants/schedule';
-import { getArg } from '../utils/reselect';
 
 
 /**

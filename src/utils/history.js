@@ -1,7 +1,7 @@
 import {
   isAppleHandheld,
   isWebapp,
-} from './app';
+} from 'app/utils/app';
 
 
 /**

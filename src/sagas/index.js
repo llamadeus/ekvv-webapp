@@ -1,14 +1,14 @@
+import { setInitialized } from 'app/actions/ui';
+import { KEYS } from 'app/constants/keyval';
+import { loadEvents } from 'app/sagas/database';
+import scheduleSaga from 'app/sagas/scheduleSaga';
+import keyval from 'app/utils/keyval';
 import {
   all,
   call,
   fork,
   put,
 } from 'redux-saga/effects';
-import { setInitialized } from '../actions/ui';
-import { KEYS } from '../constants/keyval';
-import keyval from '../utils/keyval';
-import { loadEvents } from './database';
-import scheduleSaga from './scheduleSaga';
 
 
 /**

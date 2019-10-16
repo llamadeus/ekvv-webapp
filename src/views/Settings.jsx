@@ -3,16 +3,16 @@ import {
   Card,
   Form,
 } from 'antd';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { bindActionCreators } from 'redux';
-import Footer from '../components/Footer';
-import { reloadCalendar } from '../effects/schedule';
-import { getIsLoading } from '../selectors/ui';
+import Footer from 'app/components/Footer';
+import { reloadCalendar } from 'app/effects/schedule';
+import { getIsLoading } from 'app/selectors/ui';
 import {
   mapDispatchToProps,
   mapStateToProps,
-} from '../utils/redux';
+} from 'app/utils/redux';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { bindActionCreators } from 'redux';
 
 
 /**
