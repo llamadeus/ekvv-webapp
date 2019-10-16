@@ -160,7 +160,7 @@ export default class WeekScroller extends React.PureComponent {
             this.root.style.scrollSnapType = 'none';
           },
           progress: (percentage) => {
-            this.setRootScrollLeft(currentScroll + scrollRange * Easing.easeInOutCubic(percentage));
+            this.setRootScrollLeft(currentScroll + scrollRange * Easing.easeInOutQuad(percentage));
           },
           done: () => {
             this.root.style.removeProperty('scroll-snap-type');
