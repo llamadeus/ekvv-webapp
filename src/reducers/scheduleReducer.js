@@ -13,6 +13,7 @@ import moment from 'moment';
 const initialState = () => fromJS({
   selectedWeek: moment().startOf('week'),
   selectedDay: getDayByMomentInstance(moment()),
+  requestedDay: null,
   events: null,
 });
 
@@ -27,6 +28,12 @@ export default function scheduleReducer(state = initialState(), { type, payload 
   switch (type) {
   case ACTIONS.SET_SELECTED_DAY:
     return state.set('selectedDay', payload.day);
+
+  case ACTIONS.SET_REQUESTED_DAY:
+    return state.set('requestedDay', payload.day);
+
+  case ACTIONS.RESET_REQUESTED_DAY:
+    return state.set('requestedDay', null);
 
   case ACTIONS.SET_EVENTS:
     return state.set('events', mapByKey(payload.events, 'uid'));

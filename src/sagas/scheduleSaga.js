@@ -2,7 +2,7 @@ import {
   message,
   Modal,
 } from 'antd';
-import { setSelectedDay } from 'app/actions/schedule';
+import { setRequestedDay } from 'app/actions/schedule';
 import { setLoadingState } from 'app/actions/ui';
 import { KEYS } from 'app/constants/keyval';
 import { EFFECTS } from 'app/constants/schedule';
@@ -163,7 +163,7 @@ function* handleShowToday() {
     if (today.isSame(selectedWeek, 'week') && !today.isSame(selectedDayAsMoment, 'day')) {
       const day = getDayByMomentInstance(today);
 
-      yield put(setSelectedDay(day));
+      yield put(setRequestedDay(day));
     }
   }
 }

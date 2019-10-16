@@ -34,6 +34,16 @@ export const getSelectedDay = createSelector(
 );
 
 /**
+ * Get the requested day.
+ *
+ * @returns {*}
+ */
+export const getRequestedDay = createSelector(
+  [getSchedule],
+  schedule => schedule.get('requestedDay'),
+);
+
+/**
  * Get all events.
  *
  * @returns {*}

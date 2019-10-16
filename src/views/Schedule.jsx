@@ -1,7 +1,11 @@
-import { setSelectedDay } from 'app/actions/schedule';
+import {
+  resetRequestedDay,
+  setSelectedDay,
+} from 'app/actions/schedule';
 import WeekScroller from 'app/components/WeekScroller';
 import { Moment } from 'app/prop-types';
 import {
+  getRequestedDay,
   getSelectedDay,
   getSelectedWeek,
 } from 'app/selectors/schedule';
@@ -21,9 +25,11 @@ import { bindActionCreators } from 'redux';
 @mapStateToProps(state => ({
   selectedWeek: getSelectedWeek(state),
   selectedDay: getSelectedDay(state),
+  requestedDay: getRequestedDay(state),
 }))
 @mapDispatchToProps(dispatch => bindActionCreators({
   onSetSelectedDay: setSelectedDay,
+  onResetRequestedDay: resetRequestedDay,
 }, dispatch))
 export default class Schedule extends React.PureComponent {
   /**
@@ -34,7 +40,18 @@ export default class Schedule extends React.PureComponent {
   static propTypes = {
     selectedWeek: Moment.isRequired,
     selectedDay: DayShape.isRequired,
+    requestedDay: DayShape,
     onSetSelectedDay: PropTypes.func.isRequired,
+    onResetRequestedDay: PropTypes.func.isRequired,
+  };
+
+  /**
+   * Default props.
+   *
+   * @type {Object}
+   */
+  static defaultProps = {
+    requestedDay: null,
   };
 
   /**
@@ -47,7 +64,9 @@ export default class Schedule extends React.PureComponent {
       <WeekScroller
         selectedWeek={this.props.selectedWeek}
         selectedDay={this.props.selectedDay}
+        requestedDay={this.props.requestedDay}
         onSetSelectedDay={this.props.onSetSelectedDay}
+        onResetRequestedDay={this.props.onResetRequestedDay}
       />
     );
   }

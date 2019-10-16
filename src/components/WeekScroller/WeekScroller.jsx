@@ -33,7 +33,18 @@ export default class WeekScroller extends React.PureComponent {
   static propTypes = {
     selectedWeek: Moment.isRequired,
     selectedDay: DayShape.isRequired,
+    requestedDay: DayShape,
     onSetSelectedDay: PropTypes.func.isRequired,
+    onResetRequestedDay: PropTypes.func.isRequired,
+  };
+
+  /**
+   * Default props.
+   *
+   * @type {Object}
+   */
+  static defaultProps = {
+    requestedDay: null,
   };
 
   /**
@@ -44,25 +55,11 @@ export default class WeekScroller extends React.PureComponent {
   scrollPerDay = 0;
 
   /**
-   * Disable scroll events.
-   *
-   * @type {boolean}
-   */
-  ignoreScrollEvents = false;
-
-  /**
    * Prevent updating the selected day on next (debounced) scroll.
    *
    * @type {boolean}
    */
   preventDispatchOnNextScroll = false;
-
-  /**
-   * Prevent animation on next update.
-   *
-   * @type {boolean}
-   */
-  preventAnimationOnNextUpdate = false;
 
   /**
    * Debounce scroll handler.
@@ -90,11 +87,14 @@ export default class WeekScroller extends React.PureComponent {
    * Scroll to the selected day.
    */
   componentDidUpdate() {
-    if (!this.preventAnimationOnNextUpdate) {
-      this.scrollToDay(this.props.selectedDay, true);
-    }
+    if (this.props.requestedDay !== null) {
+      this.props.onResetRequestedDay();
 
-    this.preventAnimationOnNextUpdate = false;
+      this.scrollToDay(this.props.requestedDay, {
+        animated: true,
+        dispatchSelectedDay: true,
+      });
+    }
   }
 
   /**
@@ -103,9 +103,9 @@ export default class WeekScroller extends React.PureComponent {
    * @param scrollLeft
    */
   setRootScrollLeft(scrollLeft) {
-    this.ignoreScrollEvents = true;
+    this.preventDispatchOnNextScroll = true;
+
     this.root.scroll(scrollLeft, 0);
-    this.ignoreScrollEvents = false;
   }
 
   /**
@@ -115,6 +115,12 @@ export default class WeekScroller extends React.PureComponent {
    */
   handleScroll = (event) => {
     if (event.target !== this.root) {
+      return;
+    }
+
+    if (this.preventDispatchOnNextScroll) {
+      this.preventDispatchOnNextScroll = false;
+
       return;
     }
 
@@ -130,28 +136,33 @@ export default class WeekScroller extends React.PureComponent {
     const dayIndex = Math.round(scrollLeft / this.scrollPerDay);
     const day = getDayByIndex(dayIndex);
 
-    if (typeof day != 'undefined' && !this.preventDispatchOnNextScroll) {
+    if (typeof day != 'undefined') {
       this.props.onSetSelectedDay(day);
     }
-
-    this.preventDispatchOnNextScroll = false;
   };
 
   /**
    * Scroll to the given day.
    *
    * @param day
-   * @param animated
+   * @param options
+   * @param options.animated
+   * @param options.dispatchSelectedDay
    */
-  scrollToDay(day, animated = false) {
+  scrollToDay(day, options = { animated: false, dispatchSelectedDay: false }) {
     const dayIndex = getIndexByDay(day);
 
     if (dayIndex >= 0) {
       const targetScroll = this.scrollPerDay * dayIndex;
+      const scrollToTargetPoint = () => {
+        this.setRootScrollLeft(targetScroll);
 
-      this.preventDispatchOnNextScroll = true;
+        if (options.dispatchSelectedDay) {
+          this.props.onSetSelectedDay(day);
+        }
+      };
 
-      if (animated) {
+      if (options.animated) {
         const currentScroll = this.root.scrollLeft;
         const scrollRange = targetScroll - currentScroll;
 
@@ -165,12 +176,12 @@ export default class WeekScroller extends React.PureComponent {
           done: () => {
             this.root.style.removeProperty('scroll-snap-type');
 
-            this.setRootScrollLeft(targetScroll);
+            scrollToTargetPoint();
           },
         }, 350);
       }
       else {
-        this.setRootScrollLeft(targetScroll);
+        scrollToTargetPoint();
       }
     }
   }

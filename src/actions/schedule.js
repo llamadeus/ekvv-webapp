@@ -15,6 +15,28 @@ export const setSelectedDay = day => ({
 });
 
 /**
+ * Set the requested day.
+ *
+ * @param day
+ * @returns {{payload: {day: *}, type: *}}
+ */
+export const setRequestedDay = day => ({
+  type: ACTIONS.SET_REQUESTED_DAY,
+  payload: {
+    day,
+  },
+});
+
+/**
+ * Reset the requested day.
+ *
+ * @returns {{type: *}}
+ */
+export const resetRequestedDay = () => ({
+  type: ACTIONS.RESET_REQUESTED_DAY,
+});
+
+/**
  * Set events.
  *
  * @param events
