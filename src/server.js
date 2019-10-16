@@ -1,7 +1,7 @@
 const express = require('express');
 const rateLimit = require('express-rate-limit');
-const https = require('https');
-const path = require('path');
+const https = require('https'); // eslint-disable-line import/no-extraneous-dependencies
+const path = require('path'); // eslint-disable-line import/no-extraneous-dependencies
 const fs = require('fs');
 const setupProxy = require('./setupProxy');
 

@@ -1,5 +1,5 @@
 const proxy = require('http-proxy-middleware');
-const url = require('url');
+const url = require('url'); // eslint-disable-line import/no-extraneous-dependencies
 
 
 const EKVV_PROTOCOL = 'https';
