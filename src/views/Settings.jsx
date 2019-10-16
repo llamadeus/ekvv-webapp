@@ -6,6 +6,7 @@ import {
 import PropTypes from 'prop-types';
 import React from 'react';
 import { bindActionCreators } from 'redux';
+import Footer from '../components/Footer';
 import { reloadCalendar } from '../effects/schedule';
 import { getIsLoading } from '../selectors/ui';
 import {
@@ -61,6 +62,8 @@ export default class Settings extends React.PureComponent {
             </Button>
           </Form.Item>
         </Card>
+
+        <Footer/>
       </>
     );
   }
