@@ -40,7 +40,6 @@
     "build:tailwind": "tailwind build ./src/styles/tailwind.css -o ./src/build/tailwind.css -c ./tailwind.config.js",
     "dev": "cross-env HTTPS=true REACT_APP_VERSION=$npm_package_version-dev react-app-rewired start",
     "eslint": "eslint --ext .js,.jsx src/",
-    "heroku-postbuild": "yarn build",
     "start": "cross-env NODE_ENV=development node ./src/server.js",
     "test": "react-app-rewired test"
   },
