@@ -1,9 +1,9 @@
+import EventContainer from 'app/components/EventContainer';
+import ScheduleGrid from 'app/components/ScheduleGrid';
+import { getEventsForDay } from 'app/selectors/schedule';
+import { mapStateToProps } from 'app/utils/redux';
 import ImmutablePropTypes from 'immutable-prop-types';
 import React from 'react';
-import { getEventsForDay } from '../../selectors/schedule';
-import { mapStateToProps } from '../../utils/redux';
-import EventContainer from '../EventContainer';
-import ScheduleGrid from '../ScheduleGrid';
 import styles from './styles.module.scss';
 
 

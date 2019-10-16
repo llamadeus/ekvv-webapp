@@ -1,4 +1,4 @@
-import { ACTIONS } from '../constants/schedule';
+import { ACTIONS } from 'app/constants/schedule';
 
 
 /**

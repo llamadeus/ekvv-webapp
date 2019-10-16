@@ -1,8 +1,8 @@
+import { setEvents } from 'app/actions/schedule';
+import { KEYS } from 'app/constants/keyval';
+import database from 'app/database';
+import keyval from 'app/utils/keyval';
 import { put } from 'redux-saga/effects';
-import { setEvents } from '../actions/schedule';
-import { KEYS } from '../constants/keyval';
-import database from '../database';
-import keyval from '../utils/keyval';
 
 
 /**

@@ -1,23 +1,23 @@
 import { Card } from 'antd';
+import ScheduleComponent from 'app/components/Schedule';
+import {
+  DAY_OFFSETS,
+  DAYS,
+} from 'app/constants/schedule';
+import { Moment } from 'app/prop-types';
+import { DayShape } from 'app/shapes/schedule';
+import {
+  animate,
+  Easing,
+} from 'app/utils/animation';
+import {
+  getDayByIndex,
+  getIndexByDay,
+} from 'app/utils/schedule';
 import { debounce } from 'lodash-es';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {
-  DAY_OFFSETS,
-  DAYS,
-} from '../../constants/schedule';
-import { Moment } from '../../prop-types';
-import { DayShape } from '../../shapes/schedule';
-import {
-  animate,
-  Easing,
-} from '../../utils/animation';
-import {
-  getDayByIndex,
-  getIndexByDay,
-} from '../../utils/schedule';
-import ScheduleComponent from '../Schedule';
 import styles from './styles.module.scss';
 
 

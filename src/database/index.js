@@ -1,5 +1,5 @@
 import Dexie from 'dexie';
-import { VERSIONS } from './versions';
+import { VERSIONS } from 'app/database/versions';
 
 
 /**

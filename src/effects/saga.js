@@ -1,8 +1,8 @@
+import { useReplace } from 'app/utils/history';
 import {
   push,
   replace,
 } from 'connected-react-router';
-import { useReplace } from '../utils/history';
 
 
 /**

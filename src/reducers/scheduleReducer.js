@@ -1,8 +1,8 @@
+import { ACTIONS } from 'app/constants/schedule';
+import { mapByKey } from 'app/utils/redux';
+import { getDayByMomentInstance } from 'app/utils/schedule';
 import { fromJS } from 'immutable';
 import moment from 'moment';
-import { ACTIONS } from '../constants/schedule';
-import { mapByKey } from '../utils/redux';
-import { getDayByMomentInstance } from '../utils/schedule';
 
 
 /**

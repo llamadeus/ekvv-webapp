@@ -1,3 +1,6 @@
+import createRootReducer from 'app/reducers';
+import rootSaga from 'app/sagas';
+import { routerMiddleware } from 'connected-react-router';
 import {
   applyMiddleware,
   compose,
@@ -5,9 +8,6 @@ import {
 } from 'redux';
 import { createLogger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
-import { routerMiddleware } from 'connected-react-router';
-import createRootReducer from '../reducers';
-import rootSaga from '../sagas';
 
 
 /**

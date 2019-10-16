@@ -1,18 +1,18 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { bindActionCreators } from 'redux';
-import { setSelectedDay } from '../actions/schedule';
-import WeekScroller from '../components/WeekScroller';
-import { Moment } from '../prop-types';
+import { setSelectedDay } from 'app/actions/schedule';
+import WeekScroller from 'app/components/WeekScroller';
+import { Moment } from 'app/prop-types';
 import {
   getSelectedDay,
   getSelectedWeek,
-} from '../selectors/schedule';
-import { DayShape } from '../shapes/schedule';
+} from 'app/selectors/schedule';
+import { DayShape } from 'app/shapes/schedule';
 import {
   mapDispatchToProps,
   mapStateToProps,
-} from '../utils/redux';
+} from 'app/utils/redux';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { bindActionCreators } from 'redux';
 
 
 /**

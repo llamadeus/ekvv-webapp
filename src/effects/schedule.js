@@ -1,4 +1,4 @@
-import { EFFECTS } from '../constants/schedule';
+import { EFFECTS } from 'app/constants/schedule';
 
 
 /**
