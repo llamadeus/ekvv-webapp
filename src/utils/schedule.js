@@ -2,6 +2,7 @@ import {
   DAY_OFFSETS,
   DAYS,
 } from 'app/constants/schedule';
+import moment from 'moment';
 
 
 /**
@@ -32,4 +33,17 @@ export function getDayByIndex(index) {
  */
 export function getDayByMomentInstance(momentInstance) {
   return getDayByIndex(momentInstance.day() - 1);
+}
+
+/**
+ * Create a moment instance from the given week and day symbol.
+ *
+ * @param week
+ * @param day
+ * @returns {moment.Moment}
+ */
+export function getMomentInstanceByDay(week, day) {
+  return moment(week)
+    .startOf('week')
+    .add(getIndexByDay(day), 'days');
 }

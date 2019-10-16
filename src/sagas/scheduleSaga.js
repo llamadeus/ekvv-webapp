@@ -13,9 +13,15 @@ import {
   storeCalendarData,
 } from 'app/sagas/database';
 import { getPathname } from 'app/selectors/router';
-import { getSelectedWeek } from 'app/selectors/schedule';
+import {
+  getSelectedDay,
+  getSelectedWeek,
+} from 'app/selectors/schedule';
 import keyval from 'app/utils/keyval';
-import { getDayByMomentInstance } from 'app/utils/schedule';
+import {
+  getDayByMomentInstance,
+  getMomentInstanceByDay,
+} from 'app/utils/schedule';
 import ical2json from 'ical2json';
 import moment from 'moment';
 import {
@@ -150,9 +156,11 @@ function* handleShowToday() {
   }
   else {
     const selectedWeek = yield select(getSelectedWeek);
+    const selectedDay = yield select(getSelectedDay);
+    const selectedDayAsMoment = getMomentInstanceByDay(selectedWeek, selectedDay);
     const today = moment();
 
-    if (today.isSame(selectedWeek, 'week')) {
+    if (today.isSame(selectedWeek, 'week') && !today.isSame(selectedDayAsMoment, 'day')) {
       const day = getDayByMomentInstance(today);
 
       yield put(setSelectedDay(day));
