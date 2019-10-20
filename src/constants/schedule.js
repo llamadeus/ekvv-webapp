@@ -1,25 +1,38 @@
+import {
+  createScopedActions,
+  createScopedEffects,
+} from 'app/utils/redux';
+
+
+/**
+ * Scope.
+ *
+ * @type {string}
+ */
+export const SCOPE = 'schedule';
+
 /**
  * Redux actions.
  *
  * @type {*}
  */
-export const ACTIONS = {
+export const ACTIONS = createScopedActions(SCOPE, {
   SET_SELECTED_DAY: 'SET_SELECTED_DAY',
   SET_REQUESTED_DAY: 'SET_REQUESTED_DAY',
   RESET_REQUESTED_DAY: 'RESET_REQUESTED_DAY',
   SET_EVENTS: 'SET_EVENTS',
-};
+});
 
 /**
  * Saga effects.
  *
  * @type {*}
  */
-export const EFFECTS = {
+export const EFFECTS = createScopedEffects(SCOPE, {
   SHOW_TODAY: 'SHOW_TODAY',
   LOAD_CALENDAR: 'LOAD_CALENDAR',
   RELOAD_CALENDAR: 'RELOAD_CALENDAR',
-};
+});
 
 /**
  * Days of the weak.
