@@ -1,6 +1,9 @@
 import { ACTIONS } from 'app/constants/schedule';
 import { mapByKey } from 'app/utils/redux';
-import { getDayByMomentInstance } from 'app/utils/schedule';
+import {
+  clampMomentInstanceToWeekdays,
+  getDayByMomentInstance,
+} from 'app/utils/schedule';
 import { fromJS } from 'immutable';
 import moment from 'moment';
 
@@ -12,7 +15,7 @@ import moment from 'moment';
  */
 const initialState = () => fromJS({
   selectedWeek: moment().startOf('week'),
-  selectedDay: getDayByMomentInstance(moment()),
+  selectedDay: getDayByMomentInstance(clampMomentInstanceToWeekdays(moment())),
   requestedDay: null,
   events: null,
 });

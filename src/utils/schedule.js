@@ -47,3 +47,18 @@ export function getMomentInstanceByDay(week, day) {
     .startOf('week')
     .add(getIndexByDay(day), 'days');
 }
+
+/**
+ * Clamp moment instance to be a weekday.
+ * Guaranteed.
+ *
+ * @param momentInstance
+ * @returns {moment.Moment}
+ */
+export function clampMomentInstanceToWeekdays(momentInstance) {
+  const day = momentInstance.day();
+
+  return day === 0 || day === 6
+    ? moment(momentInstance).day(day === 0 ? -2 : 5)
+    : momentInstance;
+}
