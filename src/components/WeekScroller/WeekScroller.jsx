@@ -14,6 +14,7 @@ import {
   getDayByIndex,
   getIndexByDay,
 } from 'app/utils/schedule';
+import classNames from 'classnames';
 import { debounce } from 'lodash-es';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -221,18 +222,25 @@ export default class WeekScroller extends React.PureComponent {
    * @returns {*[]}
    */
   renderDays() {
-    return Object.keys(DAYS).map(key => (
-      <div key={key} className={styles.item}>
-        <h1>
-          {moment(this.props.selectedWeek).add(DAY_OFFSETS[DAYS[key]], 'days').format('dddd, DD. MMMM')}
-        </h1>
-        <Card
-          className="tw-flex tw-flex-1"
-          bodyStyle={CARD_BODY_STYLE}
-        >
-          <ScheduleComponent day={DAYS[key]}/>
-        </Card>
-      </div>
-    ));
+    return Object.keys(DAYS).map((key) => {
+      const date = moment(this.props.selectedWeek).add(DAY_OFFSETS[DAYS[key]], 'days');
+      const headerClasses = classNames({
+        'tw-underline': date.isSame(moment(), 'day'),
+      });
+
+      return (
+        <div key={key} className={styles.item}>
+          <h1 className={headerClasses}>
+            {date.format('dddd, DD. MMMM')}
+          </h1>
+          <Card
+            className="tw-flex tw-flex-1"
+            bodyStyle={CARD_BODY_STYLE}
+          >
+            <ScheduleComponent day={DAYS[key]}/>
+          </Card>
+        </div>
+      );
+    });
   }
 }
