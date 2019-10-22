@@ -8,7 +8,7 @@ import { RRule } from 'rrule';
 /**
  * Get the schedule state.
  *
- * @param state
+ * @param {Object} state
  * @returns {*}
  */
 const getSchedule = state => state.schedule;
@@ -16,6 +16,7 @@ const getSchedule = state => state.schedule;
 /**
  * Get the currently selected week.
  *
+ * @param {Object} state
  * @returns {*}
  */
 export const getSelectedWeek = createSelector(
@@ -26,6 +27,7 @@ export const getSelectedWeek = createSelector(
 /**
  * Get the currently selected day.
  *
+ * @param {Object} state
  * @returns {*}
  */
 export const getSelectedDay = createSelector(
@@ -36,6 +38,7 @@ export const getSelectedDay = createSelector(
 /**
  * Get the requested day.
  *
+ * @param {Object} state
  * @returns {*}
  */
 export const getRequestedDay = createSelector(
@@ -46,6 +49,7 @@ export const getRequestedDay = createSelector(
 /**
  * Get all events.
  *
+ * @param {Object} state
  * @returns {*}
  */
 export const getEvents = createSelector(
@@ -56,6 +60,7 @@ export const getEvents = createSelector(
 /**
  * Get all events sorted by their start.
  *
+ * @param {Object} state
  * @returns {*}
  */
 export const getEventsSorted = createSelector(
@@ -71,6 +76,8 @@ export const getEventsSorted = createSelector(
 /**
  * Get all events for the currently selected day.
  *
+ * @param {Object} state
+ * @param {string} day
  * @returns {*}
  */
 export const getEventsForDay = createSelector(

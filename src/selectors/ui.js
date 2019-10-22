@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 /**
  * Get the ui state.
  *
- * @param state
+ * @param {Object} state
  * @returns {*}
  */
 const getUi = state => state.ui;
@@ -12,6 +12,7 @@ const getUi = state => state.ui;
 /**
  * Get initialized state.
  *
+ * @param {Object} state
  * @returns {*}
  */
 export const getInitialized = createSelector(
@@ -22,6 +23,7 @@ export const getInitialized = createSelector(
 /**
  * Get is loading state.
  *
+ * @param {Object} state
  * @returns {*}
  */
 export const getIsLoading = createSelector(
