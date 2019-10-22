@@ -22,6 +22,17 @@ import styles from './styles.module.scss';
 
 
 /**
+ * Custom style for the card body.
+ *
+ * @type {Object}
+ */
+const CARD_BODY_STYLE = {
+  display: 'flex',
+  flex: 1,
+  padding: 0,
+};
+
+/**
  * Class WeekScroller
  */
 export default class WeekScroller extends React.PureComponent {
@@ -210,12 +221,6 @@ export default class WeekScroller extends React.PureComponent {
    * @returns {*[]}
    */
   renderDays() {
-    const cardBodyStyle = {
-      display: 'flex',
-      flex: 1,
-      padding: 0,
-    };
-
     return Object.keys(DAYS).map(key => (
       <div key={key} className={styles.item}>
         <h1>
@@ -223,7 +228,7 @@ export default class WeekScroller extends React.PureComponent {
         </h1>
         <Card
           className="tw-flex tw-flex-1"
-          bodyStyle={cardBodyStyle}
+          bodyStyle={CARD_BODY_STYLE}
         >
           <ScheduleComponent day={DAYS[key]}/>
         </Card>
