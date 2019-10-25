@@ -1,6 +1,7 @@
+import Line from 'app/components/ScheduleGrid/Line';
 import { range } from 'lodash-es';
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import styles from './styles.module.scss';
 
 
@@ -41,7 +42,7 @@ export default class Grid extends React.PureComponent {
 
     return range(end - start + 1).map(time => (
       <div key={time} className={styles.item}>
-        {(time + start).toString().padStart(2, '0')}:00
+        <Line label={`${(time + start).toString().padStart(2, '0')}:00`}/>
       </div>
     ));
   }
