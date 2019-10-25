@@ -5,9 +5,9 @@ import styles from './styles.module.scss';
 
 
 /**
- * Class ScheduleGrid
+ * Class Grid
  */
-export default class ScheduleGrid extends React.PureComponent {
+export default class Grid extends React.PureComponent {
   /**
    * Prop types.
    *
