@@ -1,5 +1,5 @@
 import { Card } from 'antd';
-import ScheduleComponent from 'app/components/Schedule';
+import Schedule from 'app/components/Schedule';
 import {
   DAY_OFFSETS,
   DAYS,
@@ -237,7 +237,7 @@ export default class WeekScroller extends React.PureComponent {
             className="tw-flex tw-flex-1"
             bodyStyle={CARD_BODY_STYLE}
           >
-            <ScheduleComponent day={DAYS[key]}/>
+            <Schedule day={DAYS[key]}/>
           </Card>
         </div>
       );
