@@ -180,12 +180,13 @@ export default class EventContainer extends React.PureComponent {
       (quarterIndexStart - quarterIndexScheduleStart)
       * heightPerFrameItem
       + EVENT_PADDING
+      + 1
     );
     const computedTranslateX = widthPerLaneItem * laneIndex;
     const computedWidth = lanesTotal === 1
       ? undefined
       : widthPerLaneItem - (laneIndex === lanesTotal - 1 ? 0 : 2 * EVENT_PADDING);
-    const computedHeight = duration * heightPerFrameItem - (2 * EVENT_PADDING);
+    const computedHeight = duration * heightPerFrameItem - (2 * EVENT_PADDING) - 1;
 
     return {
       transform: `translateX(${computedTranslateX}px) translateY(${computedTranslateY}px)`,
