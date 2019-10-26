@@ -1,5 +1,5 @@
 import { Card } from 'antd';
-import ScheduleComponent from 'app/components/Schedule';
+import Schedule from 'app/components/Schedule';
 import {
   DAY_OFFSETS,
   DAYS,
@@ -222,8 +222,10 @@ export default class WeekScroller extends React.PureComponent {
    * @returns {*[]}
    */
   renderDays() {
+    const { selectedWeek } = this.props;
+
     return Object.keys(DAYS).map((key) => {
-      const date = moment(this.props.selectedWeek).add(DAY_OFFSETS[DAYS[key]], 'days');
+      const date = moment(selectedWeek).add(DAY_OFFSETS[DAYS[key]], 'days');
       const headerClasses = classNames({
         'tw-underline': date.isSame(moment(), 'day'),
       });
@@ -237,7 +239,10 @@ export default class WeekScroller extends React.PureComponent {
             className="tw-flex tw-flex-1"
             bodyStyle={CARD_BODY_STYLE}
           >
-            <ScheduleComponent day={DAYS[key]}/>
+            <Schedule
+              week={selectedWeek}
+              day={DAYS[key]}
+            />
           </Card>
         </div>
       );

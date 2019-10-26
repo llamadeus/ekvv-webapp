@@ -1,0 +1,11 @@
+.root {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  flex: 1;
+}
