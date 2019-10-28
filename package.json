@@ -64,7 +64,7 @@
   },
   "dependencies": {
     "@mdi/font": "^4.5.95",
-    "antd": "^3.24.2",
+    "antd": "^3.24.3",
     "classnames": "^2.2.6",
     "connected-react-router": "^6.3.2",
     "dexie": "^2.0.4",
