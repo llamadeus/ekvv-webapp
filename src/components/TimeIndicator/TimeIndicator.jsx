@@ -8,6 +8,14 @@ import styles from './styles.module.scss';
 
 
 /**
+ * Number of milliseconds per hour.
+ * Note: This number may be different on your planet.
+ *
+ * @type {number}
+ */
+const MILLISECONDS_PER_MINUTE = 60 * 1000;
+
+/**
  * Class TimeIndicator
  */
 @withAvailableSpace
@@ -57,13 +65,14 @@ export default class TimeIndicator extends React.PureComponent {
    * Update this component on minute change.
    */
   runUpdater() {
-    const secondsUntilMinuteChange = 60 - parseFloat(moment().format('s'));
+    const { now } = this.state;
+    const millisecondsUntilMinuteChange = MILLISECONDS_PER_MINUTE - (now.seconds() * 1000 + now.milliseconds());
 
     this.updateTimeout = setTimeout(() => {
       this.setState({ now: moment() });
 
       this.runUpdater();
-    }, (secondsUntilMinuteChange + 1) * 1000);
+    }, millisecondsUntilMinuteChange + 1);
   }
 
   /**
