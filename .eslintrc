@@ -17,6 +17,9 @@
       }
     }
   },
+  "plugins": [
+    "react-hooks"
+  ],
   "rules": {
     "arrow-parens": [
       "error",
@@ -146,6 +149,8 @@
       }
     ],
     "react/jsx-props-no-spreading": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "semi": [
       "error",
       "always"
