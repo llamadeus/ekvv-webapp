@@ -1,4 +1,3 @@
-import moment from 'moment';
 import ImmutablePropTypes from 'immutable-prop-types';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -44,31 +43,6 @@ export default class Event extends React.PureComponent {
           </div>
         </div>
       </div>
-    );
-  }
-
-  /**
-   * Render the footer of the event.
-   *
-   * @returns {*}
-   */
-  renderFooterContent() {
-    const { event } = this.props;
-    const start = moment(event.get('start'));
-    const rrule = event.get('rrule');
-
-    if (typeof rrule == 'undefined') {
-      return start.format('DD.MM.YYYY');
-    }
-
-    const until = moment(rrule.match(/UNTIL=(\d{8}T\d{6}Z);/)[1]);
-
-    return (
-      <>
-        {start.format('DD.MM.YYYY')}
-        &nbsp;&ndash;&nbsp;
-        {until.format('DD.MM.YYYY')}
-      </>
     );
   }
 }
