@@ -64,6 +64,8 @@
   },
   "dependencies": {
     "@mdi/font": "^4.5.95",
+    "@redux-saga/core": "^1.1.1",
+    "@redux-saga/is": "^1.1.0",
     "antd": "^3.24.3",
     "classnames": "^2.2.6",
     "connected-react-router": "^6.3.2",
@@ -88,6 +90,7 @@
     "react-redux": "^7.1.1",
     "react-router-dom": "^5.1.2",
     "redux": "^4.0.1",
+    "redux-batched-actions": "^0.4.1",
     "redux-logger": "^3.0.6",
     "redux-saga": "^1.1.1",
     "reselect": "^4.0.0",
