@@ -2,6 +2,7 @@ import { connectRouter } from 'connected-react-router';
 import { combineReducers } from 'redux';
 import scheduleReducer from 'app/reducers/scheduleReducer';
 import uiReducer from 'app/reducers/uiReducer';
+import { enableBatching } from 'redux-batched-actions';
 
 
 /**
@@ -11,9 +12,9 @@ import uiReducer from 'app/reducers/uiReducer';
  * @returns {*}
  */
 export default function createRootReducer(history) {
-  return combineReducers({
+  return enableBatching(combineReducers({
     router: connectRouter(history),
     schedule: scheduleReducer,
     ui: uiReducer,
-  });
+  }));
 }

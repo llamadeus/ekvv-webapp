@@ -8,6 +8,7 @@ import {
 } from 'redux';
 import { createLogger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
+import { batchingMiddleware } from 'app/lib/redux-saga-batching';
 
 
 /**
@@ -17,7 +18,9 @@ import createSagaMiddleware from 'redux-saga';
  * @returns {*}
  */
 export default function configureStore(history) {
-  const sagaMiddleware = createSagaMiddleware();
+  const sagaMiddleware = createSagaMiddleware({
+    effectMiddlewares: [batchingMiddleware],
+  });
   const middleware = [
     sagaMiddleware,
     routerMiddleware(history),
