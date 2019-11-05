@@ -1,57 +1,45 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, {
+  useCallback,
+  useMemo,
+} from 'react';
 import styles from './styles.module.scss';
 
 
 /**
- * Class HamburgerButton
+ * HamburgerButton component
+ *
+ * @param props
+ * @returns {*}
  */
-export default class HamburgerButton extends React.PureComponent {
-  /**
-   * Prop types.
-   *
-   * @type {Object}
-   */
-  static propTypes = {
-    active: PropTypes.bool.isRequired,
-    onClick: PropTypes.func.isRequired,
-  };
-
-  /**
-   * Open the menu on enter or space.
-   *
-   * @param event
-   */
-  handleKeyPress = (event) => {
+export default function HamburgerButton(props) {
+  const { active, onClick } = props;
+  const classes = useMemo(() => classNames(styles.root, {
+    [styles.active]: active,
+  }), [active]);
+  const handleKeyPress = useCallback((event) => {
     if (event.which === 13 || event.which === 32) {
-      this.props.onClick(event);
+      onClick(event);
     }
-  };
+  }, [onClick]);
 
-  /**
-   * Render the component.
-   *
-   * @return {*}
-   */
-  render() {
-    const classes = classNames({
-      [styles.root]: true,
-      [styles.active]: this.props.active,
-    });
-
-    return (
-      <div
-        className={classes}
-        onClick={this.props.onClick}
-        onKeyPress={this.handleKeyPress}
-        role="button"
-        tabIndex={0}
-      >
-        <div className={styles.bar}/>
-        <div className={styles.bar}/>
-        <div className={styles.bar}/>
-      </div>
-    );
-  }
+  return (
+    <div
+      className={classes}
+      onClick={onClick}
+      onKeyPress={handleKeyPress}
+      role="button"
+      tabIndex={0}
+    >
+      <div className={styles.bar}/>
+      <div className={styles.bar}/>
+      <div className={styles.bar}/>
+    </div>
+  );
 }
+
+HamburgerButton.propTypes = {
+  active: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
