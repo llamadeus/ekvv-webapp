@@ -5,44 +5,35 @@ import styles from './styles.module.scss';
 
 
 /**
- * Class Event
+ * Event component
+ *
+ * @param props
+ * @returns {*}
  */
-export default class Event extends React.PureComponent {
-  /**
-   * Prop types.
-   *
-   * @type {Object}
-   */
-  static propTypes = {
-    event: ImmutablePropTypes.map.isRequired,
-    style: PropTypes.objectOf(PropTypes.oneOfType([
-      PropTypes.number,
-      PropTypes.string,
-    ])).isRequired,
-  };
+export default function Event(props) {
+  const { event, style } = props;
 
-  /**
-   * Render the component.
-   *
-   * @return {*}
-   */
-  render() {
-    const { event } = this.props;
-
-    return (
-      <div
-        className={styles.root}
-        style={this.props.style}
-      >
-        <div className={styles.header}>
-          <div className={styles.summary}>
-            {event.get('summary', 'Unbekannter Kurs')}
-          </div>
-          <div>
-            {event.get('location', '')}
-          </div>
+  return (
+    <div
+      className={styles.root}
+      style={style}
+    >
+      <div className={styles.header}>
+        <div className={styles.summary}>
+          {event.get('summary', 'Unbekannter Kurs')}
+        </div>
+        <div>
+          {event.get('location', '')}
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
+
+Event.propTypes = {
+  event: ImmutablePropTypes.map.isRequired,
+  style: PropTypes.objectOf(PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+  ])).isRequired,
+};
