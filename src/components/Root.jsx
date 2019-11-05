@@ -8,32 +8,26 @@ import { Provider } from 'react-redux';
 
 
 /**
- * Class Root
+ * Root component
+ *
+ * @param props
+ * @returns {*}
  */
-@hot
-export default class Root extends React.Component {
-  /**
-   * Prop types.
-   *
-   * @type {Object}
-   */
-  static propTypes = {
-    history: PropTypes.shape(historyPropTypes).isRequired,
-    store: PropTypes.shape().isRequired,
-  };
+function Root(props) {
+  const { store, history } = props;
 
-  /**
-   * Render the component.
-   *
-   * @return {*}
-   */
-  render() {
-    return (
-      <Provider store={this.props.store}>
-        <ConnectedRouter history={this.props.history}>
-          <App/>
-        </ConnectedRouter>
-      </Provider>
-    );
-  }
+  return (
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        <App/>
+      </ConnectedRouter>
+    </Provider>
+  );
 }
+
+Root.propTypes = {
+  history: PropTypes.shape(historyPropTypes).isRequired,
+  store: PropTypes.shape().isRequired,
+};
+
+export default hot(Root);
