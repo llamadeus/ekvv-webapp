@@ -1,59 +1,43 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useCallback } from 'react';
 
 
 /**
- * Class ControlledLink
+ * ControlledLink component
+ *
+ * @param props
+ * @returns {*}
  */
-export default class ControlledLink extends React.PureComponent {
-  /**
-   * Prop types.
-   *
-   * @type {Object}
-   */
-  static propTypes = {
-    href: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
-    children: PropTypes.node.isRequired,
-  };
-
-  /**
-   * Handle the click event.
-   *
-   * @param event
-   */
-  handleClick = (event) => {
+export default function ControlledLink(props) {
+  const {
+    href,
+    onClick,
+    children,
+    ...other
+  } = props;
+  const handleClick = useCallback((event) => {
     if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
       return;
     }
 
     event.preventDefault();
 
-    this.props.onClick(event);
-  };
+    onClick(event);
+  }, [onClick]);
 
-  /**
-   * Render the component.
-   *
-   * @return {*}
-   */
-  render() {
-    const {
-      href,
-      children,
-      ...other
-    } = this.props;
-
-    delete other.onClick;
-
-    return (
-      <a
-        href={href}
-        onClick={this.handleClick}
-        {...other}
-      >
-        {children}
-      </a>
-    );
-  }
+  return (
+    <a
+      href={href}
+      onClick={handleClick}
+      {...other}
+    >
+      {children}
+    </a>
+  );
 }
+
+ControlledLink.propTypes = {
+  href: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
+};
