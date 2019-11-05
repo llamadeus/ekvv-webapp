@@ -1,47 +1,31 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import React from 'react';
 import styles from './styles.module.scss';
 
 
 /**
- * Class Icon
+ * Icon component
+ *
+ * @param props
+ * @returns {*}
  */
-export default class Icon extends React.PureComponent {
-  /**
-   * Prop types.
-   *
-   * @type {Object}
-   */
-  static propTypes = {
-    name: PropTypes.string.isRequired,
-    fixedWidth: PropTypes.bool,
-  };
+export default function Icon(props) {
+  const { name, fixedWidth } = props;
+  const classes = classNames('mdi', `mdi-${name}`, {
+    [styles.fw]: fixedWidth,
+  });
 
-  /**
-   * Default props.
-   *
-   * @type {Object}
-   */
-  static defaultProps = {
-    fixedWidth: false,
-  };
-
-  /**
-   * Render the component.
-   *
-   * @return {*}
-   */
-  render() {
-    const { name, fixedWidth } = this.props;
-    const classes = classNames({
-      'mdi': true,
-      [`mdi-${name}`]: true,
-      [styles.fw]: fixedWidth,
-    });
-
-    return (
-      <i className={classes}/>
-    );
-  }
+  return (
+    <i className={classes}/>
+  );
 }
+
+Icon.propTypes = {
+  name: PropTypes.string.isRequired,
+  fixedWidth: PropTypes.bool,
+};
+
+Icon.defaultProps = {
+  fixedWidth: false,
+};
