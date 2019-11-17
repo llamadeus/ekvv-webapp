@@ -1,5 +1,5 @@
 import { Menu } from 'antd';
-import { useReplace } from 'app/utils/history';
+import { shouldReplace } from 'app/utils/history';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
@@ -86,7 +86,7 @@ export default class MenuItem extends React.PureComponent {
               style={isActive ? { ...style, ...activeStyle } : style}
               {...rest}
             >
-              <Link to={to} replace={useReplace()}>
+              <Link to={to} replace={shouldReplace()}>
                 {children}
               </Link>
             </Menu.Item>

@@ -1,4 +1,4 @@
-import { useReplace } from 'app/utils/history';
+import { shouldReplace } from 'app/utils/history';
 import {
   push,
   replace,
@@ -13,7 +13,7 @@ import {
  * @returns {*}
  */
 export function transitionTo(path) {
-  return useReplace()
+  return shouldReplace()
     ? replace(path)
     : push(path);
 }

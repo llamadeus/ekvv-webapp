@@ -9,6 +9,6 @@ import {
  *
  * @returns {boolean}
  */
-export function useReplace() {
+export function shouldReplace() {
   return isWebapp() && isAppleHandheld();
 }
