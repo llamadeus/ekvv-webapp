@@ -4,21 +4,16 @@ import { Link } from 'react-router-dom';
 
 
 /**
- * Class NotFound
+ * NotFound component
+ *
+ * @returns {*}
  */
-export default class NotFound extends React.PureComponent {
-  /**
-   * Render the component.
-   *
-   * @return {*}
-   */
-  render() {
-    return (
-      <Card title="Nix gefunden 😵">
-        <p>Was auch immer du gerade suchst, hier findest du es nicht.</p>
+export default function NotFound() {
+  return (
+    <Card title="Nix gefunden 😵">
+      <p>Was auch immer du gerade suchst, hier findest du es nicht.</p>
 
-        Und jetzt hopp hopp zurück zur <Link to="/">Start&shy;seite</Link>.
-      </Card>
-    );
-  }
+      Und jetzt hopp hopp zurück zur <Link to="/">Start&shy;seite</Link>.
+    </Card>
+  );
 }
