@@ -6,65 +6,46 @@ import {
 import Footer from 'app/components/Footer';
 import { reloadCalendar } from 'app/effects/schedule';
 import { getIsLoading } from 'app/selectors/ui';
+import React, { useCallback } from 'react';
 import {
-  mapDispatchToProps,
-  mapStateToProps,
-} from 'app/utils/redux';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { bindActionCreators } from 'redux';
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 
 
 /**
- * Class Settings
+ * Settings component
+ *
+ * @returns {*}
  */
-@mapStateToProps(state => ({
-  isLoading: getIsLoading(state),
-}))
-@mapDispatchToProps(dispatch => bindActionCreators({
-  onReloadCalendar: reloadCalendar,
-}, dispatch))
-export default class Settings extends React.PureComponent {
-  /**
-   * Prop types.
-   *
-   * @type {Object}
-   */
-  static propTypes = {
-    isLoading: PropTypes.bool.isRequired,
-    onReloadCalendar: PropTypes.func.isRequired,
-  };
+export default function Settings() {
+  const isLoading = useSelector(getIsLoading);
+  const dispatch = useDispatch();
+  const handleReloadCalendar = useCallback(() => dispatch(reloadCalendar()), [dispatch]);
 
-  /**
-   * Render the component.
-   *
-   * @return {*}
-   */
-  render() {
-    return (
-      <>
-        <Card title="Stundenplan">
-          <p>Lade deinen Stundenplan neu.</p>
+  return (
+    <>
+      <Card title="Stundenplan">
+        <p>Lade deinen Stundenplan neu.</p>
 
-          <Form.Item className="tw-text-right">
-            <Button type="primary" onClick={this.props.onReloadCalendar} loading={this.props.isLoading}>
-              Stundenplan aktualisieren
-            </Button>
-          </Form.Item>
-        </Card>
+        <Form.Item className="tw-text-right">
+          <Button type="primary" onClick={handleReloadCalendar} loading={isLoading}>
+            Stundenplan aktualisieren
+          </Button>
+        </Form.Item>
+      </Card>
 
-        <Card title="Allgemein" className="tw-mt-6">
-          <p>Aktualisiere auf die neueste Version.</p>
+      <Card title="Allgemein" className="tw-mt-6">
+        <p>Aktualisiere auf die neueste Version.</p>
 
-          <Form.Item className="tw-text-right">
-            <Button type="primary" onClick={() => window.location.reload(true)}>
-              App aktualisieren
-            </Button>
-          </Form.Item>
-        </Card>
+        <Form.Item className="tw-text-right">
+          <Button type="primary" onClick={() => window.location.reload(true)}>
+            App aktualisieren
+          </Button>
+        </Form.Item>
+      </Card>
 
-        <Footer/>
-      </>
-    );
-  }
+      <Footer/>
+    </>
+  );
 }
