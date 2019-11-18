@@ -1,130 +1,79 @@
 import Line from 'app/components/ScheduleGrid/Line';
-import withAvailableSpace from 'app/hoc/withAvailableSpace';
+import { useElementSize } from 'app/hooks/dom';
+import { useMinuteChange } from 'app/hooks/time';
 import { timeToMinutes } from 'app/utils/time';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, {
+  useMemo,
+  useState,
+} from 'react';
 import styles from './styles.module.scss';
 
 
 /**
- * Number of milliseconds per hour.
- * Note: This number may be different on your planet.
+ * Get the available height.
  *
- * @type {number}
+ * @param element
+ * @returns {number}
  */
-const MILLISECONDS_PER_MINUTE = 60 * 1000;
+function getAvailableHeight(element) {
+  return element.parentElement.clientHeight;
+}
 
 /**
- * Class TimeIndicator
+ * TimeIndicator component
+ *
+ * @param props
+ * @returns {*}
+ * @returns {boolean|*}
  */
-@withAvailableSpace
-export default class TimeIndicator extends React.PureComponent {
-  /**
-   * Prop types.
-   *
-   * @type {Object}
-   */
-  static propTypes = {
-    availableHeight: PropTypes.number.isRequired,
-    start: PropTypes.number.isRequired,
-    end: PropTypes.number.isRequired,
-  };
-
-  /**
-   * Component state.
-   *
-   * @type {Object}
-   */
-  state = {
-    now: moment(),
-  };
-
-  /**
-   * Update timeout.
-   *
-   * @type {number|null}
-   */
-  updateTimeout = null;
-
-  /**
-   * Start the updater.
-   */
-  componentDidMount() {
-    this.runUpdater();
-  }
-
-  /**
-   * Stop the updater.
-   */
-  componentWillUnmount() {
-    clearTimeout(this.updateTimeout);
-  }
-
-  /**
-   * Update this component on minute change.
-   */
-  runUpdater() {
-    const { now } = this.state;
-    const millisecondsUntilMinuteChange = MILLISECONDS_PER_MINUTE - (now.seconds() * 1000 + now.milliseconds());
-
-    this.updateTimeout = setTimeout(() => {
-      this.setState({ now: moment() });
-
-      this.runUpdater();
-    }, millisecondsUntilMinuteChange + 1);
-  }
-
-  /**
-   * Compute the translate per minute.
-   *
-   * @returns {number}
-   */
-  computeTranslatePerMinute() {
-    const { start, end, availableHeight } = this.props;
+export default function TimeIndicator(props) {
+  const { start, end } = props;
+  const [now, setNow] = useState(moment());
+  const [ref, setRef] = useState(null);
+  const availableHeight = useElementSize(ref, getAvailableHeight);
+  const translatePerMinute = useMemo(() => {
     const spanInMinutes = (end - start + 1) * 60;
 
     return availableHeight / spanInMinutes;
-  }
+  }, [start, end, availableHeight]);
+  const computedStyle = useMemo(() => {
+    if (Number.isNaN(translatePerMinute)) {
+      return {};
+    }
 
-  /**
-   * Compute the container style.
-   *
-   * @returns {{transform: string}}
-   */
-  computeStyle() {
-    const { start } = this.props;
-    const { now } = this.state;
     const minutes = timeToMinutes(now.hours() - start, now.minutes());
-    const translateY = minutes * this.computeTranslatePerMinute();
+    const translateY = minutes * translatePerMinute;
 
     return {
       transform: `translateY(${translateY}px)`,
     };
+  }, [start, now, translatePerMinute]);
+
+  useMinuteChange(() => {
+    setNow(moment());
+  });
+
+  if (now.hours() < start || now.hours() > end) {
+    return false;
   }
 
-  /**
-   * Render the component.
-   *
-   * @return {*}
-   */
-  render() {
-    const { now } = this.state;
-
-    if (now.hours() < this.props.start || now.hours() > this.props.end) {
-      return false;
-    }
-
-    return (
-      <div
-        className={styles.root}
-        style={this.computeStyle()}
-      >
-        <Line
-          label={now.format('HH:mm')}
-          active
-        />
-      </div>
-    );
-  }
+  return (
+    <div
+      ref={setRef}
+      className={styles.root}
+      style={computedStyle}
+    >
+      <Line
+        label={now.format('HH:mm')}
+        active
+      />
+    </div>
+  );
 }
+
+TimeIndicator.propTypes = {
+  start: PropTypes.number.isRequired,
+  end: PropTypes.number.isRequired,
+};
