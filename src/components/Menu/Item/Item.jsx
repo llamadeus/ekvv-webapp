@@ -10,12 +10,12 @@ import styles from './styles.module.scss';
 
 
 /**
- * MenuItem component
+ * Item component
  *
  * @param props
  * @returns {*}
  */
-export default function MenuItem(props) {
+export default function Item(props) {
   const {
     to,
     exact,
@@ -61,7 +61,7 @@ export default function MenuItem(props) {
   );
 }
 
-MenuItem.propTypes = {
+Item.propTypes = {
   to: PropTypes.oneOfType([PropTypes.string, PropTypes.shape()]).isRequired,
   exact: Route.propTypes.exact,
   strict: Route.propTypes.strict,
@@ -73,7 +73,7 @@ MenuItem.propTypes = {
   style: PropTypes.shape(),
 };
 
-MenuItem.defaultProps = {
+Item.defaultProps = {
   exact: false,
   strict: false,
   location: undefined,
