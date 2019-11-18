@@ -4,10 +4,9 @@ import { DAY_OFFSETS } from 'app/constants/schedule';
 import { Moment } from 'app/prop-types';
 import { getEventsForDay } from 'app/selectors/schedule';
 import { DayShape } from 'app/shapes/schedule';
-import { mapStateToProps } from 'app/utils/redux';
-import ImmutablePropTypes from 'immutable-prop-types';
 import moment from 'moment';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styles from './styles.module.scss';
 
 
@@ -26,48 +25,34 @@ const SCHEDULE_START = 8;
 const SCHEDULE_END = 20;
 
 /**
- * Class Schedule
+ * Schedule component
+ *
+ * @param props
+ * @returns {*}
  */
-@mapStateToProps((state, props) => ({
-  events: getEventsForDay(state, props.day),
-}))
-export default class Schedule extends React.PureComponent {
-  /**
-   * Prop types.
-   *
-   * @type {Object}
-   */
-  static propTypes = {
-    // Redux
-    events: ImmutablePropTypes.map.isRequired,
+export default function Schedule(props) {
+  const { week, day } = props;
+  const events = useSelector(state => getEventsForDay(state, day));
+  const date = moment(week).add(DAY_OFFSETS[day], 'days');
 
-    // React
-    week: Moment.isRequired,
-    day: DayShape.isRequired,
-  };
+  return (
+    <div className={styles.root}>
+      <ScheduleGrid
+        start={SCHEDULE_START}
+        end={SCHEDULE_END}
+        showTimeIndicator={date.isSame(moment(), 'day')}
+      />
 
-  /**
-   * Render the component.
-   *
-   * @return {*}
-   */
-  render() {
-    const date = moment(this.props.week).add(DAY_OFFSETS[this.props.day], 'days');
-
-    return (
-      <div className={styles.root}>
-        <ScheduleGrid
-          start={SCHEDULE_START}
-          end={SCHEDULE_END}
-          showTimeIndicator={date.isSame(moment(), 'day')}
-        />
-
-        <EventContainer
-          events={this.props.events}
-          start={SCHEDULE_START}
-          end={SCHEDULE_END}
-        />
-      </div>
-    );
-  }
+      <EventContainer
+        events={events}
+        start={SCHEDULE_START}
+        end={SCHEDULE_END}
+      />
+    </div>
+  );
 }
+
+Schedule.propTypes = {
+  week: Moment.isRequired,
+  day: DayShape.isRequired,
+};
