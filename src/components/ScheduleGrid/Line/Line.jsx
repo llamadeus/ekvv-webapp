@@ -5,46 +5,33 @@ import styles from './styles.module.scss';
 
 
 /**
- * Class Line
+ * Line component
+ *
+ * @param props
+ * @returns {*}
  */
-export default class Line extends React.PureComponent {
-  /**
-   * Prop types.
-   *
-   * @type {Object}
-   */
-  static propTypes = {
-    label: PropTypes.string.isRequired,
-    active: PropTypes.bool,
-  };
+export default function Line(props) {
+  const { label, active } = props;
+  const rootClasses = classNames(styles.root, {
+    [styles.active]: active,
+  });
 
-  /**
-   * Default props.
-   *
-   * @type {Object}
-   */
-  static defaultProps = {
-    active: false,
-  };
+  return (
+    <div className={rootClasses}>
+      <div className={styles.line}/>
 
-  /**
-   * Render the component.
-   *
-   * @return {*}
-   */
-  render() {
-    const rootClasses = classNames(styles.root, {
-      [styles.active]: this.props.active,
-    });
-
-    return (
-      <div className={rootClasses}>
-        <div className={styles.line}/>
-
-        <div className={styles.label}>
-          {this.props.label}
-        </div>
+      <div className={styles.label}>
+        {label}
       </div>
-    );
-  }
+    </div>
+  );
 }
+
+Line.propTypes = {
+  label: PropTypes.string.isRequired,
+  active: PropTypes.bool,
+};
+
+Line.defaultProps = {
+  active: false,
+};
