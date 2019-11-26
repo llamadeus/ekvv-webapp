@@ -7,6 +7,23 @@ import {
 
 
 /**
+ * Use ref and invoke callback with ref.
+ *
+ * @param callback
+ * @returns {[*, *]}
+ */
+export function useCallbackRef(callback) {
+  const [ref, setRef] = useState(null);
+  const decorateRef = useCallback((innerRef) => {
+    setRef(innerRef);
+
+    callback(innerRef);
+  }, [callback]);
+
+  return [ref, decorateRef];
+}
+
+/**
  * Invoke callback when the window is resized.
  *
  * @param callback
