@@ -35,6 +35,13 @@ export const EFFECTS = createScopedEffects(SCOPE, {
 });
 
 /**
+ * Days of the week (sorted).
+ *
+ * @type {*[]}
+ */
+export const DAYS_SORTED = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY'];
+
+/**
  * Days of the weak.
  *
  * @type {{WEDNESDAY: symbol, MONDAY: symbol, THURSDAY: symbol, TUESDAY: symbol, FRIDAY: symbol}}
