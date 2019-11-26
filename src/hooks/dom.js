@@ -1,9 +1,32 @@
+import { debounce } from 'lodash-es';
 import {
   useCallback,
   useLayoutEffect,
   useState,
 } from 'react';
 
+
+/**
+ * Invoke callback when the window is resized.
+ *
+ * @param callback
+ * @param initialInvoke
+ */
+export function useWindowResize(callback, initialInvoke) {
+  const debouncedCallback = useCallback(debounce(callback, 100), [callback]);
+
+  useLayoutEffect(() => {
+    if (initialInvoke) {
+      callback();
+    }
+
+    window.addEventListener('resize', debouncedCallback);
+
+    return () => {
+      window.removeEventListener('resize', debouncedCallback);
+    };
+  }, [callback, debouncedCallback, initialInvoke]);
+}
 
 /**
  * Use the element size.
@@ -23,19 +46,7 @@ export function useElementSize(ref, accessor, initial = null) {
   }, [accessor]);
   const handleResize = useCallback(() => update(ref), [ref, update]);
 
-  useLayoutEffect(() => {
-    if (ref === null) {
-      return undefined;
-    }
-
-    update(ref);
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [ref, update, handleResize]);
+  useWindowResize(handleResize, true);
 
   return state;
 }
