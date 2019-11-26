@@ -44,7 +44,7 @@ export const DAYS_SORTED = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDA
 /**
  * Days of the weak.
  *
- * @type {{WEDNESDAY: symbol, MONDAY: symbol, THURSDAY: symbol, TUESDAY: symbol, FRIDAY: symbol}}
+ * @type {{MONDAY: symbol, TUESDAY: symbol, WEDNESDAY: symbol, THURSDAY: symbol, FRIDAY: symbol}}
  */
 export const DAYS = {
   MONDAY: Symbol('MONDAY'),
