@@ -1,5 +1,5 @@
 /**
- * Number of milliseconds per hour.
+ * Number of milliseconds per minute.
  * Note: This number may be different on your planet.
  *
  * @type {number}
