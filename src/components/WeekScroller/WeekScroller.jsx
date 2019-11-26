@@ -1,251 +1,108 @@
-import { Card } from 'antd';
-import Schedule from 'app/components/Schedule';
 import {
-  DAY_OFFSETS,
+  resetRequestedDay,
+  setSelectedDay,
+} from 'app/actions/schedule';
+import DayCard from 'app/components/DayCard';
+import {
+  useScrollHandler,
+  useSelectedDayUpdater,
+} from 'app/components/WeekScroller/hooks';
+import {
   DAYS,
+  DAYS_SORTED,
 } from 'app/constants/schedule';
-import { Moment } from 'app/prop-types';
-import { DayShape } from 'app/shapes/schedule';
 import {
-  animate,
-  Easing,
-} from 'app/utils/animation';
+  getRequestedDay,
+  getSelectedDay,
+} from 'app/selectors/schedule';
+import { getIndexByDay } from 'app/utils/schedule';
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {
-  getDayByIndex,
-  getIndexByDay,
-} from 'app/utils/schedule';
-import classNames from 'classnames';
-import { debounce } from 'lodash-es';
-import moment from 'moment';
-import PropTypes from 'prop-types';
-import React from 'react';
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 import styles from './styles.module.scss';
 
 
 /**
- * Custom style for the card body.
+ * Compute the scroll per day.
  *
- * @type {Object}
+ * @param element
+ * @returns {number}
  */
-const CARD_BODY_STYLE = {
-  display: 'flex',
-  flex: 1,
-  padding: 0,
-};
+function getScrollPerDay(element) {
+  const scrollableWidth = element.scrollWidth - element.clientWidth;
+
+  return scrollableWidth / (Object.keys(DAYS).length - 1);
+}
 
 /**
- * Class WeekScroller
+ * WeekScroller component
+ *
+ * @returns {*}
  */
-export default class WeekScroller extends React.PureComponent {
-  /**
-   * Prop types.
-   *
-   * @type {Object}
-   */
-  static propTypes = {
-    selectedWeek: Moment.isRequired,
-    selectedDay: DayShape.isRequired,
-    requestedDay: DayShape,
-    onSetSelectedDay: PropTypes.func.isRequired,
-    onResetRequestedDay: PropTypes.func.isRequired,
-  };
-
-  /**
-   * Default props.
-   *
-   * @type {Object}
-   */
-  static defaultProps = {
-    requestedDay: null,
-  };
-
-  /**
-   * Scroll per day.
-   *
-   * @type {number}
-   */
-  scrollPerDay = 0;
-
-  /**
-   * Prevent updating the selected day on next (debounced) scroll.
-   *
-   * @type {boolean}
-   */
-  preventDispatchOnNextScroll = false;
-
-  /**
-   * Debounce scroll handler.
-   *
-   * @param props
-   */
-  constructor(props) {
-    super(props);
-
-    this.handleScrollDebounced = debounce(this.handleScrollDebounced, 250);
-  }
-
-  /**
-   * Scroll to the selected day.
-   */
-  componentDidMount() {
-    const { scrollWidth, clientWidth } = this.root;
-
-    this.scrollPerDay = (scrollWidth - clientWidth) / (Object.keys(DAYS).length - 1);
-
-    this.scrollToDay(this.props.selectedDay);
-  }
-
-  /**
-   * Scroll to the selected day.
-   */
-  componentDidUpdate() {
-    if (this.props.requestedDay !== null) {
-      this.props.onResetRequestedDay();
-
-      this.scrollToDay(this.props.requestedDay, {
-        animated: true,
-        dispatchSelectedDay: true,
-      });
-    }
-  }
-
-  /**
-   * Update scroll position with temporarily disabled scroll events.
-   *
-   * @param scrollLeft
-   */
-  setRootScrollLeft(scrollLeft) {
-    this.preventDispatchOnNextScroll = true;
-
-    this.root.scroll(scrollLeft, 0);
-  }
-
-  /**
-   * Handle root container scroll.
-   *
-   * @param event
-   */
-  handleScroll = (event) => {
-    if (event.target !== this.root) {
-      return;
-    }
-
-    if (this.preventDispatchOnNextScroll) {
-      this.preventDispatchOnNextScroll = false;
-
-      return;
-    }
-
-    this.handleScrollDebounced(event.target.scrollLeft);
-  };
-
-  /**
-   * Propagate the updated selected day to the parent component.
-   *
-   * @param scrollLeft
-   */
-  handleScrollDebounced = (scrollLeft) => {
-    const dayIndex = Math.round(scrollLeft / this.scrollPerDay);
-    const day = getDayByIndex(dayIndex);
-
-    if (typeof day != 'undefined') {
-      this.props.onSetSelectedDay(day);
-    }
-  };
-
-  /**
-   * Scroll to the given day.
-   *
-   * @param day
-   * @param options
-   * @param options.animated
-   * @param options.dispatchSelectedDay
-   */
-  scrollToDay(day, options = { animated: false, dispatchSelectedDay: false }) {
+export default function WeekScroller() {
+  const selectedDay = useSelector(getSelectedDay);
+  const requestedDay = useSelector(getRequestedDay);
+  const dispatch = useDispatch();
+  const [ref, setRef] = useState(null);
+  const didPerformInitialScroll = useRef(false);
+  const scrollPerDay = useMemo(() => (
+    ref === null
+      ? null
+      : getScrollPerDay(ref)
+  ), [ref]);
+  const getScrollLeftByDay = useCallback((day) => {
     const dayIndex = getIndexByDay(day);
 
-    if (dayIndex >= 0) {
-      const targetScroll = this.scrollPerDay * dayIndex;
-      const scrollToTargetPoint = () => {
-        this.setRootScrollLeft(targetScroll);
+    return dayIndex >= 0
+      ? scrollPerDay * dayIndex
+      : 0;
+  }, [scrollPerDay]);
+  const handleScroll = useSelectedDayUpdater(scrollPerDay);
+  const [onScroll, setScroll, setScrollAnimated] = useScrollHandler(ref, handleScroll);
 
-        if (options.dispatchSelectedDay) {
-          this.props.onSetSelectedDay(day);
-        }
-      };
+  // Scroll to selected day on mount
+  useLayoutEffect(() => {
+    if (scrollPerDay !== null && !didPerformInitialScroll.current) {
+      didPerformInitialScroll.current = true;
 
-      if (options.animated) {
-        const currentScroll = this.root.scrollLeft;
-        const scrollRange = targetScroll - currentScroll;
-
-        animate({
-          start: () => {
-            this.root.style.scrollSnapType = 'none';
-          },
-          progress: (percentage) => {
-            this.setRootScrollLeft(currentScroll + scrollRange * Easing.easeInOutQuad(percentage));
-          },
-          done: () => {
-            this.root.style.removeProperty('scroll-snap-type');
-
-            scrollToTargetPoint();
-          },
-        }, 350);
-      }
-      else {
-        scrollToTargetPoint();
-      }
+      setScroll(getScrollLeftByDay(selectedDay));
     }
-  }
+  }, [scrollPerDay, selectedDay, getScrollLeftByDay, setScroll]);
 
-  /**
-   * Render the component.
-   *
-   * @return {*}
-   */
-  render() {
-    return (
-      <div
-        ref={ref => (this.root = ref)}
-        onScroll={this.handleScroll}
-        className={styles.root}
-      >
-        {this.renderDays()}
-        <div className={styles.placeholder}/>
-      </div>
-    );
-  }
+  // Scroll to requested day on update
+  useEffect(() => {
+    if (requestedDay !== null && requestedDay !== selectedDay) {
+      dispatch(resetRequestedDay());
 
-  /**
-   * Render a timetable for each day.
-   *
-   * @returns {*[]}
-   */
-  renderDays() {
-    const { selectedWeek } = this.props;
-
-    return Object.keys(DAYS).map((key) => {
-      const date = moment(selectedWeek).add(DAY_OFFSETS[DAYS[key]], 'days');
-      const headerClasses = classNames({
-        'tw-underline': date.isSame(moment(), 'day'),
+      setScrollAnimated(getScrollLeftByDay(requestedDay), () => {
+        dispatch(setSelectedDay(requestedDay));
       });
+    }
+  }, [requestedDay, selectedDay, getScrollLeftByDay, setScrollAnimated, dispatch]);
 
-      return (
-        <div key={key} className={styles.item}>
-          <h1 className={headerClasses}>
-            {date.format('dddd, DD. MMMM')}
-          </h1>
-          <Card
-            className="tw-flex tw-flex-1"
-            bodyStyle={CARD_BODY_STYLE}
-          >
-            <Schedule
-              week={selectedWeek}
-              day={DAYS[key]}
-            />
-          </Card>
-        </div>
-      );
-    });
-  }
+  const days = useMemo(() => (
+    DAYS_SORTED.map(key => (
+      <DayCard key={key} day={DAYS[key]}/>
+    ))
+  ), []);
+
+  return (
+    <div
+      ref={setRef}
+      className={styles.root}
+      onScroll={onScroll}
+    >
+      {days}
+      <div className={styles.placeholder}/>
+    </div>
+  );
 }
