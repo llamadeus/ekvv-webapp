@@ -1,6 +1,7 @@
 import {
   DAY_OFFSETS,
   DAYS,
+  DAYS_SORTED,
 } from 'app/constants/schedule';
 import moment from 'moment';
 
@@ -12,7 +13,7 @@ import moment from 'moment';
  * @returns {number}
  */
 export function getIndexByDay(day) {
-  return Object.keys(DAYS).findIndex(key => DAYS[key] === day);
+  return DAYS_SORTED.findIndex(key => DAYS[key] === day);
 }
 
 /**
