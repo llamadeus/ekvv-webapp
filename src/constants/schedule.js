@@ -79,3 +79,24 @@ export const DAY_OFFSETS = {
   [DAYS.THURSDAY]: 3,
   [DAYS.FRIDAY]: 4,
 };
+
+/**
+ * Padding around each event.
+ *
+ * @type {number}
+ */
+export const EVENT_PADDING = 1;
+
+/**
+ * Quarters per minute.
+ *
+ * @type {number}
+ */
+export const QUARTERS_PER_HOUR = 4;
+
+/**
+ * Minutes per quarter.
+ *
+ * @type {number}
+ */
+export const MINUTES_PER_QUARTER = 15;
