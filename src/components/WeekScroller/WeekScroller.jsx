@@ -12,6 +12,10 @@ import {
   DAYS_SORTED,
 } from 'app/constants/schedule';
 import {
+  useCallbackRef,
+  useWindowResize,
+} from 'app/hooks/dom';
+import {
   getRequestedDay,
   getSelectedDay,
 } from 'app/selectors/schedule';
@@ -52,13 +56,13 @@ export default function WeekScroller() {
   const selectedDay = useSelector(getSelectedDay);
   const requestedDay = useSelector(getRequestedDay);
   const dispatch = useDispatch();
-  const [ref, setRef] = useState(null);
+  const [scrollPerDay, setScrollPerDay] = useState(null);
+  const [ref, setRef] = useCallbackRef((innerRef) => {
+    if (innerRef !== null) {
+      setScrollPerDay(getScrollPerDay(innerRef));
+    }
+  });
   const didPerformInitialScroll = useRef(false);
-  const scrollPerDay = useMemo(() => (
-    ref === null
-      ? null
-      : getScrollPerDay(ref)
-  ), [ref]);
   const getScrollLeftByDay = useCallback((day) => {
     const dayIndex = getIndexByDay(day);
 
@@ -88,6 +92,14 @@ export default function WeekScroller() {
       });
     }
   }, [requestedDay, selectedDay, getScrollLeftByDay, setScrollAnimated, dispatch]);
+
+  // Update scroll per day on window resize
+  useWindowResize(useCallback(() => {
+    if (ref !== null) {
+      didPerformInitialScroll.current = false;
+      setScrollPerDay(getScrollPerDay(ref));
+    }
+  }, [ref]));
 
   const days = useMemo(() => (
     DAYS_SORTED.map(key => (
