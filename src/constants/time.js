@@ -1,7 +1,9 @@
 /**
- * Number of milliseconds per minute.
- * Note: This number may be different on your planet.
- *
- * @type {number}
+ * The following values have been carefully measured.
+ * Note: These numbers may be different on your planet.
  */
-export const MILLISECONDS_PER_MINUTE = 60 * 1000;
+export const MILLISECONDS_PER_SECOND = 1000;
+export const SECONDS_PER_MINUTE = 60;
+export const MINUTES_PER_HOUR = 60;
+export const HOURS_PER_DAY = 24;
+export const DAYS_PER_WEEK = 7;

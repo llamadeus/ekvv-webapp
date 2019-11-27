@@ -1,10 +1,11 @@
 import Line from 'app/components/ScheduleGrid/Line';
 import { useElementSize } from 'app/hooks/dom';
-import { useMinuteChange } from 'app/hooks/time';
+import { useTimeChange } from 'app/hooks/time';
 import { timeToMinutes } from 'app/utils/time';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, {
+  useCallback,
   useMemo,
   useState,
 } from 'react';
@@ -51,9 +52,9 @@ export default function TimeIndicator(props) {
     };
   }, [start, now, translatePerMinute]);
 
-  useMinuteChange(() => {
+  useTimeChange(useCallback(() => {
     setNow(moment());
-  });
+  }, []), 'minute', true);
 
   if (now.hours() < start || now.hours() > end) {
     return false;
