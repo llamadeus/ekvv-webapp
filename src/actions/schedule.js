@@ -2,6 +2,19 @@ import { ACTIONS } from 'app/constants/schedule';
 
 
 /**
+ * Set the selected week.
+ *
+ * @param week
+ * @returns {{payload: {week: *}, type: *}}
+ */
+export const setSelectedWeek = week => ({
+  type: ACTIONS.SET_SELECTED_WEEK,
+  payload: {
+    week,
+  },
+});
+
+/**
  * Set the selected day.
  *
  * @param day

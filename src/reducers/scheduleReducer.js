@@ -29,6 +29,9 @@ const initialState = () => fromJS({
  */
 export default function scheduleReducer(state = initialState(), { type, payload }) {
   switch (type) {
+  case ACTIONS.SET_SELECTED_WEEK:
+    return state.set('selectedWeek', payload.week);
+
   case ACTIONS.SET_SELECTED_DAY:
     return state.set('selectedDay', payload.day);
 

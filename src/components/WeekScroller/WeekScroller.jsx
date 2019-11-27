@@ -1,6 +1,8 @@
 import {
   resetRequestedDay,
+  setRequestedDay,
   setSelectedDay,
+  setSelectedWeek,
 } from 'app/actions/schedule';
 import DayCard from 'app/components/DayCard';
 import {
@@ -12,11 +14,17 @@ import {
   DAYS_SORTED,
 } from 'app/constants/schedule';
 import { useElementSize } from 'app/hooks/dom';
+import { useTimeChange } from 'app/hooks/time';
 import {
   getRequestedDay,
   getSelectedDay,
 } from 'app/selectors/schedule';
-import { getIndexByDay } from 'app/utils/schedule';
+import {
+  clampMomentInstanceToWeekdays,
+  getDayByMomentInstance,
+  getIndexByDay,
+} from 'app/utils/schedule';
+import moment from 'moment';
 import React, {
   useCallback,
   useEffect,
@@ -89,6 +97,14 @@ export default function WeekScroller() {
       });
     }
   }, [requestedDay, selectedDay, getScrollLeftByDay, setScrollAnimated, dispatch]);
+
+  useTimeChange(useCallback(() => {
+    dispatch(setRequestedDay(getDayByMomentInstance(clampMomentInstanceToWeekdays(moment()))));
+  }, [dispatch]), 'day', true);
+
+  useTimeChange(useCallback(() => {
+    dispatch(setSelectedWeek(moment().startOf('week')));
+  }, [dispatch]), 'week', true);
 
   const days = useMemo(() => (
     DAYS_SORTED.map(key => (
