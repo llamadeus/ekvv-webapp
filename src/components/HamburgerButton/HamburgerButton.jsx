@@ -15,7 +15,7 @@ import styles from './styles.module.scss';
  */
 export default function HamburgerButton(props) {
   const { active, onClick } = props;
-  const classes = useMemo(() => classNames(styles.root, {
+  const classes = useMemo(() => classNames(styles.hamburger, {
     [styles.active]: active,
   }), [active]);
   const handleKeyPress = useCallback((event) => {
@@ -26,15 +26,17 @@ export default function HamburgerButton(props) {
 
   return (
     <div
-      className={classes}
+      className={styles.root}
       onClick={onClick}
       onKeyPress={handleKeyPress}
       role="button"
       tabIndex={0}
     >
-      <div className={styles.bar}/>
-      <div className={styles.bar}/>
-      <div className={styles.bar}/>
+      <div className={classes}>
+        <div className={styles.bar}/>
+        <div className={styles.bar}/>
+        <div className={styles.bar}/>
+      </div>
     </div>
   );
 }

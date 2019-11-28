@@ -2,25 +2,27 @@
   display: flex;
   scroll-snap-align: center;
   scroll-snap-stop: always;
-  width: 100%;
-  margin: 0 0.5rem;
+  width: calc(100% - 2rem);
+  margin: 0 0.25rem;
   flex: 0 0 auto;
   flex-direction: column;
 
   &:nth-child(1) {
-    margin-left: 0;
+    margin-left: 1rem;
   }
 
   &:nth-child(5) {
     margin-right: 0;
   }
 
-  @media screen and (max-width: 639px) {
-    width: calc(100% - 2rem);
-    margin: 0 0.25rem;
+  @media screen and (min-width: 768px) {
+    & {
+      max-width: 42rem;
+      margin: 0 0.5rem;
+    }
 
     &:nth-child(1) {
-      margin-left: 1rem;
+      margin-left: calc(50% - 21rem);
     }
   }
 }

@@ -2,16 +2,22 @@ $bar-width: 2px;
 
 .root {
   display: flex;
+  padding: 0 1rem;
+  align-items: center;
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.hamburger {
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 1.75rem;
   height: 1.3rem;
   align-self: center;
   transition: 200ms all ease-in-out;
-
-  &:focus {
-    outline: 0;
-  }
 
   &.active {
     height: 1.75rem;

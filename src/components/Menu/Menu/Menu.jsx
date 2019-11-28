@@ -32,7 +32,7 @@ export default function Menu(props) {
     );
   }, [show, onUpdateShow]);
 
-  const classes = classNames(styles.menu, 'tw-max-w-sm tw-mx-auto', {
+  const classes = classNames(styles.menu, 'tw-width-100 tw-max-w-sm', {
     [styles.active]: show,
   });
 

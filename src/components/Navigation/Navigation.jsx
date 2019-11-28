@@ -41,12 +41,12 @@ export default function Navigation(props) {
   return (
     <>
       <Layout.Header className="tw-text-white tw-z-50">
-        <div className="tw-mx-auto tw-px-4 sm:tw-max-w-sm sm:tw-px-0">
-          <div className="tw-flex tw-flex-1 tw-justify-between">
+        <div className="tw-mx-auto md:tw-max-w-2xl">
+          <div className="tw-flex tw-flex-1 tw-justify-between md:tw--mx-4">
             <ControlledLink
               href="/"
               onClick={handleAppButtonClick}
-              className="tw-text-white hover:tw-text-white tw-text-xl"
+              className="tw-text-white hover:tw-text-white tw-text-xl tw-px-4"
             >
               eKVV
             </ControlledLink>
