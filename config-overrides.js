@@ -1,6 +1,5 @@
 const {
   override,
-  addDecoratorsLegacy,
   addWebpackAlias,
   adjustWorkbox,
   disableEsLint,
@@ -9,7 +8,6 @@ const webpackConfig = require('./webpack/webpack.config');
 
 
 module.exports = override(
-  addDecoratorsLegacy(),
   addWebpackAlias(webpackConfig.resolve.alias),
   disableEsLint(),
   adjustWorkbox(wb => Object.assign(wb, {
