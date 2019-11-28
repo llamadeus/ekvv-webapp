@@ -4,7 +4,11 @@ import Icon from 'app/components/Icon';
 import Item from 'app/components/Menu/Item';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import React, { useMemo } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+} from 'react';
 import styles from './styles.module.scss';
 
 
@@ -16,20 +20,38 @@ import styles from './styles.module.scss';
  */
 export default function Menu(props) {
   const { show, onUpdateShow } = props;
-  const maybeClickOutsideOverlay = useMemo(() => {
-    if (show === false) {
-      return false;
+  const menuRef = useRef(null);
+  const handleHamburgerButtonClick = useCallback((event) => {
+    event.stopPropagation();
+
+    onUpdateShow(value => !value);
+  }, [onUpdateShow]);
+
+  useEffect(() => {
+    if (!show) {
+      return undefined;
     }
 
-    return (
-      <div
-        role="presentation"
-        className={styles.overlay}
-        onClick={() => onUpdateShow(false)}
-        onKeyPress={() => false}
-        tabIndex={-1}
-      />
-    );
+    function handleGlobalClick(event) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (menuRef.current === null) {
+        return;
+      }
+
+      if (menuRef.current.contains(event.target)) {
+        return;
+      }
+
+      onUpdateShow(false);
+    }
+
+    window.addEventListener('click', handleGlobalClick);
+
+    return () => {
+      window.removeEventListener('click', handleGlobalClick);
+    };
   }, [show, onUpdateShow]);
 
   const classes = classNames(styles.menu, 'tw-width-100 tw-max-w-sm', {
@@ -40,10 +62,10 @@ export default function Menu(props) {
     <>
       <HamburgerButton
         active={show}
-        onClick={() => onUpdateShow(value => !value)}
+        onClick={handleHamburgerButtonClick}
       />
 
-      <div className={classes}>
+      <div ref={menuRef} className={classes}>
         <AntDesignMenu onClick={() => onUpdateShow(false)} style={{ border: 0 }} selectable={false}>
           <Item to="/" exact>
             <Icon name="clock-outline" fixedWidth/>
@@ -58,8 +80,6 @@ export default function Menu(props) {
           </Item>
         </AntDesignMenu>
       </div>
-
-      {maybeClickOutsideOverlay}
     </>
   );
 }
