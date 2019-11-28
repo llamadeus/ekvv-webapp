@@ -10941,10 +10941,10 @@ rmc-feedback@^2.0.0:
     babel-runtime "6.x"
     classnames "^2.2.5"
 
-rrule@^2.6.0:
-  version "2.6.2"
-  resolved "https://registry.yarnpkg.com/rrule/-/rrule-2.6.2.tgz#f175c6c0b20d6f798739e4e1d979ffb3d79589e8"
-  integrity sha512-xL38CM1zOYOIp4OO8hdD6zHH5UdR9siHMvPiv+CCSh7o0LYJ0owg87QcFW7GXJ0PfpLBHjanEMvvBjJxbRhAcQ==
+rrule@^2.6.3:
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/rrule/-/rrule-2.6.3.tgz#a6bce01f71844208e9500052a6e6671c0d179296"
+  integrity sha512-wWypJiQekvgZLGNKSI8OvC8KtAvA/L/CtF1EjI9qmZEkT/6WIyRL5rdIy5FfeC4z33aRp90/0KuAdHmLdw0KgA==
   dependencies:
     tslib "^1.9.0"
   optionalDependencies:
