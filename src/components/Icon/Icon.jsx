@@ -11,8 +11,8 @@ import styles from './styles.module.scss';
  * @returns {*}
  */
 export default function Icon(props) {
-  const { name, fixedWidth } = props;
-  const classes = classNames('mdi', `mdi-${name}`, {
+  const { name, className, fixedWidth } = props;
+  const classes = classNames('mdi', `mdi-${name}`, className, {
     [styles.fw]: fixedWidth,
   });
 
@@ -23,9 +23,11 @@ export default function Icon(props) {
 
 Icon.propTypes = {
   name: PropTypes.string.isRequired,
+  className: PropTypes.string,
   fixedWidth: PropTypes.bool,
 };
 
 Icon.defaultProps = {
+  className: undefined,
   fixedWidth: false,
 };
