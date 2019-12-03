@@ -1,0 +1,28 @@
+.root {
+  position: fixed;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  background-color: #fff;
+  border: solid #e8e8e8;
+  border-width: 1px 0;
+
+  @media screen and (min-width: 640px) {
+    padding-left: calc(50% - 12rem);
+    padding-right: calc(50% - 12rem);
+  }
+}
+
+.items {
+  display: flex;
+  height: 56px;
+  padding: 0 0.5rem;
+  align-items: center;
+}
+
+.item {
+  display: flex;
+  height: 100%;
+  flex-basis: 20%;
+}

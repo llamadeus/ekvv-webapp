@@ -5,12 +5,13 @@ import NotFound from 'app/views/NotFound';
 import Schedule from 'app/views/Schedule';
 import Settings from 'app/views/Settings';
 import Start from 'app/views/Start';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import {
   Route,
   Switch,
 } from 'react-router-dom';
+import styles from './styles.module.scss';
 
 
 /**
@@ -21,27 +22,36 @@ import {
 export default function Content() {
   const initialized = useSelector(getInitialized);
   const events = useSelector(getEvents);
+  const content = useMemo(() => {
+    if (!initialized) {
+      return (
+        <LoadingSpinner/>
+      );
+    }
 
-  if (!initialized) {
-    return (
-      <LoadingSpinner/>
-    );
-  }
+    if (events === null) {
+      return (
+        <Switch>
+          <Route path="/" component={Start} exact/>
+          <Route component={NotFound}/>
+        </Switch>
+      );
+    }
 
-  if (events === null) {
     return (
       <Switch>
-        <Route path="/" component={Start} exact/>
+        <Route path="/" component={Schedule} exact/>
+        <Route path="/settings" component={Settings} exact/>
         <Route component={NotFound}/>
       </Switch>
     );
-  }
+  }, [initialized, events]);
 
   return (
-    <Switch>
-      <Route path="/" component={Schedule} exact/>
-      <Route path="/settings" component={Settings} exact/>
-      <Route component={NotFound}/>
-    </Switch>
+    <div className={styles.root}>
+      <div className="tw-flex tw-flex-1 tw-flex-col tw-pt-4 tw-pb-2 tw-px-4 md:tw-max-w-2xl md:tw-mx-auto">
+        {content}
+      </div>
+    </div>
   );
 }

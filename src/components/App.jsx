@@ -1,6 +1,7 @@
 import { Layout } from 'antd';
+import AppNavigation from 'app/components/AppNavigation';
 import Content from 'app/components/Content';
-import Navigation from 'app/components/Navigation';
+import NotchFix from 'app/components/NotchFix';
 import { getEvents } from 'app/selectors/schedule';
 import { isWebapp } from 'app/utils/app';
 import React, { useMemo } from 'react';
@@ -34,20 +35,27 @@ body {
       </Helmet>
     );
   }, []);
+  const maybeNotchFix = useMemo(() => (
+    isWebapp()
+      ? <NotchFix/>
+      : false
+  ), []);
+  const maybeAppNavigation = useMemo(() => (
+    events !== null
+      ? <AppNavigation/>
+      : false
+  ), [events]);
 
   return (
-    <Layout className="tw-flex tw-flex-1 tw-flex-col">
+    <>
       {maybeWebappHelmet}
 
-      <Navigation withMenu={events !== null}/>
+      <Layout className="tw-flex tw-flex-1 tw-flex-col">
+        <Content/>
 
-      <div className="tw-flex tw-flex-1">
-        <Layout.Content
-          className="tw-flex tw-flex-col tw-pt-6 tw-pb-4 tw-px-4 md:tw-max-w-2xl md:tw-mx-auto md:tw-px-0"
-        >
-          <Content/>
-        </Layout.Content>
-      </div>
-    </Layout>
+        {maybeNotchFix}
+        {maybeAppNavigation}
+      </Layout>
+    </>
   );
 }

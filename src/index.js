@@ -7,7 +7,10 @@ import 'app/bootstrap';
 import Root from 'app/components/Root';
 import * as serviceWorker from 'app/serviceWorker';
 import configureStore from 'app/store/configureStore';
-import { webappType } from 'app/utils/app';
+import {
+  isWebapp,
+  webappType,
+} from 'app/utils/app';
 import { createBrowserHistory } from 'history';
 import React from 'react';
 import { render } from 'react-dom';
@@ -15,6 +18,18 @@ import { render } from 'react-dom';
 
 const history = createBrowserHistory();
 const store = configureStore(history);
+
+if (isWebapp()) {
+  const viewportElement = document.head.querySelector('meta[name="viewport"]');
+
+  if (viewportElement !== null) {
+    viewportElement.content = viewportElement.content
+      .split(',')
+      .map(value => value.trim())
+      .concat(['maximum-scale=1', 'user-scalable=no'])
+      .join(', ');
+  }
+}
 
 render(
   // eslint-disable-next-line react/jsx-filename-extension
