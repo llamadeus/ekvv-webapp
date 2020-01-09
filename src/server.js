@@ -9,15 +9,6 @@ const setupProxy = require('./setupProxy');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use((req, res, next) => {
-  if (process.env.NODE_ENV === 'production' && req.headers['x-forwarded-proto'] !== 'https') {
-    const sslUrl = ['https://', req.hostname, req.url].join('');
-
-    return res.redirect(sslUrl);
-  }
-
-  return next();
-});
 app.use('/api', rateLimit({
   windowMs: 60 * 1000,
   max: 10,
@@ -49,6 +40,5 @@ if (process.env.NODE_ENV === 'development') {
   https.createServer(credentials, app).listen(PORT, onListen);
 }
 else {
-  app.enable('trust proxy');
   app.listen(PORT, onListen);
 }
