@@ -40,6 +40,5 @@ if (process.env.NODE_ENV === 'development') {
   https.createServer(credentials, app).listen(PORT, onListen);
 }
 else {
-  app.enable('trust proxy');
   app.listen(PORT, onListen);
 }
