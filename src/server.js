@@ -40,5 +40,9 @@ if (process.env.NODE_ENV === 'development') {
   https.createServer(credentials, app).listen(PORT, onListen);
 }
 else {
-  app.listen(PORT, onListen);
+  app.listen(
+    process.env.SERVER_PORT || 3000,
+    process.env.SERVER_HOST || '127.0.0.1',
+    onListen,
+  );
 }
