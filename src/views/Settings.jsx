@@ -3,6 +3,7 @@ import {
   Card,
   Form,
 } from 'antd';
+import CardBlock from 'app/components/CardBlock';
 import Footer from 'app/components/Footer';
 import { reloadCalendar } from 'app/effects/schedule';
 import { getIsLoading } from 'app/selectors/ui';
@@ -26,23 +27,27 @@ export default function Settings() {
   return (
     <>
       <Card title="Stundenplan">
-        <p>Lade deinen Stundenplan neu.</p>
+        <CardBlock>
+          <p>Lade deinen Stundenplan neu.</p>
 
-        <Form.Item className="tw-text-right">
-          <Button type="primary" onClick={handleReloadCalendar} loading={isLoading}>
-            Stundenplan aktualisieren
-          </Button>
-        </Form.Item>
+          <Form.Item className="tw-text-right">
+            <Button type="primary" onClick={handleReloadCalendar} loading={isLoading}>
+              Stundenplan aktualisieren
+            </Button>
+          </Form.Item>
+        </CardBlock>
       </Card>
 
       <Card title="Allgemein" className="tw-mt-6">
-        <p>Aktualisiere auf die neueste Version.</p>
+        <CardBlock>
+          <p>Aktualisiere auf die neueste Version.</p>
 
-        <Form.Item className="tw-text-right">
-          <Button type="primary" onClick={() => window.location.reload(true)}>
-            App aktualisieren
-          </Button>
-        </Form.Item>
+          <Form.Item className="tw-text-right">
+            <Button type="primary" onClick={() => window.location.reload(true)}>
+              App aktualisieren
+            </Button>
+          </Form.Item>
+        </CardBlock>
       </Card>
 
       <Footer/>
