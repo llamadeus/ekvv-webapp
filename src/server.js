@@ -13,6 +13,10 @@ app.use('/api', rateLimit({
   windowMs: 60 * 1000,
   max: 10,
 }));
+app.use('/feedback', rateLimit({
+  windowMs: 2 * 60 * 60 * 1000,
+  max: 3,
+}));
 setupProxy(app);
 app.get('/service-worker.js', (req, res) => {
   res.set('Cache-Control', 'max-age=0, no-store, no-cache, must-revalidate, proxy-revalidate');
