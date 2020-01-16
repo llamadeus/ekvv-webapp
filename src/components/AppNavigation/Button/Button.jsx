@@ -1,6 +1,7 @@
 import ControlledLink from 'app/components/ControlledLink';
 import Icon from 'app/components/Icon';
 import RouteIndicator from 'app/components/RouteIndicator';
+import { shouldReplace } from 'app/utils/history';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
@@ -50,6 +51,7 @@ export default function Button(props) {
         if (!disabled) {
           if (typeof onClick == 'undefined') {
             linkProps.to = to;
+            linkProps.replace = shouldReplace();
           }
           else {
             linkProps.href = to;
