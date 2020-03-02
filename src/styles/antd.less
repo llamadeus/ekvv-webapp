@@ -23,6 +23,18 @@ html {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1)
 }
 
+.ant-btn.ant-btn-link {
+  &.ant-btn-link--plain {
+    margin: 0;
+    padding: 0;
+    border: 0;
+
+    &:hover > span {
+      text-decoration: underline;
+    }
+  }
+}
+
 @media screen and (max-width: 639px) {
   .ant-message {
     transform: translateY(env(safe-area-inset-top, 0));
