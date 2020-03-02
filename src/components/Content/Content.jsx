@@ -49,7 +49,7 @@ export default function Content() {
 
   return (
     <div className={styles.root}>
-      <div className="tw-flex tw-flex-1 tw-flex-col tw-pt-4 tw-pb-2 tw-px-4 md:tw-max-w-2xl md:tw-mx-auto">
+      <div className="tw-flex tw-flex-1 tw-flex-col tw-w-screen tw-pt-4 tw-pb-2 tw-px-4 md:tw-max-w-2xl md:tw-mx-auto">
         {content}
       </div>
     </div>
