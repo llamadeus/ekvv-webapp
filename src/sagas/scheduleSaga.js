@@ -2,34 +2,21 @@ import {
   message,
   Modal,
 } from 'antd';
-import { setRequestedDay } from 'app/actions/schedule';
 import { setLoadingState } from 'app/actions/ui';
 import { KEYS } from 'app/constants/keyval';
 import { EFFECTS } from 'app/constants/schedule';
-import { transitionTo } from 'app/effects/saga';
 import {
   clearCalendarData,
   loadEvents,
   storeCalendarData,
 } from 'app/sagas/database';
-import { getPathname } from 'app/selectors/router';
-import {
-  getSelectedDay,
-  getSelectedWeek,
-} from 'app/selectors/schedule';
 import keyval from 'app/utils/keyval';
-import {
-  clampMomentInstanceToWeekdays,
-  getDayByMomentInstance,
-  getMomentInstanceByDay,
-} from 'app/utils/schedule';
 import ical2json from 'ical2json';
 import moment from 'moment';
 import {
   all,
   call,
   put,
-  select,
   takeEvery,
 } from 'redux-saga/effects';
 
@@ -145,31 +132,6 @@ function* handleReloadCalendar() {
 }
 
 /**
- * Scroll to today, if we are in today's week.
- *
- * @returns {IterableIterator<*>}
- */
-function* handleShowToday() {
-  const pathname = yield select(getPathname);
-
-  if (pathname !== '/') {
-    yield put(transitionTo('/'));
-  }
-  else {
-    const selectedWeek = yield select(getSelectedWeek);
-    const selectedDay = yield select(getSelectedDay);
-    const selectedDayAsMoment = getMomentInstanceByDay(selectedWeek, selectedDay);
-    const today = clampMomentInstanceToWeekdays(moment());
-
-    if (today.isSame(selectedWeek, 'week') && !today.isSame(selectedDayAsMoment, 'day')) {
-      const day = getDayByMomentInstance(today);
-
-      yield put(setRequestedDay(day));
-    }
-  }
-}
-
-/**
  * Schedule saga.
  *
  * @returns {IterableIterator<*>}
@@ -178,6 +140,5 @@ export default function* scheduleSaga() {
   yield all([
     takeEvery(EFFECTS.LOAD_CALENDAR, handleLoadCalendar),
     takeEvery(EFFECTS.RELOAD_CALENDAR, handleReloadCalendar),
-    takeEvery(EFFECTS.SHOW_TODAY, handleShowToday),
   ]);
 }
