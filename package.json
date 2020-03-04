@@ -77,7 +77,7 @@
     "history": "^4.10.1",
     "history-prop-types": "^2.5.2",
     "http-proxy-middleware": "^1.0.1",
-    "ical2json": "^2.0.0",
+    "ical2json": "^3.0.0",
     "immutable": "^4.0.0-rc.12",
     "immutable-prop-types": "^0.0.3",
     "lodash-es": "^4.17.11",

@@ -6602,12 +6602,12 @@ husky@^4.2.3:
     slash "^3.0.0"
     which-pm-runs "^1.0.0"
 
-ical2json@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/ical2json/-/ical2json-2.0.0.tgz#17b33fa109f879f00366cba38215f73e19eff6fb"
-  integrity sha512-nTjB+NDQ0dKSTw4SjNnRwn9PdLmnDnmZsYyDjBMzcwm+dwgL5c3GeSpFg+oId11XISF0iXWIt2kxGB4F9GoKmg==
+ical2json@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/ical2json/-/ical2json-3.0.0.tgz#501b3b4f7960a968dee36e51702de8e0c1e5d35d"
+  integrity sha512-LAV4w1xOeNaQGcI94g/hLw7g38c0detkxzLEmHOPq9x3xDpf2fgKuHmkZZiq4gowk25M7NV7+9hO9mALJtjMcA==
   dependencies:
-    commander "^2.11.0"
+    commander "^4.0.1"
     q "^1.5.1"
 
 iconv-lite@0.4.24, iconv-lite@^0.4.24, iconv-lite@^0.4.4, iconv-lite@~0.4.13:
