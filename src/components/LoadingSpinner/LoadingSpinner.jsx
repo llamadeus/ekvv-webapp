@@ -1,7 +1,7 @@
 import {
-  Icon,
   Spin,
 } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import React from 'react';
 
 
@@ -13,7 +13,7 @@ import React from 'react';
 export default function LoadingSpinner() {
   return (
     <div className="tw-flex tw-flex-1 tw-items-center tw-justify-center">
-      <Spin indicator={<Icon type="loading" style={{ fontSize: 60 }} spin/>}/>
+      <Spin indicator={<LoadingOutlined style={{ fontSize: 60 }}/>}/>
     </div>
   );
 }
