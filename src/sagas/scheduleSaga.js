@@ -10,9 +10,8 @@ import {
   loadEvents,
   storeCalendarData,
 } from 'app/sagas/database';
+import { parseCalendar } from 'app/utils/calendar';
 import keyval from 'app/utils/keyval';
-import ical2json from 'ical2json';
-import moment from 'moment';
 import {
   all,
   call,
@@ -32,36 +31,6 @@ function* loadCalendarFromUrl(url) {
   const request = yield call(fetch, proxiedUrl);
 
   return yield request.text();
-}
-
-/**
- * Parse the given iCalendar.
- *
- * @param ical
- * @returns {*}
- */
-function parseCalendar(ical) {
-  const calendar = ical2json.convert(ical);
-  const vCalendar = calendar.VCALENDAR;
-  const vEvents = Array.isArray(vCalendar) && vCalendar.length === 1
-    ? (vCalendar[0].VEVENT || [])
-    : [];
-
-  if (vEvents.length === 0) {
-    return null;
-  }
-
-  return vEvents.map(event => ({
-    uid: event.UID,
-    start: moment(event['DTSTART;TZID=Europe/Berlin']).toDate(),
-    end: moment(event['DTEND;TZID=Europe/Berlin']).toDate(),
-    description: event.DESCRIPTION,
-    location: event.LOCATION,
-    rrule: event.RRULE,
-    summary: event.SUMMARY,
-    url: event.URL,
-    raw: event,
-  }));
 }
 
 /**
@@ -85,25 +54,6 @@ function* fetchAndPersistCalendar(url) {
     yield call(clearCalendarData);
     yield call(storeCalendarData, url, ical, events);
     yield call(loadEvents);
-  }
-}
-
-/**
- * Load the schedule from the given calendar url.
- *
- * @param payload
- * @returns {IterableIterator<*>}
- */
-function* handleLoadCalendar({ payload }) {
-  yield put(setLoadingState(true));
-
-  try {
-    const { url } = payload;
-
-    yield call(fetchAndPersistCalendar, url);
-  }
-  finally {
-    yield put(setLoadingState(false));
   }
 }
 
@@ -138,7 +88,6 @@ function* handleReloadCalendar() {
  */
 export default function* scheduleSaga() {
   yield all([
-    takeEvery(EFFECTS.LOAD_CALENDAR, handleLoadCalendar),
     takeEvery(EFFECTS.RELOAD_CALENDAR, handleReloadCalendar),
   ]);
 }

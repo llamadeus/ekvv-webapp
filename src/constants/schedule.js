@@ -30,7 +30,6 @@ export const ACTIONS = createScopedActions(SCOPE, {
  * @type {*}
  */
 export const EFFECTS = createScopedEffects(SCOPE, {
-  LOAD_CALENDAR: 'LOAD_CALENDAR',
   RELOAD_CALENDAR: 'RELOAD_CALENDAR',
 });
 
