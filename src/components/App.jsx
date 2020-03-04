@@ -2,10 +2,10 @@ import { Layout } from 'antd';
 import AppNavigation from 'app/components/AppNavigation';
 import Content from 'app/components/Content';
 import NotchFix from 'app/components/NotchFix';
+import WebappTouchFix from 'app/components/WebappTouchFix';
 import { getEvents } from 'app/selectors/schedule';
 import { isWebapp } from 'app/utils/app';
 import React, { useMemo } from 'react';
-import { Helmet } from 'react-helmet';
 import { useSelector } from 'react-redux';
 
 
@@ -16,25 +16,11 @@ import { useSelector } from 'react-redux';
  */
 export default function App() {
   const events = useSelector(getEvents);
-  const maybeWebappHelmet = useMemo(() => {
-    if (!isWebapp()) {
-      return false;
-    }
-
-    return (
-      <Helmet>
-        <style type="text/css">{`
-body {
-  -webkit-user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  overscroll-behavior-y: contain;
-}
-`}
-        </style>
-      </Helmet>
-    );
-  }, []);
+  const maybeWebappHelmet = useMemo(() => (
+    isWebapp()
+      ? <WebappTouchFix/>
+      : false
+  ), []);
   const maybeNotchFix = useMemo(() => (
     isWebapp()
       ? <NotchFix/>
