@@ -1,8 +1,10 @@
 import { Layout } from 'antd';
 import AppNavigation from 'app/components/AppNavigation';
 import Content from 'app/components/Content';
+import LoadingSpinner from 'app/components/LoadingSpinner';
 import NotchFix from 'app/components/NotchFix';
 import WebappTouchFix from 'app/components/WebappTouchFix';
+import { useInitialize } from 'app/hooks/app';
 import { getEvents } from 'app/selectors/schedule';
 import { isWebapp } from 'app/utils/app';
 import React, { useMemo } from 'react';
@@ -15,32 +17,37 @@ import { useSelector } from 'react-redux';
  * @returns {*}
  */
 export default function App() {
+  const initialized = useInitialize();
   const events = useSelector(getEvents);
-  const maybeWebappHelmet = useMemo(() => (
-    isWebapp()
-      ? <WebappTouchFix/>
-      : false
-  ), []);
-  const maybeNotchFix = useMemo(() => (
-    isWebapp()
-      ? <NotchFix/>
-      : false
-  ), []);
-  const maybeAppNavigation = useMemo(() => (
-    events !== null
-      ? <AppNavigation/>
-      : false
-  ), [events]);
+  const content = useMemo(() => {
+    if (!initialized) {
+      return (
+        <LoadingSpinner/>
+      );
+    }
+
+    return (
+      <>
+        <Content/>
+
+        {isWebapp() && (
+          <NotchFix/>
+        )}
+        {events !== null && (
+          <AppNavigation/>
+        )}
+      </>
+    );
+  }, [initialized, events]);
 
   return (
     <>
-      {maybeWebappHelmet}
+      {isWebapp() && (
+        <WebappTouchFix/>
+      )}
 
       <Layout className="tw-flex tw-flex-1 tw-flex-col">
-        <Content/>
-
-        {maybeNotchFix}
-        {maybeAppNavigation}
+        {content}
       </Layout>
     </>
   );

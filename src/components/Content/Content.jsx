@@ -1,6 +1,4 @@
-import LoadingSpinner from 'app/components/LoadingSpinner';
 import { getEvents } from 'app/selectors/schedule';
-import { getInitialized } from 'app/selectors/ui';
 import NotFound from 'app/views/NotFound';
 import Schedule from 'app/views/Schedule';
 import Settings from 'app/views/Settings';
@@ -20,15 +18,8 @@ import styles from './styles.module.scss';
  * @returns {*}
  */
 export default function Content() {
-  const initialized = useSelector(getInitialized);
   const events = useSelector(getEvents);
   const content = useMemo(() => {
-    if (!initialized) {
-      return (
-        <LoadingSpinner/>
-      );
-    }
-
     if (events === null) {
       return (
         <Switch>
@@ -45,7 +36,7 @@ export default function Content() {
         <Route component={NotFound}/>
       </Switch>
     );
-  }, [initialized, events]);
+  }, [events]);
 
   return (
     <div className={styles.root}>
