@@ -6,10 +6,11 @@ import {
 } from 'antd';
 import { postFeedback } from 'app/api/feedback';
 import CharCounter from 'app/components/CharCounter';
-import { getIsLoading } from 'app/selectors/ui';
 import PropTypes from 'prop-types';
-import React, { useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import React, {
+  useCallback,
+  useState,
+} from 'react';
 
 
 /**
@@ -21,23 +22,31 @@ import { useSelector } from 'react-redux';
 export default function FeedbackModal(props) {
   const { onClose } = props;
   const [form] = Form.useForm();
-  const isLoading = useSelector(getIsLoading);
+  const [isLoading, setIsLoading] = useState(false);
   const kthxbye = useCallback(() => {
     onClose();
     setTimeout(() => form.resetFields(), 250);
   }, [onClose, form]);
-  const handleFinish = useCallback((values) => {
-    postFeedback(
-      values.title,
-      values.description,
-      values.name,
-      values.email,
-    ).then(() => {
+  const handleFinish = useCallback(async (values) => {
+    setIsLoading(true);
+
+    try {
+      await postFeedback(
+        values.title,
+        values.description,
+        values.name,
+        values.email,
+      );
+
       message.success('Danke für dein Feedback!');
+      setIsLoading(false);
       kthxbye();
-    }).catch((response) => {
+    }
+    catch (response) {
+      setIsLoading(false);
       message.error(`Error ${response.status}: ${response.statusText}`);
-    });
+      setIsLoading(false);
+    }
   }, [kthxbye]);
   const handleOk = useCallback(() => {
     form.submit();
