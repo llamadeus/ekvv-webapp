@@ -1,6 +1,6 @@
+import scheduleReducer from 'app/reducers/scheduleReducer';
 import { connectRouter } from 'connected-react-router';
 import { combineReducers } from 'redux';
-import scheduleReducer from 'app/reducers/scheduleReducer';
 
 
 /**
