@@ -2,20 +2,20 @@ import {
   Button,
   Card,
   Form,
+  message,
 } from 'antd';
+import { setEvents } from 'app/actions/schedule';
 import CardBlock from 'app/components/CardBlock';
 import FeedbackModal from 'app/components/FeedbackModal';
 import Footer from 'app/components/Footer';
-import { reloadCalendar } from 'app/effects/schedule';
-import { getIsLoading } from 'app/selectors/ui';
+import { KEYS } from 'app/constants/keyval';
+import { fetchAndPersistCalendar } from 'app/utils/calendar';
+import keyval from 'app/utils/keyval';
 import React, {
   useCallback,
   useState,
 } from 'react';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 
 /**
@@ -24,10 +24,31 @@ import {
  * @returns {*}
  */
 export default function Settings() {
-  const isLoading = useSelector(getIsLoading);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
-  const handleReloadCalendar = useCallback(() => dispatch(reloadCalendar()), [dispatch]);
+  const handleReloadCalendar = useCallback(async () => {
+    const calendarUrl = await keyval.get(KEYS.ICAL_URL);
+
+    if (typeof calendarUrl == 'undefined') {
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const events = await fetchAndPersistCalendar(calendarUrl);
+
+      if (events !== null) {
+        dispatch(setEvents(events));
+
+        message.success('Dein Stundenplan wurde aktualisiert!');
+      }
+    }
+    finally {
+      setIsLoading(false);
+    }
+  }, [dispatch]);
 
   return (
     <>

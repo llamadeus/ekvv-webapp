@@ -1,7 +1,4 @@
-import {
-  createScopedActions,
-  createScopedEffects,
-} from 'app/utils/redux';
+import { createScopedActions } from 'app/utils/redux';
 
 
 /**
@@ -22,15 +19,6 @@ export const ACTIONS = createScopedActions(SCOPE, {
   SET_REQUESTED_DAY: 'SET_REQUESTED_DAY',
   RESET_REQUESTED_DAY: 'RESET_REQUESTED_DAY',
   SET_EVENTS: 'SET_EVENTS',
-});
-
-/**
- * Saga effects.
- *
- * @type {*}
- */
-export const EFFECTS = createScopedEffects(SCOPE, {
-  RELOAD_CALENDAR: 'RELOAD_CALENDAR',
 });
 
 /**
