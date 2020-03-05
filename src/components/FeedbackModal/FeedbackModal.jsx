@@ -112,6 +112,7 @@ export default function FeedbackModal(props) {
           </Form.Item>
           <Form.Item
             shouldUpdate={(prevValues, curValues) => prevValues.description !== curValues.description}
+            noStyle
           >
             {({ getFieldValue }) => (
               <CharCounter
