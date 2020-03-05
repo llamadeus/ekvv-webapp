@@ -3,13 +3,9 @@ import {
   Card,
   Form,
   Input,
-  Modal,
 } from 'antd';
 import { setEvents } from 'app/actions/schedule';
-import { KEYS } from 'app/constants/keyval';
-import database from 'app/database';
-import { parseCalendar } from 'app/utils/calendar';
-import keyval from 'app/utils/keyval';
+import { fetchAndPersistCalendar } from 'app/utils/calendar';
 import React, {
   useCallback,
   useState,
@@ -31,25 +27,9 @@ export default function Start() {
     setIsLoading(true);
 
     try {
-      const proxiedUrl = url.replace('https://ekvv.uni-bielefeld.de', '/api');
-      const response = await fetch(proxiedUrl);
-      const ical = await response.text();
-      const events = parseCalendar(ical);
+      const events = await fetchAndPersistCalendar(url);
 
-      if (events === null) {
-        Modal.warning({
-          title: 'Dein Stundenplan ist leer.',
-          content: 'Du hast dich entweder für keine Kurse angemeldet oder die URL zu deinem persönlichen Kalendar ist falsch.',
-          okText: 'Ok und abbrechen',
-        });
-      }
-      else {
-        await keyval.set(KEYS.ICAL_URL, url);
-        await keyval.set(KEYS.ICAL_RAW, ical);
-
-        await database.events.clear();
-        await database.events.bulkPut(events);
-
+      if (events !== null) {
         setIsLoading(false);
         dispatch(setEvents(events));
       }
