@@ -1,63 +1,46 @@
-import { ACTIONS } from 'app/constants/schedule';
-
-
 /**
  * Set the selected week.
  *
  * @param week
- * @returns {{payload: {week: *}, type: *}}
+ * @returns {{week: *}}
  */
 export const setSelectedWeek = week => ({
-  type: ACTIONS.SET_SELECTED_WEEK,
-  payload: {
-    week,
-  },
+  week,
 });
 
 /**
  * Set the selected day.
  *
  * @param day
- * @returns {{payload: {day: *}, type: string}}
+ * @returns {{day: *}}
  */
 export const setSelectedDay = day => ({
-  type: ACTIONS.SET_SELECTED_DAY,
-  payload: {
-    day,
-  },
+  day,
 });
 
 /**
  * Set the requested day.
  *
  * @param day
- * @returns {{payload: {day: *}, type: *}}
+ * @returns {{day: *}}
  */
 export const setRequestedDay = day => ({
-  type: ACTIONS.SET_REQUESTED_DAY,
-  payload: {
-    day,
-  },
+  day,
 });
 
 /**
  * Reset the requested day.
  *
- * @returns {{type: *}}
+ * @returns {{}}
  */
-export const resetRequestedDay = () => ({
-  type: ACTIONS.RESET_REQUESTED_DAY,
-});
+export const resetRequestedDay = () => ({});
 
 /**
  * Set events.
  *
  * @param events
- * @returns {{payload: {events: *}, type: string}}
+ * @returns {{events: *}}
  */
 export const setEvents = events => ({
-  type: ACTIONS.SET_EVENTS,
-  payload: {
-    events,
-  },
+  events,
 });

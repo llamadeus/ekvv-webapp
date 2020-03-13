@@ -40,7 +40,7 @@ export default function Settings() {
       const events = await fetchAndPersistCalendar(calendarUrl);
 
       if (events !== null) {
-        dispatch(setEvents(events));
+        dispatch(setEvents, [events]);
 
         message.success('Dein Stundenplan wurde aktualisiert!');
       }

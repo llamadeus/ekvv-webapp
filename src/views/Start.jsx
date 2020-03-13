@@ -31,7 +31,7 @@ export default function Start() {
 
       if (events !== null) {
         setIsLoading(false);
-        dispatch(setEvents(events));
+        dispatch(setEvents, [events]);
       }
     }
     catch {

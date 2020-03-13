@@ -1,4 +1,10 @@
-import { ACTIONS } from 'app/constants/schedule';
+import {
+  resetRequestedDay,
+  setEvents,
+  setRequestedDay,
+  setSelectedDay,
+  setSelectedWeek,
+} from 'app/actions/schedule';
 import { mapByKey } from 'app/utils/redux';
 import {
   clampMomentInstanceToWeekdays,
@@ -29,19 +35,19 @@ const initialState = () => fromJS({
  */
 export default function scheduleReducer(state = initialState(), { type, payload }) {
   switch (type) {
-  case ACTIONS.SET_SELECTED_WEEK:
+  case setSelectedWeek:
     return state.set('selectedWeek', payload.week);
 
-  case ACTIONS.SET_SELECTED_DAY:
+  case setSelectedDay:
     return state.set('selectedDay', payload.day);
 
-  case ACTIONS.SET_REQUESTED_DAY:
+  case setRequestedDay:
     return state.set('requestedDay', payload.day);
 
-  case ACTIONS.RESET_REQUESTED_DAY:
+  case resetRequestedDay:
     return state.set('requestedDay', null);
 
-  case ACTIONS.SET_EVENTS:
+  case setEvents:
     return state.set('events', mapByKey(payload.events, 'uid'));
 
   default:

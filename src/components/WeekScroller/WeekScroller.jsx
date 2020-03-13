@@ -90,20 +90,20 @@ export default function WeekScroller() {
   // Scroll to requested day on update
   useEffect(() => {
     if (requestedDay !== null && requestedDay !== selectedDay) {
-      dispatch(resetRequestedDay());
+      dispatch(resetRequestedDay);
 
       setScrollAnimated(getScrollLeftByDay(requestedDay), () => {
-        dispatch(setSelectedDay(requestedDay));
+        dispatch(setSelectedDay, [requestedDay]);
       });
     }
   }, [requestedDay, selectedDay, getScrollLeftByDay, setScrollAnimated, dispatch]);
 
   useTimeChange(useCallback(() => {
-    dispatch(setRequestedDay(getDayByMomentInstance(clampMomentInstanceToWeekdays(moment()))));
+    dispatch(setRequestedDay, [getDayByMomentInstance(clampMomentInstanceToWeekdays(moment()))]);
   }, [dispatch]), 'day', true);
 
   useTimeChange(useCallback(() => {
-    dispatch(setSelectedWeek(moment().startOf('week')));
+    dispatch(setSelectedWeek, [moment().startOf('week')]);
   }, [dispatch]), 'week', true);
 
   const days = useMemo(() => (

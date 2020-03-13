@@ -40,7 +40,7 @@ export default function AppNavigation() {
       if (today.isSame(selectedWeek, 'week') && !today.isSame(selectedDayAsMoment, 'day')) {
         const day = getDayByMomentInstance(today);
 
-        store.dispatch(setRequestedDay(day));
+        store.dispatch(setRequestedDay, [day]);
       }
     }
   }, [location, store]);

@@ -1,26 +1,3 @@
-import { createScopedActions } from 'app/utils/redux';
-
-
-/**
- * Scope.
- *
- * @type {string}
- */
-export const SCOPE = 'schedule';
-
-/**
- * Redux actions.
- *
- * @type {*}
- */
-export const ACTIONS = createScopedActions(SCOPE, {
-  SET_SELECTED_WEEK: 'SET_SELECTED_WEEK',
-  SET_SELECTED_DAY: 'SET_SELECTED_DAY',
-  SET_REQUESTED_DAY: 'SET_REQUESTED_DAY',
-  RESET_REQUESTED_DAY: 'RESET_REQUESTED_DAY',
-  SET_EVENTS: 'SET_EVENTS',
-});
-
 /**
  * Days of the week (sorted).
  *

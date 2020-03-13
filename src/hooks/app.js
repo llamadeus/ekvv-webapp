@@ -23,7 +23,7 @@ export function useInitialize() {
       if (await keyval.has(KEYS.ICAL_URL)) {
         const events = await database.events.toArray();
 
-        dispatch(setEvents(events));
+        dispatch(setEvents, [events]);
       }
 
       setInitialized(true);
