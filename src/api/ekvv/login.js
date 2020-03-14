@@ -1,6 +1,9 @@
 import InvalidCredentials from 'app/exceptions/InvalidCredentials';
 import LoginFailed from 'app/exceptions/LoginFailed';
-import { requestDoc } from 'app/utils/ekvv';
+import {
+  ensureProxyUrl,
+  requestDoc,
+} from 'app/utils/ekvv';
 import { buildFormData } from 'app/utils/form';
 
 
@@ -99,7 +102,7 @@ async function loginEkvv() {
   }
 
   const $loginForm = ekvvLoginPage.querySelector('#signinresponseform');
-  const formUrl = $loginForm.action.replace('ekvv.uni-bielefeld.de', 'localhost:3000/api');
+  const formUrl = ensureProxyUrl($loginForm.action);
   const data = buildFormData({
     wa: $loginForm.querySelector('input[name=wa]').value,
     wresult: $loginForm.querySelector('input[name=wresult]').value,
