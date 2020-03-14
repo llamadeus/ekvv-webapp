@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use('/api', rateLimit({
   windowMs: 60 * 1000,
-  max: 10,
+  max: 50,
 }));
 app.use('/feedback', rateLimit({
   windowMs: 2 * 60 * 60 * 1000,
