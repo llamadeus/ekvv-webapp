@@ -1,10 +1,10 @@
-import LoadingSpinner from 'app/components/LoadingSpinner';
 import { getEvents } from 'app/selectors/schedule';
-import { getInitialized } from 'app/selectors/ui';
 import NotFound from 'app/views/NotFound';
 import Schedule from 'app/views/Schedule';
 import Settings from 'app/views/Settings';
 import Start from 'app/views/Start';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import {
@@ -19,16 +19,9 @@ import styles from './styles.module.scss';
  *
  * @returns {*}
  */
-export default function Content() {
-  const initialized = useSelector(getInitialized);
+export default function Content(props) {
   const events = useSelector(getEvents);
   const content = useMemo(() => {
-    if (!initialized) {
-      return (
-        <LoadingSpinner/>
-      );
-    }
-
     if (events === null) {
       return (
         <Switch>
@@ -45,13 +38,20 @@ export default function Content() {
         <Route component={NotFound}/>
       </Switch>
     );
-  }, [initialized, events]);
+  }, [events]);
+  const rootClasses = classNames(styles.root, {
+    'app-navigation-visible': props.appNavigationVisible,
+  });
 
   return (
-    <div className={styles.root}>
-      <div className="tw-flex tw-flex-1 tw-flex-col tw-pt-4 tw-pb-2 tw-px-4 md:tw-max-w-2xl md:tw-mx-auto">
+    <div className={rootClasses}>
+      <div className="tw-flex tw-flex-1 tw-flex-col tw-w-screen tw-pt-4 tw-pb-2 tw-px-4 md:tw-max-w-2xl md:tw-mx-auto">
         {content}
       </div>
     </div>
   );
 }
+
+Content.propTypes = {
+  appNavigationVisible: PropTypes.bool.isRequired,
+};

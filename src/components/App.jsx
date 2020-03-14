@@ -1,11 +1,13 @@
 import { Layout } from 'antd';
 import AppNavigation from 'app/components/AppNavigation';
 import Content from 'app/components/Content';
+import LoadingSpinner from 'app/components/LoadingSpinner';
 import NotchFix from 'app/components/NotchFix';
+import WebappTouchFix from 'app/components/WebappTouchFix';
+import { useInitialize } from 'app/hooks/app';
 import { getEvents } from 'app/selectors/schedule';
 import { isWebapp } from 'app/utils/app';
 import React, { useMemo } from 'react';
-import { Helmet } from 'react-helmet';
 import { useSelector } from 'react-redux';
 
 
@@ -15,46 +17,39 @@ import { useSelector } from 'react-redux';
  * @returns {*}
  */
 export default function App() {
+  const initialized = useInitialize();
   const events = useSelector(getEvents);
-  const maybeWebappHelmet = useMemo(() => {
-    if (!isWebapp()) {
-      return false;
+  const content = useMemo(() => {
+    if (!initialized) {
+      return (
+        <LoadingSpinner/>
+      );
     }
 
+    const showAppNavigation = events !== null;
+
     return (
-      <Helmet>
-        <style type="text/css">{`
-body {
-  -webkit-user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  overscroll-behavior-y: contain;
-}
-`}
-        </style>
-      </Helmet>
+      <>
+        <Content appNavigationVisible={showAppNavigation}/>
+
+        {isWebapp() && (
+          <NotchFix/>
+        )}
+        {showAppNavigation && (
+          <AppNavigation/>
+        )}
+      </>
     );
-  }, []);
-  const maybeNotchFix = useMemo(() => (
-    isWebapp()
-      ? <NotchFix/>
-      : false
-  ), []);
-  const maybeAppNavigation = useMemo(() => (
-    events !== null
-      ? <AppNavigation/>
-      : false
-  ), [events]);
+  }, [initialized, events]);
 
   return (
     <>
-      {maybeWebappHelmet}
+      {isWebapp() && (
+        <WebappTouchFix/>
+      )}
 
       <Layout className="tw-flex tw-flex-1 tw-flex-col">
-        <Content/>
-
-        {maybeNotchFix}
-        {maybeAppNavigation}
+        {content}
       </Layout>
     </>
   );

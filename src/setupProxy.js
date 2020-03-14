@@ -1,4 +1,4 @@
-const proxy = require('http-proxy-middleware');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 const bodyParser = require('body-parser');
 const { check, validationResult } = require('express-validator');
 const url = require('url'); // eslint-disable-line import/no-extraneous-dependencies
@@ -11,7 +11,7 @@ const EKVV_URL = `${EKVV_PROTOCOL}://${EKVV_HOST}`;
 
 module.exports = function setupProxy(app) {
   app.use(bodyParser.json());
-  app.use('/api', proxy({
+  app.use('/api', createProxyMiddleware({
     target: EKVV_URL,
     changeOrigin: true,
     pathRewrite: {

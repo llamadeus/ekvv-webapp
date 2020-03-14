@@ -8,7 +8,7 @@ import { post } from 'app/utils/api';
  * @param description
  * @param name
  * @param email
- * @returns {Promise<Response>}
+ * @returns {Promise<any>}
  */
 export function postFeedback(title, description, name, email) {
   return post('/feedback', {

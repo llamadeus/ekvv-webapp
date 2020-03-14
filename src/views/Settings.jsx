@@ -2,20 +2,24 @@ import {
   Button,
   Card,
   Form,
+  message,
 } from 'antd';
+import { setEvents } from 'app/actions/schedule';
+import { getCalendarEvents } from 'app/api/ekvv/calendar';
 import CardBlock from 'app/components/CardBlock';
 import FeedbackModal from 'app/components/FeedbackModal';
 import Footer from 'app/components/Footer';
-import { reloadCalendar } from 'app/effects/schedule';
-import { getIsLoading } from 'app/selectors/ui';
+import {
+  fetchCalendarUrl,
+  storeCalendarData,
+  storeEvents,
+} from 'app/database/ekvv/events';
+import { parseCalendar } from 'app/utils/calendar';
 import React, {
   useCallback,
   useState,
 } from 'react';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 
 /**
@@ -24,10 +28,38 @@ import {
  * @returns {*}
  */
 export default function Settings() {
-  const isLoading = useSelector(getIsLoading);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
-  const handleReloadCalendar = useCallback(() => dispatch(reloadCalendar()), [dispatch]);
+  const handleReloadCalendar = useCallback(async () => {
+    const calendarUrl = await fetchCalendarUrl();
+
+    if (typeof calendarUrl == 'undefined') {
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const ical = await getCalendarEvents(calendarUrl);
+      const events = parseCalendar(ical);
+
+      if (events !== null) {
+        await storeCalendarData(calendarUrl);
+        await storeEvents(events);
+
+        dispatch(setEvents, [events]);
+
+        message.success('Dein Stundenplan wurde aktualisiert!');
+      }
+    }
+    catch (error) {
+      message.error(error);
+    }
+    finally {
+      setIsLoading(false);
+    }
+  }, [dispatch]);
 
   return (
     <>

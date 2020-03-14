@@ -5,42 +5,6 @@ import {
 
 
 /**
- * Scope the given types by prefixing each key with `scope`.
- *
- * @param scope
- * @param types
- * @returns {*}
- */
-export function createScopedTypes(scope, types) {
-  return Object.keys(types).reduce((carry, key) => ({
-    ...carry,
-    [key]: `${scope}/${types[key]}`,
-  }), {});
-}
-
-/**
- * Scope the given actions.
- *
- * @param scope
- * @param actions
- * @returns {string}
- */
-export function createScopedActions(scope, actions) {
-  return createScopedTypes(`${scope}/actions`, actions);
-}
-
-/**
- * Scope the given effects.
- *
- * @param scope
- * @param effects
- * @returns {string}
- */
-export function createScopedEffects(scope, effects) {
-  return createScopedTypes(`${scope}/effects`, effects);
-}
-
-/**
  * Create a map from the given data, where the key is the `key` value of data.
  *
  * @param data

@@ -73,7 +73,7 @@ export const Easing = {
 };
 
 /**
- * Animate
+ * Animate.
  *
  * @param callbackObj
  * @param callbackObj.start {function} Start callback

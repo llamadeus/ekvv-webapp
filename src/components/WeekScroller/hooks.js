@@ -31,7 +31,7 @@ export function useSelectedDayUpdater(scrollPerDay) {
     const day = getDayByIndex(dayIndex);
 
     if (typeof day != 'undefined') {
-      dispatch(setSelectedDay(day));
+      dispatch(setSelectedDay, [day]);
     }
   }, [scrollPerDay, dispatch]);
 }

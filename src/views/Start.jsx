@@ -1,73 +1,164 @@
 import {
-  Button,
   Card,
   Form,
-  Input,
+  message,
+  Modal,
 } from 'antd';
-import { loadCalendar } from 'app/effects/schedule';
-import { getIsLoading } from 'app/selectors/ui';
-import { formShape } from 'rc-form';
-import React, { useCallback } from 'react';
+import { setEvents } from 'app/actions/schedule';
 import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
+  activateCalendarIntegration,
+  getCalendarEvents,
+  getEkvvCalendarUrl,
+  isCalendarIntegrationActive,
+} from 'app/api/ekvv/calendar';
+import login from 'app/api/ekvv/login';
+import LoginForm from 'app/components/LoginForm';
+import {
+  fetchCredentials,
+  storeCredentials,
+} from 'app/database/ekvv/credentials';
+import {
+  storeCalendarData,
+  storeEvents,
+} from 'app/database/ekvv/events';
+import InvalidCredentials from 'app/exceptions/InvalidCredentials';
+import LoginFailed from 'app/exceptions/LoginFailed';
+import { confirm } from 'app/utils/antd';
+import { parseCalendar } from 'app/utils/calendar';
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
+import { useDispatch } from 'react-redux';
 
+
+/**
+ * Ensure that the calendar integration is active.
+ *
+ * @returns {Promise<boolean|Document>}
+ */
+async function ensureCalendarIntegration() {
+  const [isCalendarEnabled, newsFeedPage] = await isCalendarIntegrationActive();
+
+  if (!isCalendarEnabled) {
+    const permissionGranted = await confirm({
+      title: 'Kalenderintegration ist nicht aktiviert. Soll die Kalenderintegration automatisch aktiviert werden?',
+      content: 'Ohne aktivierte Kalenderintegration kann dein Stundenplan nicht geladen werden.',
+      okText: 'Ja bitte',
+      cancelText: 'Nein danke',
+    });
+
+    if (permissionGranted) {
+      await activateCalendarIntegration(newsFeedPage);
+    }
+    else {
+      return false;
+    }
+  }
+
+  const [isCalendarFinallyEnabled] = await isCalendarIntegrationActive();
+
+  return isCalendarFinallyEnabled;
+}
 
 /**
  * Start component
  *
- * @param props
  * @returns {*}
  */
-function Start(props) {
-  const { getFieldDecorator, validateFields } = props.form;
-  const isLoading = useSelector(getIsLoading);
+export default function Start() {
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-  const handleSubmit = useCallback((event) => {
-    event.preventDefault();
+  const [form] = Form.useForm();
+  const handleFinish = useCallback(async (values) => {
+    setIsLoading(true);
 
-    validateFields((error, values) => {
-      if (!error) {
-        dispatch(loadCalendar(values.url));
+    try {
+      const loggedIn = await login(values.username, values.password);
+
+      if (loggedIn) {
+        const currentlySavedCredentials = await fetchCredentials();
+
+        if (typeof currentlySavedCredentials == 'undefined' || values.username !== currentlySavedCredentials.username) {
+          const persistCredentials = await confirm({
+            title: 'Soll deine Matrikelnummer für\'s nächste mal auf diesem Gerät gespeichert werden?',
+            content: 'Wenn du nein sagst, ist das auch nicht schlimm.',
+            okText: 'Jo, kein Ding',
+            cancelText: 'Wehe',
+          });
+
+          if (persistCredentials) {
+            await storeCredentials(values.username);
+          }
+        }
+
+        const calendarIntegrationActive = await ensureCalendarIntegration();
+
+        if (calendarIntegrationActive) {
+          const calendarUrl = await getEkvvCalendarUrl();
+          const ical = await getCalendarEvents(calendarUrl);
+          const events = parseCalendar(ical);
+
+          if (events === null) {
+            Modal.warning({
+              title: 'Dein Stundenplan ist leer.',
+              content: 'Du hast dich für keinen einzigen Kurs angemeldet.',
+              okText: 'Ok und abbrechen',
+            });
+
+            setIsLoading(false);
+
+            return;
+          }
+
+          await storeCalendarData(calendarUrl);
+          await storeEvents(events);
+
+          setIsLoading(false);
+          dispatch(setEvents, [events]);
+
+          return;
+        }
+      }
+
+      setIsLoading(false);
+    }
+    catch (error) {
+      if (error instanceof InvalidCredentials) {
+        form.setFields([
+          {
+            name: 'username',
+            errors: ['Matrikelnummer oder Passwort falsch'],
+          },
+        ]);
+      }
+      else if (error instanceof LoginFailed) {
+        message.error('Irgendetwas ist beim Login schiefgelaufen und es tut mir Leid :(');
+      }
+      else {
+        message.error(error);
+      }
+
+      setIsLoading(false);
+    }
+  }, [dispatch, form]);
+
+  useEffect(() => {
+    fetchCredentials().then((credentials) => {
+      if (typeof credentials != 'undefined') {
+        form.setFieldsValue({
+          username: credentials.username,
+        });
       }
     });
-  }, [validateFields, dispatch]);
+  }, [form]);
 
   return (
-    <Card title="Stundenplan laden">
-      <p>Füge die URL zu deinem persönlichen Kalender ein, um deinen Stundenplan zu laden.</p>
+    <Card title="Login">
+      <p>Logge dich mit deinen eKVV-Login-Daten ein.</p>
 
-      <Form onSubmit={handleSubmit} hideRequiredMark>
-        <Form.Item>
-          {getFieldDecorator('url', {
-            validateTrigger: false,
-            rules: [
-              {
-                required: true,
-                message: 'Ohne geht nicht...',
-              }, {
-                pattern: /^https:\/\/ekvv\.uni-bielefeld\.de\/ws\/calendar\?token=[a-zA-Z0-9]+$/,
-                message: 'Ungültiges Format',
-              },
-            ],
-          })(
-            <Input placeholder="https://ekvv.uni-bielefeld.de/ws/calendar?token=XYZ"/>,
-          )}
-        </Form.Item>
-
-        <Form.Item className="tw-text-right">
-          <Button type="primary" htmlType="submit" loading={isLoading}>
-            Los!
-          </Button>
-        </Form.Item>
-      </Form>
+      <LoginForm form={form} onFinish={handleFinish} isLoading={isLoading}/>
     </Card>
   );
 }
-
-Start.propTypes = {
-  form: formShape.isRequired,
-};
-
-export default Form.create()(Start);
