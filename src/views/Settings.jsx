@@ -5,12 +5,16 @@ import {
   message,
 } from 'antd';
 import { setEvents } from 'app/actions/schedule';
+import { getCalendarEvents } from 'app/api/ekvv/calendar';
 import CardBlock from 'app/components/CardBlock';
 import FeedbackModal from 'app/components/FeedbackModal';
 import Footer from 'app/components/Footer';
-import { KEYS } from 'app/constants/keyval';
-import { fetchAndPersistCalendar } from 'app/utils/calendar';
-import keyval from 'app/utils/keyval';
+import {
+  fetchCalendarUrl,
+  storeCalendarData,
+  storeEvents,
+} from 'app/database/ekvv/events';
+import { parseCalendar } from 'app/utils/calendar';
 import React, {
   useCallback,
   useState,
@@ -28,7 +32,7 @@ export default function Settings() {
   const dispatch = useDispatch();
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const handleReloadCalendar = useCallback(async () => {
-    const calendarUrl = await keyval.get(KEYS.ICAL_URL);
+    const calendarUrl = await fetchCalendarUrl();
 
     if (typeof calendarUrl == 'undefined') {
       return;
@@ -37,13 +41,20 @@ export default function Settings() {
     setIsLoading(true);
 
     try {
-      const events = await fetchAndPersistCalendar(calendarUrl);
+      const ical = await getCalendarEvents(calendarUrl);
+      const events = parseCalendar(ical);
 
       if (events !== null) {
+        await storeCalendarData(calendarUrl);
+        await storeEvents(events);
+
         dispatch(setEvents, [events]);
 
         message.success('Dein Stundenplan wurde aktualisiert!');
       }
+    }
+    catch (error) {
+      message.error(error);
     }
     finally {
       setIsLoading(false);

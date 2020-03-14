@@ -1,7 +1,8 @@
 import { setEvents } from 'app/actions/schedule';
-import { KEYS } from 'app/constants/keyval';
-import database from 'app/database';
-import keyval from 'app/utils/keyval';
+import {
+  fetchCalendarUrl,
+  fetchEvents,
+} from 'app/database/ekvv/events';
 import {
   useEffect,
   useState,
@@ -20,8 +21,10 @@ export function useInitialize() {
 
   useEffect(() => {
     async function initialize() {
-      if (await keyval.has(KEYS.ICAL_URL)) {
-        const events = await database.events.toArray();
+      const calendarUrl = await fetchCalendarUrl();
+
+      if (typeof calendarUrl != 'undefined') {
+        const events = await fetchEvents();
 
         dispatch(setEvents, [events]);
       }
