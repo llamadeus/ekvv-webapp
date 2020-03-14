@@ -5,8 +5,6 @@
  */
 const parser = new DOMParser();
 
-const PROXY_URL = 'localhost:3000/api';
-
 /**
  * Ensure that the given url contains my proxy server url.
  *
@@ -17,7 +15,7 @@ export function ensureProxyUrl(path) {
   const url = new URL(path);
   const pathname = url.pathname.replace(/^\/api/, '');
 
-  return `https://${PROXY_URL}${pathname}${url.search}`;
+  return `https://${process.env.REACT_APP_EKVV_PROXY_URL}/api${pathname}${url.search}`;
 }
 
 /**
