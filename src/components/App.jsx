@@ -26,14 +26,16 @@ export default function App() {
       );
     }
 
+    const showAppNavigation = events !== null;
+
     return (
       <>
-        <Content/>
+        <Content appNavigationVisible={showAppNavigation}/>
 
         {isWebapp() && (
           <NotchFix/>
         )}
-        {events !== null && (
+        {showAppNavigation && (
           <AppNavigation/>
         )}
       </>
