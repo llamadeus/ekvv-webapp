@@ -64,7 +64,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.0.2",
-    "@mdi/font": "^4.9.95",
+    "@mdi/font": "^5.0.45",
     "antd": "^4.0.1",
     "body-parser": "^1.19.0",
     "classnames": "^2.2.6",

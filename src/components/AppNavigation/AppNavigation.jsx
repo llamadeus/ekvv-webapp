@@ -90,7 +90,7 @@ export default function AppNavigation() {
         <div className={styles.item}>
           <Button
             to="/settings"
-            icon="settings-outline"
+            icon="cog-outline"
             title="Einstellungen"
           />
         </div>
