@@ -40,7 +40,7 @@ export default function Content(props) {
     );
   }, [events]);
   const rootClasses = classNames(styles.root, {
-    'app-navigation-visible': props.appNavigationVisible,
+    [styles['app-navigation-visible']]: props.appNavigationVisible,
   });
 
   return (
