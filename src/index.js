@@ -52,7 +52,7 @@ serviceWorker.register({
       message: '♻️ Update verfügbar',
       description: `Aktiviere nice neue Features, indem du die ${webappType()} aktualisierst.`,
       btn: (
-        <Button type="primary" size="small" onClick={() => window.location.reload(true)}>
+        <Button type="primary" onClick={() => window.location.reload(true)}>
           Aktualisieren
         </Button>
       ),
