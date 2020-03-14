@@ -1,6 +1,6 @@
 {
   "name": "ekvv-webapp",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "Unofficial web app for the electronic course catalogue of the University of Bielefeld",
   "author": "Amadeus Beckmann <amadeus@beckmann.io>",
   "license": "MIT",
