@@ -57,7 +57,7 @@
     "lato-font": "^3.0.0",
     "less": "^3.11.1",
     "lint-staged": "^10.0.8",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "react-app-rewired": "^2.1.5",
     "react-scripts": "3.4.0",
     "tailwindcss": "^1.2.0"
